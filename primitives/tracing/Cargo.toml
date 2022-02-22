@@ -24,7 +24,7 @@ codec = { git = "https://github.com/axia-tech/axia-scale-codec", package = "axia
 ] }
 tracing = { version = "0.1.29", default-features = false }
 tracing-core = { version = "0.1.17", default-features = false }
-tracing-subscriber = { version = "0.2.19", optional = true, features = [
+tracing-subscriber = { version = "0.3.9", optional = true, features = [
 	"tracing-log",
 ] }
 
