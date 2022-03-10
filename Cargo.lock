@@ -77,7 +77,7 @@ version = "0.7.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fcb51a0695d8f838b1ee009b3fbf66bda078cd64590202a864a8f3e8c4315c47"
 dependencies = [
- "getrandom 0.2.4",
+ "getrandom 0.2.5",
  "once_cell",
  "version_check 0.9.4",
 ]
@@ -102,9 +102,9 @@ dependencies = [
 
 [[package]]
 name = "anyhow"
-version = "1.0.55"
+version = "1.0.56"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "159bb86af3a200e19a068f4224eae4c8bb2d0fa054c7e5d1cacd5cef95e684cd"
+checksum = "4361135be9122e0870de935d7c439aef945b9f9ddd4199a553b5270b49c82a27"
 
 [[package]]
 name = "approx"
@@ -211,9 +211,9 @@ dependencies = [
 
 [[package]]
 name = "async-global-executor"
-version = "2.0.2"
+version = "2.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9586ec52317f36de58453159d48351bc244bc24ced3effc1fce22f3d48664af6"
+checksum = "c026b7e44f1316b567ee750fea85103f87fcb80792b860e979f221259796ca0a"
 dependencies = [
  "async-channel",
  "async-executor",
@@ -324,9 +324,9 @@ dependencies = [
 
 [[package]]
 name = "async-task"
-version = "4.1.0"
+version = "4.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "677d306121baf53310a3fd342d88dc0824f6bbeace68347593658525565abee8"
+checksum = "30696a84d817107fc028e049980e09d5e140e8da8f1caeb17e8e950658a3cea9"
 
 [[package]]
 name = "async-trait"
@@ -442,7 +442,7 @@ name = "axia-scale-codec-derive"
 version = "2.3.1"
 source = "git+https://github.com/axia-tech/axia-scale-codec?branch=v2.3.1#bc2cdde93e738d57df30daac985160ca387030c2"
 dependencies = [
- "proc-macro-crate 1.1.2",
+ "proc-macro-crate 1.1.3",
  "proc-macro2",
  "quote",
  "syn",
@@ -464,7 +464,7 @@ dependencies = [
 [[package]]
 name = "axia-util-mem"
 version = "0.10.2"
-source = "git+https://github.com/axia-tech/axia-common?branch=master#22e9ba1e4f54890265f7405727857a02dd4846b3"
+source = "git+https://github.com/axia-tech/axia-common?branch=master#b691d69b22f3b8a7a0628033ea1a9abcbbb28b8e"
 dependencies = [
  "axia-util-mem-derive 0.1.0 (git+https://github.com/axia-tech/axia-common?branch=master)",
  "cfg-if 1.0.0",
@@ -478,7 +478,7 @@ dependencies = [
 [[package]]
 name = "axia-util-mem"
 version = "0.10.2"
-source = "git+https://github.com/axia-tech/axia-common#22e9ba1e4f54890265f7405727857a02dd4846b3"
+source = "git+https://github.com/axia-tech/axia-common#b691d69b22f3b8a7a0628033ea1a9abcbbb28b8e"
 dependencies = [
  "axia-util-mem-derive 0.1.0 (git+https://github.com/axia-tech/axia-common)",
  "cfg-if 1.0.0",
@@ -491,7 +491,7 @@ dependencies = [
 [[package]]
 name = "axia-util-mem-derive"
 version = "0.1.0"
-source = "git+https://github.com/axia-tech/axia-common?branch=master#22e9ba1e4f54890265f7405727857a02dd4846b3"
+source = "git+https://github.com/axia-tech/axia-common?branch=master#b691d69b22f3b8a7a0628033ea1a9abcbbb28b8e"
 dependencies = [
  "proc-macro2",
  "syn",
@@ -501,7 +501,7 @@ dependencies = [
 [[package]]
 name = "axia-util-mem-derive"
 version = "0.1.0"
-source = "git+https://github.com/axia-tech/axia-common#22e9ba1e4f54890265f7405727857a02dd4846b3"
+source = "git+https://github.com/axia-tech/axia-common#b691d69b22f3b8a7a0628033ea1a9abcbbb28b8e"
 dependencies = [
  "proc-macro2",
  "syn",
@@ -731,7 +731,7 @@ dependencies = [
 name = "axlib-test-utils-derive"
 version = "0.10.0-dev"
 dependencies = [
- "proc-macro-crate 1.1.2",
+ "proc-macro-crate 1.1.3",
  "proc-macro2",
  "quote",
  "syn",
@@ -781,7 +781,7 @@ version = "0.1.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "33b8de67cc41132507eeece2584804efcb15f85ba516e34c944b7667f480397a"
 dependencies = [
- "heck",
+ "heck 0.3.3",
  "proc-macro-error",
  "proc-macro2",
  "quote",
@@ -1104,9 +1104,9 @@ checksum = "a4a45a46ab1f2412e53d3a0ade76ffad2025804294569aae387231a0cd6e0899"
 
 [[package]]
 name = "byte-slice-cast"
-version = "1.2.0"
+version = "1.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1d30c751592b77c499e7bce34d99d67c2c11bdc0574e9a488ddade14150a4698"
+checksum = "87c5fdd0166095e1d463fc6cc01aa8ce547ad77a4e84d42eb6762b084e28067e"
 
 [[package]]
 name = "byte-tools"
@@ -1997,9 +1997,9 @@ dependencies = [
 
 [[package]]
 name = "ed25519"
-version = "1.3.0"
+version = "1.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "74e1069e39f1454367eb2de793ed062fac4c35c2934b76a81d90dd9abcd28816"
+checksum = "eed12bbf7b5312f8da1c2722bc06d8c6b12c2d86a7fb35a194c7f3e6fc2bbe39"
 dependencies = [
  "signature",
 ]
@@ -2026,11 +2026,11 @@ checksum = "e78d4f1cc4ae33bbfc157ed5d5a5ef3bc29227303d595861deb238fcec4e9457"
 
 [[package]]
 name = "enum-as-inner"
-version = "0.3.3"
+version = "0.3.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7c5f0096a91d210159eceb2ff5e1c4da18388a170e1e3ce948aac9c8fdbbf595"
+checksum = "570d109b813e904becc80d8d5da38376818a143348413f7149f1340fe04754d4"
 dependencies = [
- "heck",
+ "heck 0.4.0",
  "proc-macro2",
  "quote",
  "syn",
@@ -2200,7 +2200,7 @@ dependencies = [
 [[package]]
 name = "fixed-hash"
 version = "0.7.0"
-source = "git+https://github.com/axia-tech/axia-common?branch=master#22e9ba1e4f54890265f7405727857a02dd4846b3"
+source = "git+https://github.com/axia-tech/axia-common?branch=master#b691d69b22f3b8a7a0628033ea1a9abcbbb28b8e"
 dependencies = [
  "byteorder",
  "rand 0.8.5",
@@ -2403,7 +2403,7 @@ name = "frame-support-procedural-tools"
 version = "4.0.0-dev"
 dependencies = [
  "frame-support-procedural-tools-derive",
- "proc-macro-crate 1.1.2",
+ "proc-macro-crate 1.1.3",
  "proc-macro2",
  "quote",
  "syn",
@@ -2742,9 +2742,9 @@ dependencies = [
 
 [[package]]
 name = "getrandom"
-version = "0.2.4"
+version = "0.2.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "418d37c8b1d42553c93648be529cb70f920d3baf8ef469b74b9638df426e0b4c"
+checksum = "d39cd93900197114fa1fcb7ae84ca742095eed9442088988ae74fa744e930e77"
 dependencies = [
  "cfg-if 1.0.0",
  "js-sys",
@@ -2886,6 +2886,12 @@ checksum = "6d621efb26863f0e9924c6ac577e8275e5e6b77455db64ffa6c65c904e9e132c"
 dependencies = [
  "unicode-segmentation",
 ]
+
+[[package]]
+name = "heck"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2540771e65fc8cb83cd6e8a237f70c319bd5c29f78ed1084ba5d50eeac86f7f9"
 
 [[package]]
 name = "hermit-abi"
@@ -3147,7 +3153,7 @@ dependencies = [
 [[package]]
 name = "impl-codec"
 version = "0.5.1"
-source = "git+https://github.com/axia-tech/axia-common?branch=master#22e9ba1e4f54890265f7405727857a02dd4846b3"
+source = "git+https://github.com/axia-tech/axia-common?branch=master#b691d69b22f3b8a7a0628033ea1a9abcbbb28b8e"
 dependencies = [
  "axia-scale-codec",
 ]
@@ -3164,7 +3170,7 @@ dependencies = [
 [[package]]
 name = "impl-serde"
 version = "0.3.2"
-source = "git+https://github.com/axia-tech/axia-common?branch=master#22e9ba1e4f54890265f7405727857a02dd4846b3"
+source = "git+https://github.com/axia-tech/axia-common?branch=master#b691d69b22f3b8a7a0628033ea1a9abcbbb28b8e"
 dependencies = [
  "serde",
 ]
@@ -3248,9 +3254,9 @@ dependencies = [
 
 [[package]]
 name = "ipnet"
-version = "2.3.1"
+version = "2.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "68f2d64f2edebec4ce84ad108148e67e1064789bee435edc5b60ad398714a3a9"
+checksum = "35e70ee094dc02fd9c13fdad4940090f22dbd6ac7c9e7094a46cf0232a50bc7c"
 
 [[package]]
 name = "itertools"
@@ -3426,7 +3432,7 @@ checksum = "8edb341d35279b59c79d7fe9e060a51aec29d45af99cc7c72ea7caa350fa71a4"
 dependencies = [
  "Inflector",
  "bae",
- "proc-macro-crate 1.1.2",
+ "proc-macro-crate 1.1.3",
  "proc-macro2",
  "quote",
  "syn",
@@ -3502,7 +3508,7 @@ dependencies = [
 [[package]]
 name = "kvdb"
 version = "0.10.0"
-source = "git+https://github.com/axia-tech/axia-common?branch=master#22e9ba1e4f54890265f7405727857a02dd4846b3"
+source = "git+https://github.com/axia-tech/axia-common?branch=master#b691d69b22f3b8a7a0628033ea1a9abcbbb28b8e"
 dependencies = [
  "axia-util-mem 0.10.2 (git+https://github.com/axia-tech/axia-common?branch=master)",
  "smallvec 1.8.0",
@@ -3511,7 +3517,7 @@ dependencies = [
 [[package]]
 name = "kvdb-memorydb"
 version = "0.10.0"
-source = "git+https://github.com/axia-tech/axia-common?branch=master#22e9ba1e4f54890265f7405727857a02dd4846b3"
+source = "git+https://github.com/axia-tech/axia-common?branch=master#b691d69b22f3b8a7a0628033ea1a9abcbbb28b8e"
 dependencies = [
  "axia-util-mem 0.10.2 (git+https://github.com/axia-tech/axia-common?branch=master)",
  "kvdb",
@@ -3521,7 +3527,7 @@ dependencies = [
 [[package]]
 name = "kvdb-rocksdb"
 version = "0.14.0"
-source = "git+https://github.com/axia-tech/axia-common?branch=master#22e9ba1e4f54890265f7405727857a02dd4846b3"
+source = "git+https://github.com/axia-tech/axia-common?branch=master#b691d69b22f3b8a7a0628033ea1a9abcbbb28b8e"
 dependencies = [
  "axia-util-mem 0.10.2 (git+https://github.com/axia-tech/axia-common?branch=master)",
  "fs-swap",
@@ -4174,9 +4180,9 @@ dependencies = [
 
 [[package]]
 name = "libz-sys"
-version = "1.1.3"
+version = "1.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "de5435b8549c16d423ed0c03dbaafe57cf6c3344744f1242520d59c9d8ecec66"
+checksum = "6f35facd4a5673cb5a48822be2be1d4236c1c99cb4113cab7061ac720d5bf859"
 dependencies = [
  "cc",
  "libc",
@@ -4284,9 +4290,9 @@ dependencies = [
 
 [[package]]
 name = "lz4"
-version = "1.23.2"
+version = "1.23.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "aac20ed6991e01bf6a2e68cc73df2b389707403662a8ba89f68511fb340f724c"
+checksum = "4edcb94251b1c375c459e5abe9fb0168c1c826c3370172684844f8f3f8d1a885"
 dependencies = [
  "libc",
  "lz4-sys",
@@ -4294,9 +4300,9 @@ dependencies = [
 
 [[package]]
 name = "lz4-sys"
-version = "1.9.2"
+version = "1.9.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dca79aa95d8b3226213ad454d328369853be3a1382d89532a854f4d69640acae"
+checksum = "d7be8908e2ed6f31c02db8a9fa962f03e36c53fbfde437363eae3306b85d7e17"
 dependencies = [
  "cc",
  "libc",
@@ -4605,7 +4611,7 @@ version = "0.7.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "424f6e86263cd5294cbd7f1e95746b95aca0e0d66bff31e5a40d6baa87b4aa99"
 dependencies = [
- "proc-macro-crate 1.1.2",
+ "proc-macro-crate 1.1.3",
  "proc-macro-error",
  "proc-macro2",
  "quote",
@@ -5270,9 +5276,9 @@ dependencies = [
 
 [[package]]
 name = "once_cell"
-version = "1.9.0"
+version = "1.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "da32515d9f6e6e489d7bc9d84c71b060db7247dc035bbe44eac88cf87486d8d5"
+checksum = "87f3e037eac156d1775da914196f0f37741a274155e34a0b7e427c35d2a2ecb9"
 
 [[package]]
 name = "oorandom"
@@ -6231,7 +6237,7 @@ dependencies = [
 name = "pallet-staking-reward-curve"
 version = "4.0.0-dev"
 dependencies = [
- "proc-macro-crate 1.1.2",
+ "proc-macro-crate 1.1.3",
  "proc-macro2",
  "quote",
  "sp-runtime",
@@ -6511,7 +6517,7 @@ dependencies = [
  "cfg-if 1.0.0",
  "instant",
  "libc",
- "redox_syscall 0.2.10",
+ "redox_syscall 0.2.11",
  "smallvec 1.8.0",
  "winapi 0.3.9",
 ]
@@ -6524,7 +6530,7 @@ checksum = "28141e0cc4143da2443301914478dc976a61ffdb3f043058310c70df2fed8954"
 dependencies = [
  "cfg-if 1.0.0",
  "libc",
- "redox_syscall 0.2.10",
+ "redox_syscall 0.2.11",
  "smallvec 1.8.0",
  "windows-sys",
 ]
@@ -6825,7 +6831,7 @@ dependencies = [
 [[package]]
 name = "primitive-types"
 version = "0.10.1"
-source = "git+https://github.com/axia-tech/axia-common?branch=master#22e9ba1e4f54890265f7405727857a02dd4846b3"
+source = "git+https://github.com/axia-tech/axia-common?branch=master#b691d69b22f3b8a7a0628033ea1a9abcbbb28b8e"
 dependencies = [
  "fixed-hash",
  "impl-codec",
@@ -6845,9 +6851,9 @@ dependencies = [
 
 [[package]]
 name = "proc-macro-crate"
-version = "1.1.2"
+version = "1.1.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9dada8c9981fcf32929c3c0f0cd796a9284aca335565227ed88c83babb1d43dc"
+checksum = "e17d47ce914bf4de440332250b0edd23ce48c005f59fab39d3335866b114f11a"
 dependencies = [
  "thiserror",
  "toml",
@@ -6923,7 +6929,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "355f634b43cdd80724ee7848f95770e7e70eefa6dcf14fea676216573b8fd603"
 dependencies = [
  "bytes 1.1.0",
- "heck",
+ "heck 0.3.3",
  "itertools",
  "log 0.4.14",
  "multimap",
@@ -7129,7 +7135,7 @@ version = "0.6.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d34f1408f55294453790c48b2f1ebbb1c5b4b7563eb1f418bcfcfdbb06ebb4e7"
 dependencies = [
- "getrandom 0.2.4",
+ "getrandom 0.2.5",
 ]
 
 [[package]]
@@ -7270,9 +7276,9 @@ checksum = "41cc0f7e4d5d4544e8861606a285bb08d3e70712ccc7d2b84d7c0ccfaf4b05ce"
 
 [[package]]
 name = "redox_syscall"
-version = "0.2.10"
+version = "0.2.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8383f39639269cde97d255a32bdb68c047337295414940c68bdd30c2e13203ff"
+checksum = "8380fe0152551244f0747b1bf41737e0f8a74f97a14ccefd1148187271634f3c"
 dependencies = [
  "bitflags",
 ]
@@ -7283,8 +7289,8 @@ version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "528532f3d801c87aec9def2add9ca802fe569e44a544afe633765267840abe64"
 dependencies = [
- "getrandom 0.2.4",
- "redox_syscall 0.2.10",
+ "getrandom 0.2.5",
+ "redox_syscall 0.2.11",
 ]
 
 [[package]]
@@ -7320,9 +7326,9 @@ dependencies = [
 
 [[package]]
 name = "regex"
-version = "1.5.4"
+version = "1.5.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d07a8629359eb56f1e2fb1652bb04212c072a87ba68546a04065d525673ac461"
+checksum = "1a11647b6b25ff05a515cb92c365cec08801e83423a235b51e231e1808747286"
 dependencies = [
  "aho-corasick",
  "memchr",
@@ -7396,9 +7402,9 @@ dependencies = [
 
 [[package]]
 name = "retain_mut"
-version = "0.1.6"
+version = "0.1.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "51dd4445360338dab5116712bee1388dc727991d51969558a8882ab552e6db30"
+checksum = "8c31b5c4033f8fdde8700e4657be2c497e7288f01515be52168c631e2e4d4086"
 
 [[package]]
 name = "ring"
@@ -7660,7 +7666,7 @@ dependencies = [
 name = "sc-chain-spec-derive"
 version = "4.0.0-dev"
 dependencies = [
- "proc-macro-crate 1.1.2",
+ "proc-macro-crate 1.1.3",
  "proc-macro2",
  "quote",
  "syn",
@@ -7796,7 +7802,7 @@ dependencies = [
  "axlib-test-runtime-client",
  "derive_more",
  "futures 0.3.21",
- "getrandom 0.2.4",
+ "getrandom 0.2.5",
  "log 0.4.14",
  "parking_lot 0.11.2",
  "sc-block-builder",
@@ -8651,7 +8657,7 @@ dependencies = [
 name = "sc-tracing-proc-macro"
 version = "4.0.0-dev"
 dependencies = [
- "proc-macro-crate 1.1.2",
+ "proc-macro-crate 1.1.3",
  "proc-macro2",
  "quote",
  "syn",
@@ -8732,7 +8738,7 @@ name = "scale-info-derive"
 version = "1.0.0"
 source = "git+https://github.com/axia-tech/scale-info?branch=v1.0.0#bee5fa611b8811178471878b34a58d4ba634282b"
 dependencies = [
- "proc-macro-crate 1.1.2",
+ "proc-macro-crate 1.1.3",
  "proc-macro2",
  "quote",
  "syn",
@@ -9167,7 +9173,7 @@ name = "sp-api-proc-macro"
 version = "4.0.0-dev"
 dependencies = [
  "blake2-rfc",
- "proc-macro-crate 1.1.2",
+ "proc-macro-crate 1.1.3",
  "proc-macro2",
  "quote",
  "syn",
@@ -9426,7 +9432,7 @@ dependencies = [
  "sp-std",
  "sp-storage",
  "ss58-registry",
- "axlib-bip39",
+ "substrate-bip39",
  "thiserror",
  "tiny-bip39",
  "tiny-keccak",
@@ -9585,7 +9591,7 @@ name = "sp-npos-elections-solution-type"
 version = "4.0.0-dev"
 dependencies = [
  "axia-scale-codec",
- "proc-macro-crate 1.1.2",
+ "proc-macro-crate 1.1.3",
  "proc-macro2",
  "quote",
  "scale-info",
@@ -9674,7 +9680,7 @@ name = "sp-runtime-interface-proc-macro"
 version = "4.0.0-dev"
 dependencies = [
  "Inflector",
- "proc-macro-crate 1.1.2",
+ "proc-macro-crate 1.1.3",
  "proc-macro2",
  "quote",
  "syn",
@@ -10005,7 +10011,7 @@ version = "0.4.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dcb5ae327f9cc13b68763b5749770cb9e048a99bd9dfdfa58d0cf05d5f64afe0"
 dependencies = [
- "heck",
+ "heck 0.3.3",
  "proc-macro-error",
  "proc-macro2",
  "quote",
@@ -10036,7 +10042,7 @@ version = "0.20.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ee8bc6b87a5112aeeab1f4a9f7ab634fe6cbefc4850006df31267f4cfb9e3149"
 dependencies = [
- "heck",
+ "heck 0.3.3",
  "proc-macro2",
  "quote",
  "syn",
@@ -10048,7 +10054,7 @@ version = "0.21.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d06aaeeee809dbc59eb4556183dd927df67db1540de5be8d3ec0b6636358a5ec"
 dependencies = [
- "heck",
+ "heck 0.3.3",
  "proc-macro2",
  "quote",
  "syn",
@@ -10063,7 +10069,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "axlib-bip39"
+name = "substrate-bip39"
 version = "0.4.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "49eee6965196b32f882dd2ee85a92b1dbead41b04e53907f269de3b0dc04733c"
@@ -10131,16 +10137,16 @@ dependencies = [
  "cfg-if 1.0.0",
  "fastrand",
  "libc",
- "redox_syscall 0.2.10",
+ "redox_syscall 0.2.11",
  "remove_dir_all",
  "winapi 0.3.9",
 ]
 
 [[package]]
 name = "termcolor"
-version = "1.1.2"
+version = "1.1.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2dfed899f0eb03f32ee8c6a0aabdb8a7949659e3466561fc0adf54e26d88c5f4"
+checksum = "bab24d30b911b2376f3a13cc2cd443142f0c81dda04c118693e35b3835757755"
 dependencies = [
  "winapi-util",
 ]
@@ -10509,9 +10515,9 @@ checksum = "360dfd1d6d30e05fda32ace2c8c70e9c0a9da713275777f5a4dbb8a1893930c6"
 
 [[package]]
 name = "tracing"
-version = "0.1.31"
+version = "0.1.32"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f6c650a8ef0cd2dd93736f033d21cbd1224c5a967aa0c258d00fcf7dafef9b9f"
+checksum = "4a1bdf54a7c28a2bbf701e1d2233f6c77f473486b94bee4f9678da5a148dca7f"
 dependencies = [
  "cfg-if 1.0.0",
  "pin-project-lite 0.2.8",
@@ -10521,9 +10527,9 @@ dependencies = [
 
 [[package]]
 name = "tracing-attributes"
-version = "0.1.19"
+version = "0.1.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8276d9a4a3a558d7b7ad5303ad50b53d58264641b82914b7ada36bd762e7a716"
+checksum = "2e65ce065b4b5c53e73bb28912318cb8c9e9ad3921f1d669eb0e68b4c8143a2b"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -10532,9 +10538,9 @@ dependencies = [
 
 [[package]]
 name = "tracing-core"
-version = "0.1.22"
+version = "0.1.23"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "03cfcb51380632a72d3111cb8d3447a8d908e577d31beeac006f836383d29a23"
+checksum = "aa31669fa42c09c34d94d8165dd2012e8ff3c66aca50f3bb226b68f216f2706c"
 dependencies = [
  "lazy_static",
  "valuable",
@@ -10738,7 +10744,7 @@ checksum = "56dee185309b50d1f11bfedef0fe6d036842e3fb77413abef29f8f8d1c5d4c1c"
 [[package]]
 name = "uint"
 version = "0.9.1"
-source = "git+https://github.com/axia-tech/axia-common?branch=master#22e9ba1e4f54890265f7405727857a02dd4846b3"
+source = "git+https://github.com/axia-tech/axia-common?branch=master#b691d69b22f3b8a7a0628033ea1a9abcbbb28b8e"
 dependencies = [
  "byteorder",
  "crunchy",
@@ -11702,9 +11708,9 @@ dependencies = [
 
 [[package]]
 name = "zeroize"
-version = "1.5.2"
+version = "1.5.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7c88870063c39ee00ec285a2f8d6a966e5b6fb2becc4e8dac77ed0d370ed6006"
+checksum = "50344758e2f40e3a1fcfc8f6f91aa57b5f8ebd8d27919fe6451f15aaaf9ee608"
 dependencies = [
  "zeroize_derive",
 ]
