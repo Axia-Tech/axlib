@@ -6,7 +6,7 @@ description = "BABE consensus algorithm for axlib"
 edition = "2018"
 license = "GPL-3.0-or-later WITH Classpath-exception-2.0"
 homepage = ""
-repository = "https://github.com/axia-tech/axia-core/"
+repository = "https://github.com/axia-tech/axlib/"
 documentation = "https://docs.rs/sc-consensus-babe"
 readme = "README.md"
 

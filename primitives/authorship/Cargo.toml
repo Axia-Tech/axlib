@@ -6,7 +6,7 @@ description = "Authorship primitives"
 edition = "2018"
 license = "Apache-2.0"
 homepage = ""
-repository = "https://github.com/axia-tech/axia-core/"
+repository = "https://github.com/axia-tech/axlib/"
 readme = "README.md"
 
 [package.metadata.docs.rs]

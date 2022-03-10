@@ -142,7 +142,7 @@
 //! format is a SCALE-encoded tuple containing a block header followed with an opaque list of
 //! bytes containing some data associated with this block announcement, e.g. a candidate message.
 //! - Notifications protocols that are registered using
-//! `NetworkConfiguration::notifications_protocols`. For example: `/axiatech/grandpa/1`. See
+//! `NetworkConfiguration::notifications_protocols`. For example: `/axia-tech/grandpa/1`. See
 //! below for more information.
 //!
 //! ## The legacy Axlib substream
@@ -162,7 +162,7 @@
 //! resolved by deprecating the protocol entirely.
 //!
 //! Within the unique Axlib substream, messages encoded using
-//! [*axia-scale-codec*](https://github.com/axiatech/axia-scale-codec) are exchanged.
+//! [*axia-scale-codec*](https://github.com/axia-tech/axia-scale-codec) are exchanged.
 //! The detail of theses messages is not totally in place, but they can be found in the
 //! `message.rs` file.
 //!
@@ -212,7 +212,7 @@
 //! `sc-network` automatically tries to open a substream towards each node for which the legacy
 //! Substream substream is open. The handshake is then performed automatically.
 //!
-//! For example, the `sc-finality-grandpa` crate registers the `/axiatech/grandpa/1`
+//! For example, the `sc-finality-grandpa` crate registers the `/axia-tech/grandpa/1`
 //! notifications protocol.
 //!
 //! At the moment, for backwards-compatibility, notification protocols are tied to the legacy

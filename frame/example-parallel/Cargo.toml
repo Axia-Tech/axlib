@@ -5,7 +5,7 @@ authors = ["AXIA Technologies <admin@axiacoin.network>"]
 edition = "2018"
 license = "Unlicense"
 homepage = ""
-repository = "https://github.com/axia-tech/axia-core/"
+repository = "https://github.com/axia-tech/axlib/"
 description = "FRAME example pallet using runtime worker threads"
 
 [package.metadata.docs.rs]

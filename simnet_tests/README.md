@@ -25,14 +25,14 @@ by this step in the cucumber file:
 
 `run_test.sh` is a script meant to ease up launching a test.
 In order to use this script locally, you need to install 
-[gurke](https://github.com/axiatech/gurke)
+[gurke](https://github.com/axia-tech/gurke)
 This script also helps preparing the test environment. Once you have access to 
 a kubernetes cluster (meaning you can do `kubectl get pods`) you can run this 
 script with no arguments, like `./run_test.sh` and tests should run.
 Kubernetes cluster can be local, spawned with 
 [kind](https://kind.sigs.k8s.io/docs/user/quick-start/#installation)
 or an instance living in the 
-[cloud](https://github.com/axiatech/gurke/blob/main/docs/How-to-setup-access-to-gke-k8s-cluster.md) 
+[cloud](https://github.com/axia-tech/gurke/blob/main/docs/How-to-setup-access-to-gke-k8s-cluster.md) 
 
 
 ### [Here is link to barcamp presenation of simnet](https://www.crowdcast.io/e/ph49xu01)

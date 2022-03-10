@@ -8,7 +8,7 @@ edition = "2018"
 license = "GPL-3.0-or-later WITH Classpath-exception-2.0"
 default-run = "axlib"
 homepage = ""
-repository = "https://github.com/axia-tech/axia-core/"
+repository = "https://github.com/axia-tech/axlib/"
 
 [package.metadata.wasm-pack.profile.release]
 # `wasm-opt` has some problems on linux, see
@@ -19,10 +19,10 @@ wasm-opt = false
 targets = ["x86_64-unknown-linux-gnu"]
 
 [badges]
-travis-ci = { repository = "axiatech/axlib" }
+travis-ci = { repository = "axia-tech/axlib" }
 maintenance = { status = "actively-developed" }
-is-it-maintained-issue-resolution = { repository = "axiatech/axlib" }
-is-it-maintained-open-issues = { repository = "axiatech/axlib" }
+is-it-maintained-issue-resolution = { repository = "axia-tech/axlib" }
+is-it-maintained-open-issues = { repository = "axia-tech/axlib" }
 
 [[bin]]
 name = "axlib"

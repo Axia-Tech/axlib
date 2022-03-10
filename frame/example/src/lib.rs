@@ -27,7 +27,7 @@
 //! ### Documentation Guidelines:
 //!
 //! <!-- Original author of paragraph: Various. Based on collation of review comments to PRs
-//! addressing issues with --> <!-- label 'S3-FRAME' in https://github.com/axiatech/axlib-developer-hub/issues -->
+//! addressing issues with --> <!-- label 'S3-FRAME' in https://github.com/axia-tech/axlib-developer-hub/issues -->
 //! <ul>
 //! <li>Documentation comments (i.e. <code>/// comment</code>) - should
 //! accompany pallet functions and be restricted to the pallet interface,
@@ -36,7 +36,7 @@
 //! requires root, but without repeating the source code details.
 //! Capitalize the first word of each documentation comment and end it with
 //! a full stop. See
-//! <a href="https://github.com/axiatech/axlib#72-contributing-to-documentation-for-axlib-packages"
+//! <a href="https://github.com/axia-tech/axlib#72-contributing-to-documentation-for-axlib-packages"
 //! target="_blank"> Generic example of annotating source code with documentation comments</a></li>
 //!
 //! <li>Self-documenting code - Try to refactor code to be self-documenting.</li>
@@ -77,7 +77,7 @@
 //!
 //! \## Overview
 //!
-//! <!-- Original author of paragraph: Various. See https://github.com/axiatech/axlib-developer-hub/issues/44 -->
+//! <!-- Original author of paragraph: Various. See https://github.com/axia-tech/axlib-developer-hub/issues/44 -->
 //! // Short description of pallet's purpose.
 //! // Links to Traits that should be implemented.
 //! // What this pallet is for.
@@ -88,7 +88,7 @@
 //! // Outputs it produces.
 //!
 //! <!-- Original author of paragraph: @Kianenigma in PR https://github.com/axia-tech/axlib/pull/1951 -->
-//! <!-- and comment https://github.com/axiatech/axlib-developer-hub/issues/44#issuecomment-471982710 -->
+//! <!-- and comment https://github.com/axia-tech/axlib-developer-hub/issues/44#issuecomment-471982710 -->
 //!
 //! \## Terminology
 //!
@@ -130,7 +130,7 @@
 //! <code>\`inherent\`</code> <INSERT_DESCRIPTION>
 //!
 //! <!-- Original author of paragraph: @Kianenigma in comment -->
-//! <!-- https://github.com/axiatech/axlib-developer-hub/issues/44#issuecomment-471982710 -->
+//! <!-- https://github.com/axia-tech/axlib-developer-hub/issues/44#issuecomment-471982710 -->
 //!
 //! \### Types
 //!
@@ -547,8 +547,8 @@ pub mod pallet {
 
 			// Print out log or debug message in the console via log::{error, warn, info, debug,
 			// trace}, accepting format strings similar to `println!`.
-			// https://axiatech.github.io/axlib/master/sp_io/logging/fn.log.html
-			// https://axiatech.github.io/axlib/master/frame_support/constant.LOG_TARGET.html
+			// https://axia-tech.github.io/axlib/master/sp_io/logging/fn.log.html
+			// https://axia-tech.github.io/axlib/master/frame_support/constant.LOG_TARGET.html
 			info!("New value is now: {:?}", new_value);
 
 			// Put the new value into storage.

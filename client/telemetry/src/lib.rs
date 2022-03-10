@@ -17,7 +17,7 @@
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 //! Axlib's client telemetry is a part of axlib that allows ingesting telemetry data
-//! with for example [AXIA telemetry](https://github.com/axiatech/axlib-telemetry).
+//! with for example [AXIA telemetry](https://github.com/axia-tech/axlib-telemetry).
 //!
 //! It works using Tokio's [tracing](https://github.com/tokio-rs/tracing/) library. The telemetry
 //! information uses tracing's logging to report the telemetry data which is then retrieved by a

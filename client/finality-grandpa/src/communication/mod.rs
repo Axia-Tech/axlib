@@ -69,7 +69,7 @@ pub(crate) mod tests;
 
 /// Name of the notifications protocol used by Grandpa. Must be registered towards the networking
 /// in order for Grandpa to properly function.
-pub const GRANDPA_PROTOCOL_NAME: &'static str = "/axiatech/grandpa/1";
+pub const GRANDPA_PROTOCOL_NAME: &'static str = "/axia-tech/grandpa/1";
 
 // cost scalars for reporting peers.
 mod cost {

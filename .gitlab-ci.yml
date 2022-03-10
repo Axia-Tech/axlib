@@ -9,7 +9,7 @@
 #
 # my-example-job:
 #   stage:                           test # One of the stages listed below this job (required)
-#   image:                           axiatech/tools:latest # Any docker image (required)
+#   image:                           axia-tech/tools:latest # Any docker image (required)
 #   allow_failure:                   true # Allow the pipeline to continue if this job fails (default: false)
 #   needs:
 #     - job:                         test-linux # Any jobs that are required to run before this job (optional)
@@ -38,7 +38,7 @@ variables:                         &default-vars
   CARGO_INCREMENTAL:               0
   DOCKER_OS:                       "debian:stretch"
   ARCH:                            "x86_64"
-  CI_IMAGE:                        "axiatech/ci-linux:production"
+  CI_IMAGE:                        "axia-tech/ci-linux:production"
   # FIXME set to release
   CARGO_UNLEASH_INSTALL_PARAMS:    "--version 1.0.0-alpha.12"
   CARGO_UNLEASH_PKG_DEF:           "--skip node node-* pallet-template pallet-example pallet-example-* subkey chain-spec-builder"
@@ -239,7 +239,7 @@ default:
 #### stage:                       .pre
 
 skip-if-draft:
-  image:                           axiatech/tools:latest
+  image:                           axia-tech/tools:latest
   <<:                              *kubernetes-env
   <<:                              *vault-secrets
   stage:                           .pre
@@ -255,7 +255,7 @@ skip-if-draft:
 
 check-runtime:
   stage:                           check
-  image:                           axiatech/tools:latest
+  image:                           axia-tech/tools:latest
   <<:                              *kubernetes-env
   <<:                              *vault-secrets
   rules:
@@ -270,7 +270,7 @@ check-runtime:
 
 check-signed-tag:
   stage:                           check
-  image:                           axiatech/tools:latest
+  image:                           axia-tech/tools:latest
   <<:                              *kubernetes-env
   <<:                              *vault-secrets
   rules:
@@ -281,7 +281,7 @@ check-signed-tag:
 
 test-dependency-rules:
   stage:                           check
-  image:                           axiatech/tools:latest
+  image:                           axia-tech/tools:latest
   <<:                              *kubernetes-env
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^[0-9]+$/                         # PRs
@@ -290,7 +290,7 @@ test-dependency-rules:
 
 test-prometheus-alerting-rules:
   stage:                           check
-  image:                           axiatech/tools:latest
+  image:                           axia-tech/tools:latest
   <<:                              *kubernetes-env
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
@@ -367,7 +367,7 @@ node-bench-regression-guard:
       ref:                         master
       artifacts:                   true
   variables:
-    CI_IMAGE:                      "axiatech/node-bench-regression-guard:latest"
+    CI_IMAGE:                      "axia-tech/node-bench-regression-guard:latest"
   before_script: [""]
   script:
     - 'node-bench-regression-guard --reference artifacts/benches/master-*
@@ -548,9 +548,9 @@ cargo-check-macos:
     - git clone
         --depth=1
         "--branch=$PIPELINE_SCRIPTS_TAG"
-        https://github.com/axiatech/pipeline-scripts
+        https://github.com/axia-tech/pipeline-scripts
     - ./pipeline-scripts/check_dependent_project.sh
-        axiatech
+        axia-tech
         axlib
         --axlib
         "$DEPENDENT_REPO"
@@ -752,7 +752,7 @@ publish-s3-release:
       artifacts:                   true
     - job:                         build-linux-subkey
       artifacts:                   true
-  image:                           axiatech/awscli:latest
+  image:                           axia-tech/awscli:latest
   variables:
     GIT_STRATEGY:                  none
     BUCKET:                        "releases.axiacoin.network"
@@ -802,7 +802,7 @@ publish-rustdoc:
     - rm -rf .git/config
     - git config user.email "devops-team@axiacoin.network"
     - git config user.name "${GITHUB_USER}"
-    - git config remote.origin.url "https://${GITHUB_TOKEN}@github.com/axiatech/${CI_PROJECT_NAME}.git"
+    - git config remote.origin.url "https://${GITHUB_TOKEN}@github.com/axia-tech/${CI_PROJECT_NAME}.git"
     - git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
     - git fetch origin gh-pages
     # Install `ejs` and generate index.html based on RUSTDOCS_DEPLOY_REFS
@@ -846,7 +846,7 @@ publish-rustdoc:
 publish-draft-release:
   stage:                           publish
   <<:                              *vault-secrets
-  image:                           axiatech/tools:latest
+  image:                           axia-tech/tools:latest
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^ci-release-.*$/
     - if: $CI_COMMIT_REF_NAME =~ /^v[0-9]+\.[0-9]+.*$/              # i.e. v1.0, v2.1rc1
@@ -860,12 +860,12 @@ unleash-to-crates-io:
   <<:                              *vault-secrets
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^ci-release-.*$/
-    # FIXME: wait until https://github.com/axiatech/cargo-unleash/issues/50 is fixed, also
+    # FIXME: wait until https://github.com/axia-tech/cargo-unleash/issues/50 is fixed, also
     # remove allow_failure: true on the check job
     # - if: $CI_COMMIT_REF_NAME =~ /^v[0-9]+\.[0-9]+.*$/              # i.e. v1.0, v2.1rc1
   script:
     - cargo install cargo-unleash ${CARGO_UNLEASH_INSTALL_PARAMS}
-    - cargo unleash em-dragons --no-check --owner github:axiatech:core-devs ${CARGO_UNLEASH_PKG_DEF}
+    - cargo unleash em-dragons --no-check --owner github:axia-tech:core-devs ${CARGO_UNLEASH_PKG_DEF}
   allow_failure:                   true
 
 #### stage:                        deploy
@@ -897,7 +897,7 @@ deploy-prometheus-alerting-rules:
 # network and check if all completed successfully
 simnet-tests:
   stage:                           deploy
-  image:                           docker.io/axiatech/simnet:${SIMNET_REF}
+  image:                           docker.io/axia-tech/simnet:${SIMNET_REF}
   <<:                              *kubernetes-env
   <<:                              *vault-secrets
   rules:
@@ -913,7 +913,7 @@ simnet-tests:
   # ${SIMNET_REF} is a gitlab variable
   before_script:
     - echo "Simnet Tests Config
-      docker.io/axiatech/simnet:${SIMNET_REF}
+      docker.io/axia-tech/simnet:${SIMNET_REF}
       ${AXLIB_IMAGE_NAME} ${AXLIB_IMAGE_TAG}"
   script:
     - /home/nonroot/simnet/gurke/scripts/run-test-environment-manager.sh
@@ -927,7 +927,7 @@ simnet-tests:
 #run quick simnet-tests for each PR
 simnet-tests-quick:
   stage:                           deploy
-  image:                           docker.io/axiatech/simnet:${SIMNET_REF}
+  image:                           docker.io/axia-tech/simnet:${SIMNET_REF}
   <<:                              *kubernetes-env
   <<:                              *vault-secrets
   <<:                              *test-refs-no-trigger-prs-only
@@ -937,7 +937,7 @@ simnet-tests-quick:
     - job:                         publish-docker-axlib-simnet
   before_script:
     - echo "Simnet Tests Config
-      docker.io/axiatech/simnet:${SIMNET_REF}
+      docker.io/axia-tech/simnet:${SIMNET_REF}
       ${AXLIB_IMAGE_NAME} ${AXLIB_IMAGE_TAG}"
   script:
     - echo "Image=${AXLIB_IMAGE_NAME}:${AXLIB_IMAGE_TAG}"

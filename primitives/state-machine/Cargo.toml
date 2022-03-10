@@ -6,7 +6,7 @@ description = "Axlib State Machine"
 edition = "2018"
 license = "Apache-2.0"
 homepage = ""
-repository = "https://github.com/axia-tech/axia-core/"
+repository = "https://github.com/axia-tech/axlib/"
 documentation = "https://docs.rs/sp-state-machine"
 readme = "README.md"
 

@@ -22,7 +22,7 @@ use tar;
 
 use flate2::{write::GzEncoder, Compression};
 
-const AXLIB_GIT_URL: &str = "https://github.com/axiatech/axlib.git";
+const AXLIB_GIT_URL: &str = "https://github.com/axia-tech/axlib.git";
 
 type CargoToml = HashMap<String, toml::Value>;
 

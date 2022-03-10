@@ -252,14 +252,14 @@ If you are trying to set up Axlib on Windows, you should do the following:
 
 ==== Docker
 
-You can use https://github.com/axiatech/scripts/tree/master/dockerfiles/ci-linux[AXIA CI docker image] with all necessary dependencies to build Axlib:
+You can use https://github.com/axia-tech/scripts/tree/master/dockerfiles/ci-linux[AXIA CI docker image] with all necessary dependencies to build Axlib:
 
 [source, shell]
 ----
 #run it in the folder with the Axlib source code
 docker run --rm -it -w /shellhere/axlib \
                     -v $(pwd):/shellhere/axlib \
-                    axiatech/ci-linux:production <cargo commands>
+                    axia-tech/ci-linux:production <cargo commands>
 ----
 
 You can find necessary cargo commands in <<shared-steps,shared steps>>
@@ -270,7 +270,7 @@ Then, grab the Axlib source code:
 
 [source, shell]
 ----
-git clone https://github.com/axiatech/axlib.git
+git clone https://github.com/axia-tech/axlib.git
 cd axlib
 ----
 
@@ -333,7 +333,7 @@ Latest known working version: `a2a0eb5398d6223e531455b4c155ef053a4a3a2b`
 
 [source, shell]
 ----
-git clone https://github.com/axiatech/axlib.git
+git clone https://github.com/axia-tech/axlib.git
 cd axlib
 git checkout -b flaming-fir a2a0eb5398d6223e531455b4c155ef053a4a3a2b
 ----
@@ -367,7 +367,7 @@ In order to join the Emberic Elm testnet you should build from the `v1.0` branch
 
 [source, shell]
 ----
-git clone https://github.com/axiatech/axlib.git
+git clone https://github.com/axia-tech/axlib.git
 cd axlib
 git checkout -b v1.0 origin/v1.0
 ----

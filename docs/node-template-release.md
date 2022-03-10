@@ -35,7 +35,7 @@ commit in Axlib remote repository, such as:
 	```toml
 	[dev-dependencies.sp-core]
 	default-features = false
-	git = 'https://github.com/axiatech/axlib.git'
+	git = 'https://github.com/axia-tech/axlib.git'
 	rev = 'c1fe59d060600a10eebb4ace277af1fee20bad17'
 	version = '3.0.0'
 	```

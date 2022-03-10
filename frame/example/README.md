@@ -10,7 +10,7 @@ Run `cargo doc --package pallet-example --open` to view this pallet's documentat
 ### Documentation Guidelines:
 
 <!-- Original author of paragraph: Various. Based on collation of review comments to PRs addressing issues with -->
-<!-- label 'S3-FRAME' in https://github.com/axiatech/axlib-developer-hub/issues -->
+<!-- label 'S3-FRAME' in https://github.com/axia-tech/axlib-developer-hub/issues -->
 <ul>
     <li>Documentation comments (i.e. <code>/// comment</code>) - should
         accompany pallet functions and be restricted to the pallet interface,
@@ -19,7 +19,7 @@ Run `cargo doc --package pallet-example --open` to view this pallet's documentat
         requires root, but without repeating the source code details.
         Capitalize the first word of each documentation comment and end it with
         a full stop. See
-        <a href="https://github.com/axiatech/axlib#72-contributing-to-documentation-for-axlib-packages"
+        <a href="https://github.com/axia-tech/axlib#72-contributing-to-documentation-for-axlib-packages"
         target="_blank"> Generic example of annotating source code with documentation comments</a></li>
     <li>Self-documenting code - Try to refactor code to be self-documenting.</li>
     <li>Code comments - Supplement complex code with a brief explanation, not every line of code.</li>
@@ -52,7 +52,7 @@ Copy and paste this template from frame/example/src/lib.rs into file
 
 \## Overview
 
-<!-- Original author of paragraph: Various. See https://github.com/axiatech/axlib-developer-hub/issues/44 -->
+<!-- Original author of paragraph: Various. See https://github.com/axia-tech/axlib-developer-hub/issues/44 -->
 // Short description of pallet's purpose.
 // Links to Traits that should be implemented.
 // What this pallet is for.
@@ -63,7 +63,7 @@ Copy and paste this template from frame/example/src/lib.rs into file
 // Outputs it produces.
 
 <!-- Original author of paragraph: @Kianenigma in PR https://github.com/axia-tech/axlib/pull/1951 -->
-<!-- and comment https://github.com/axiatech/axlib-developer-hub/issues/44#issuecomment-471982710 -->
+<!-- and comment https://github.com/axia-tech/axlib-developer-hub/issues/44#issuecomment-471982710 -->
 
 \## Terminology
 
@@ -103,7 +103,7 @@ Copy and paste this template from frame/example/src/lib.rs into file
 <code>\`inherent\`</code> <INSERT_DESCRIPTION>
 
 <!-- Original author of paragraph: @Kianenigma in comment -->
-<!-- https://github.com/axiatech/axlib-developer-hub/issues/44#issuecomment-471982710 -->
+<!-- https://github.com/axia-tech/axlib-developer-hub/issues/44#issuecomment-471982710 -->
 
 \### Types
 
