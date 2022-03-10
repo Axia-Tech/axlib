@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0"
 homepage = ""
 repository = "https://github.com/axia-tech/axlib/"
-description = "Substrate database trait."
+description = "Axlib database trait."
 documentation = "https://docs.rs/sp-database"
 readme = "README.md"
 

@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -200,7 +200,7 @@ where
 			.map(|x| x.map(|x| x.to_vec()))
 			.unwrap_or_else(|| self.backend.storage(key).expect(EXT_NOT_ALLOWED_TO_FAIL));
 
-		// NOTE: be careful about touching the key names – used outside substrate!
+		// NOTE: be careful about touching the key names – used outside axlib!
 		trace!(
 			target: "state",
 			method = "Get",
@@ -406,7 +406,7 @@ where
 			return
 		}
 
-		// NOTE: be careful about touching the key names – used outside substrate!
+		// NOTE: be careful about touching the key names – used outside axlib!
 		trace!(
 			target: "state",
 			method = "Put",

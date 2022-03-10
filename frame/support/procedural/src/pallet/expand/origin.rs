@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2020-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -39,7 +39,7 @@ pub fn expand_origins(def: &mut Def) -> TokenStream {
 
 	quote! {
 		#[doc(hidden)]
-		pub mod __substrate_origin_check {
+		pub mod __axlib_origin_check {
 			#[macro_export]
 			#[doc(hidden)]
 			macro_rules! #macro_ident {

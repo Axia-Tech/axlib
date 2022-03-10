@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -358,7 +358,7 @@ impl DatabaseSource {
 	/// Return path for databases that are stored on disk.
 	pub fn path(&self) -> Option<&Path> {
 		match self {
-			// as per https://github.com/axia-tech/substrate/pull/9500#discussion_r684312550
+			// as per https://github.com/axia-tech/axlib/pull/9500#discussion_r684312550
 			//
 			// IIUC this is needed for axia to create its own dbs, so until it can use axia db
 			// I would think rocksdb, but later parity-db.
@@ -3000,23 +3000,23 @@ pub(crate) mod tests {
 
 	#[test]
 	fn test_leaves_with_complex_block_tree() {
-		let backend: Arc<Backend<substrate_test_runtime_client::runtime::Block>> =
+		let backend: Arc<Backend<axlib_test_runtime_client::runtime::Block>> =
 			Arc::new(Backend::new_test(20, 20));
-		substrate_test_runtime_client::trait_tests::test_leaves_for_backend(backend);
+		axlib_test_runtime_client::trait_tests::test_leaves_for_backend(backend);
 	}
 
 	#[test]
 	fn test_children_with_complex_block_tree() {
-		let backend: Arc<Backend<substrate_test_runtime_client::runtime::Block>> =
+		let backend: Arc<Backend<axlib_test_runtime_client::runtime::Block>> =
 			Arc::new(Backend::new_test(20, 20));
-		substrate_test_runtime_client::trait_tests::test_children_for_backend(backend);
+		axlib_test_runtime_client::trait_tests::test_children_for_backend(backend);
 	}
 
 	#[test]
 	fn test_blockchain_query_by_number_gets_canonical() {
-		let backend: Arc<Backend<substrate_test_runtime_client::runtime::Block>> =
+		let backend: Arc<Backend<axlib_test_runtime_client::runtime::Block>> =
 			Arc::new(Backend::new_test(20, 20));
-		substrate_test_runtime_client::trait_tests::test_blockchain_query_by_number_gets_canonical(
+		axlib_test_runtime_client::trait_tests::test_blockchain_query_by_number_gets_canonical(
 			backend,
 		);
 	}
@@ -3050,7 +3050,7 @@ pub(crate) mod tests {
 
 	#[test]
 	fn test_aux() {
-		let backend: Backend<substrate_test_runtime_client::runtime::Block> =
+		let backend: Backend<axlib_test_runtime_client::runtime::Block> =
 			Backend::new_test(0, 0);
 		assert!(backend.get_aux(b"test").unwrap().is_none());
 		backend.insert_aux(&[(&b"test"[..], &b"hello"[..])], &[]).unwrap();

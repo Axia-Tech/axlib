@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2015-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -23,9 +23,9 @@ fn benchmark(c: &mut Criterion) {
 	trie_bench::standard_benchmark::<
 		sp_trie::Layout<sp_runtime::traits::BlakeTwo256>,
 		sp_trie::TrieStream,
-	>(c, "substrate-blake2");
+	>(c, "axlib-blake2");
 	trie_bench::standard_benchmark::<
 		sp_trie::Layout<sp_runtime::traits::BlakeTwo256>,
 		sp_trie::TrieStream,
-	>(c, "substrate-keccak");
+	>(c, "axlib-keccak");
 }

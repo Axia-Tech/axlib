@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2020-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -24,7 +24,7 @@ use tempfile::tempdir;
 fn build_spec_works() {
 	let base_path = tempdir().expect("could not create a temp dir");
 
-	let output = Command::new(cargo_bin("substrate"))
+	let output = Command::new(cargo_bin("axlib"))
 		.args(&["build-spec", "--dev", "-d"])
 		.arg(base_path.path())
 		.output()

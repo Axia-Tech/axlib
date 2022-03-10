@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -38,7 +38,7 @@ use sp_api::{ApiRef, ProvideRuntimeApi};
 use sp_core::crypto::Public;
 use sp_keystore::{testing::KeyStore, CryptoStore};
 use sp_runtime::traits::{Block as BlockT, NumberFor, Zero};
-use substrate_test_runtime_client::runtime::Block;
+use axlib_test_runtime_client::runtime::Block;
 
 use super::*;
 

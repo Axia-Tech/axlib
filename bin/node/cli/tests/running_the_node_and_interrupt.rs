@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2020-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -38,7 +38,7 @@ async fn running_the_node_works_and_can_be_interrupted() {
 	async fn run_command_and_kill(signal: Signal) {
 		let base_path = tempdir().expect("could not create a temp dir");
 		let mut cmd = common::KillChildOnDrop(
-			Command::new(cargo_bin("substrate"))
+			Command::new(cargo_bin("axlib"))
 				.args(&["--dev", "-d"])
 				.arg(base_path.path())
 				.spawn()
@@ -63,7 +63,7 @@ async fn running_the_node_works_and_can_be_interrupted() {
 #[tokio::test]
 async fn running_two_nodes_with_the_same_ws_port_should_work() {
 	fn start_node() -> Child {
-		Command::new(cargo_bin("substrate"))
+		Command::new(cargo_bin("axlib"))
 			.args(&["--dev", "--tmp", "--ws-port=45789"])
 			.spawn()
 			.unwrap()

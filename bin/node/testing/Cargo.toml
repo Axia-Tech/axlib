@@ -2,7 +2,7 @@
 name = "node-testing"
 version = "3.0.0-dev"
 authors = ["AXIA Technologies <admin@axiacoin.network>"]
-description = "Test utilities for Substrate node."
+description = "Test utilities for Axlib node."
 edition = "2018"
 license = "GPL-3.0-or-later WITH Classpath-exception-2.0"
 homepage = ""
@@ -36,7 +36,7 @@ sc-executor = { version = "0.10.0-dev", path = "../../../client/executor", featu
 ] }
 sp-consensus = { version = "0.10.0-dev", path = "../../../primitives/consensus/common" }
 frame-system = { version = "4.0.0-dev", path = "../../../frame/system" }
-substrate-test-client = { version = "2.0.0", path = "../../../test-utils/client" }
+axlib-test-client = { version = "2.0.0", path = "../../../test-utils/client" }
 pallet-transaction-payment = { version = "4.0.0-dev", path = "../../../frame/transaction-payment" }
 sp-api = { version = "4.0.0-dev", path = "../../../primitives/api" }
 sp-timestamp = { version = "4.0.0-dev", default-features = false, path = "../../../primitives/timestamp" }

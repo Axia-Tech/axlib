@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -28,7 +28,7 @@ use sp_core::{hash::H256, storage::ChildInfo, ChangesTrieConfiguration};
 use sp_io::hashing::blake2_256;
 use sp_runtime::generic::BlockId;
 use std::sync::Arc;
-use substrate_test_runtime_client::{prelude::*, runtime};
+use axlib_test_runtime_client::{prelude::*, runtime};
 
 const STORAGE_KEY: &[u8] = b"child";
 
@@ -145,7 +145,7 @@ fn should_return_storage_entries() {
 fn should_return_child_storage() {
 	let child_info = ChildInfo::new_default(STORAGE_KEY);
 	let client = Arc::new(
-		substrate_test_runtime_client::TestClientBuilder::new()
+		axlib_test_runtime_client::TestClientBuilder::new()
 			.add_child_storage(&child_info, "key", vec![42_u8])
 			.build(),
 	);
@@ -195,7 +195,7 @@ fn should_return_child_storage() {
 fn should_return_child_storage_entries() {
 	let child_info = ChildInfo::new_default(STORAGE_KEY);
 	let client = Arc::new(
-		substrate_test_runtime_client::TestClientBuilder::new()
+		axlib_test_runtime_client::TestClientBuilder::new()
 			.add_child_storage(&child_info, "key1", vec![42_u8])
 			.add_child_storage(&child_info, "key2", vec![43_u8, 44])
 			.build(),
@@ -240,7 +240,7 @@ fn should_return_child_storage_entries() {
 
 #[test]
 fn should_call_contract() {
-	let client = Arc::new(substrate_test_runtime_client::new());
+	let client = Arc::new(axlib_test_runtime_client::new());
 	let genesis_hash = client.genesis_hash();
 	let (client, _child) =
 		new_full(client, SubscriptionManager::new(Arc::new(TaskExecutor)), DenyUnsafe::No, None);
@@ -260,7 +260,7 @@ fn should_notify_about_storage_changes() {
 	let (subscriber, id, mut transport) = Subscriber::new_test("test");
 
 	{
-		let mut client = Arc::new(substrate_test_runtime_client::new());
+		let mut client = Arc::new(axlib_test_runtime_client::new());
 		let (api, _child) = new_full(
 			client.clone(),
 			SubscriptionManager::new(Arc::new(TaskExecutor)),
@@ -296,7 +296,7 @@ fn should_send_initial_storage_changes_and_notifications() {
 	let (subscriber, id, mut transport) = Subscriber::new_test("test");
 
 	{
-		let mut client = Arc::new(substrate_test_runtime_client::new());
+		let mut client = Arc::new(axlib_test_runtime_client::new());
 		let (api, _child) = new_full(
 			client.clone(),
 			SubscriptionManager::new(Arc::new(TaskExecutor)),
@@ -519,7 +519,7 @@ fn should_query_storage() {
 		);
 	}
 
-	run_tests(Arc::new(substrate_test_runtime_client::new()), false);
+	run_tests(Arc::new(axlib_test_runtime_client::new()), false);
 	run_tests(
 		Arc::new(
 			TestClientBuilder::new()
@@ -541,7 +541,7 @@ fn should_split_ranges() {
 
 #[test]
 fn should_return_runtime_version() {
-	let client = Arc::new(substrate_test_runtime_client::new());
+	let client = Arc::new(axlib_test_runtime_client::new());
 	let (api, _child) = new_full(
 		client.clone(),
 		SubscriptionManager::new(Arc::new(TaskExecutor)),
@@ -569,7 +569,7 @@ fn should_notify_on_runtime_version_initially() {
 	let (subscriber, id, mut transport) = Subscriber::new_test("test");
 
 	{
-		let client = Arc::new(substrate_test_runtime_client::new());
+		let client = Arc::new(axlib_test_runtime_client::new());
 		let (api, _child) = new_full(
 			client.clone(),
 			SubscriptionManager::new(Arc::new(TaskExecutor)),

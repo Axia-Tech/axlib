@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0"
 homepage = ""
 repository = "https://github.com/axia-tech/axlib/"
-description = "Substrate blockchain traits and primitives."
+description = "Axlib blockchain traits and primitives."
 documentation = "https://docs.rs/sp-blockchain"
 readme = "README.md"
 

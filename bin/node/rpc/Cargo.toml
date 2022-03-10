@@ -34,4 +34,4 @@ sp-consensus = { version = "0.10.0-dev", path = "../../../primitives/consensus/c
 sp-consensus-babe = { version = "0.10.0-dev", path = "../../../primitives/consensus/babe" }
 sp-runtime = { version = "4.0.0-dev", path = "../../../primitives/runtime" }
 sc-transaction-pool-api = { version = "4.0.0-dev", path = "../../../client/transaction-pool/api" }
-substrate-frame-rpc-system = { version = "4.0.0-dev", path = "../../../utils/frame/rpc/system" }
+axlib-frame-rpc-system = { version = "4.0.0-dev", path = "../../../utils/frame/rpc/system" }

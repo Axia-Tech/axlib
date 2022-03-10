@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -114,7 +114,7 @@ impl<Block: BlockT, T: CacheItemT> StorageEntry<Block, T> {
 mod tests {
 	use super::*;
 	use crate::cache::list_storage::tests::{DummyStorage, FaultyStorage};
-	use substrate_test_runtime_client::runtime::{Block, H256};
+	use axlib_test_runtime_client::runtime::{Block, H256};
 
 	fn test_id(number: u64) -> ComplexBlockId<Block> {
 		ComplexBlockId::new(H256::from_low_u64_be(number), number)

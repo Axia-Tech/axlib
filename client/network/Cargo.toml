@@ -1,5 +1,5 @@
 [package]
-description = "Substrate network protocol"
+description = "Axlib network protocol"
 name = "sc-network"
 version = "0.10.0-dev"
 license = "GPL-3.0-or-later WITH Classpath-exception-2.0"
@@ -40,7 +40,7 @@ lru = "0.6.6"
 log = "0.4.8"
 parking_lot = "0.11.1"
 pin-project = "1.0.8"
-prometheus-endpoint = { package = "substrate-prometheus-endpoint", version = "0.9.0", path = "../../utils/prometheus" }
+prometheus-endpoint = { package = "axlib-prometheus-endpoint", version = "0.9.0", path = "../../utils/prometheus" }
 prost = "0.8"
 rand = "0.7.2"
 sc-block-builder = { version = "0.10.0-dev", path = "../block-builder" }
@@ -73,8 +73,8 @@ quickcheck = "1.0.3"
 rand = "0.7.2"
 sp-test-primitives = { version = "2.0.0", path = "../../primitives/test-primitives" }
 sp-tracing = { version = "4.0.0-dev", path = "../../primitives/tracing" }
-substrate-test-runtime = { version = "2.0.0", path = "../../test-utils/runtime" }
-substrate-test-runtime-client = { version = "2.0.0", path = "../../test-utils/runtime/client" }
+axlib-test-runtime = { version = "2.0.0", path = "../../test-utils/runtime" }
+axlib-test-runtime-client = { version = "2.0.0", path = "../../test-utils/runtime/client" }
 tempfile = "3.1.0"
 
 [features]

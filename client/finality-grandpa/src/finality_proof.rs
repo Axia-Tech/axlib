@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2018-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -246,7 +246,7 @@ pub(crate) mod tests {
 	use sp_core::crypto::Public;
 	use sp_finality_grandpa::{AuthorityId, GRANDPA_ENGINE_ID as ID};
 	use sp_keyring::Ed25519Keyring;
-	use substrate_test_runtime_client::{
+	use axlib_test_runtime_client::{
 		runtime::{Block, Header, H256},
 		Backend as TestBackend, ClientBlockImportExt, ClientExt, DefaultTestClientBuilderExt,
 		TestClient, TestClientBuilder, TestClientBuilderExt,

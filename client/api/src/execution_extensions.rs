@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -96,7 +96,7 @@ pub struct ExecutionExtensions<Block: traits::Block> {
 	strategies: ExecutionStrategies,
 	keystore: Option<SyncCryptoStorePtr>,
 	offchain_db: Option<Box<dyn DbExternalitiesFactory>>,
-	// FIXME: these two are only RwLock because of https://github.com/axia-tech/substrate/issues/4587
+	// FIXME: these two are only RwLock because of https://github.com/axia-tech/axlib/issues/4587
 	//        remove when fixed.
 	// To break retain cycle between `Client` and `TransactionPool` we require this
 	// extension to be a `Weak` reference.

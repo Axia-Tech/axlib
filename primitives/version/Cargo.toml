@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0"
 homepage = ""
 repository = "https://github.com/axia-tech/axlib/"
-description = "Version module for the Substrate runtime; Provides a function that returns the runtime version."
+description = "Version module for the Axlib runtime; Provides a function that returns the runtime version."
 documentation = "https://docs.rs/sp-version"
 readme = "README.md"
 

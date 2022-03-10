@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -563,7 +563,7 @@ mod tests {
 	use sc_client_api::BlockImportNotification;
 	use sc_utils::mpsc::{tracing_unbounded, TracingUnboundedSender};
 	use sp_consensus::BlockOrigin;
-	use substrate_test_runtime_client::runtime::{Block, Hash, Header};
+	use axlib_test_runtime_client::runtime::{Block, Hash, Header};
 
 	#[derive(Clone)]
 	struct TestChainState {

@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2020-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -179,7 +179,7 @@ fn resolve_func_import(
 }
 
 /// This structure implements `Callable` and acts as a bridge between wasmtime and
-/// substrate host functions.
+/// axlib host functions.
 struct HostFuncHandler {
 	host_func: &'static dyn Function,
 }
@@ -206,10 +206,10 @@ fn call_static<'a>(
 		let mut host_ctx = host_state.materialize(&mut caller);
 
 		// `from_wasmtime_val` panics if it encounters a value that doesn't fit into the values
-		// available in substrate.
+		// available in axlib.
 		//
 		// This, however, cannot happen since the signature of this function is created from
-		// a `dyn Function` signature of which cannot have a non substrate value by definition.
+		// a `dyn Function` signature of which cannot have a non axlib value by definition.
 		let mut params = wasmtime_params.iter().cloned().map(util::from_wasmtime_val);
 
 		std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {

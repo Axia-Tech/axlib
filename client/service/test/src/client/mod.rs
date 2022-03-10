@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2018-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -45,8 +45,8 @@ use std::{
 	collections::{HashMap, HashSet},
 	sync::Arc,
 };
-use substrate_test_runtime::TestAPI;
-use substrate_test_runtime_client::{
+use axlib_test_runtime::TestAPI;
+use axlib_test_runtime_client::{
 	prelude::*,
 	runtime::{
 		self,
@@ -68,11 +68,11 @@ impl sc_executor::NativeExecutionDispatch for ExecutorDispatch {
 	type ExtendHostFunctions = ();
 
 	fn dispatch(method: &str, data: &[u8]) -> Option<Vec<u8>> {
-		substrate_test_runtime_client::runtime::api::dispatch(method, data)
+		axlib_test_runtime_client::runtime::api::dispatch(method, data)
 	}
 
 	fn native_version() -> sc_executor::NativeVersion {
-		substrate_test_runtime_client::runtime::native_version()
+		axlib_test_runtime_client::runtime::native_version()
 	}
 }
 
@@ -82,8 +82,8 @@ fn executor() -> sc_executor::NativeElseWasmExecutor<ExecutorDispatch> {
 
 pub fn prepare_client_with_key_changes() -> (
 	client::Client<
-		substrate_test_runtime_client::Backend,
-		substrate_test_runtime_client::ExecutorDispatch,
+		axlib_test_runtime_client::Backend,
+		axlib_test_runtime_client::ExecutorDispatch,
 		Block,
 		RuntimeApi,
 	>,
@@ -355,7 +355,7 @@ fn construct_genesis_with_bad_transaction_should_panic() {
 
 #[test]
 fn client_initializes_from_genesis_ok() {
-	let client = substrate_test_runtime_client::new();
+	let client = axlib_test_runtime_client::new();
 
 	assert_eq!(
 		client
@@ -381,7 +381,7 @@ fn client_initializes_from_genesis_ok() {
 
 #[test]
 fn block_builder_works_with_no_transactions() {
-	let mut client = substrate_test_runtime_client::new();
+	let mut client = axlib_test_runtime_client::new();
 
 	let block = client.new_block(Default::default()).unwrap().build().unwrap().block;
 
@@ -392,7 +392,7 @@ fn block_builder_works_with_no_transactions() {
 
 #[test]
 fn block_builder_works_with_transactions() {
-	let mut client = substrate_test_runtime_client::new();
+	let mut client = axlib_test_runtime_client::new();
 
 	let mut builder = client.new_block(Default::default()).unwrap();
 
@@ -437,7 +437,7 @@ fn block_builder_works_with_transactions() {
 
 #[test]
 fn block_builder_does_not_include_invalid() {
-	let mut client = substrate_test_runtime_client::new();
+	let mut client = axlib_test_runtime_client::new();
 
 	let mut builder = client.new_block(Default::default()).unwrap();
 
@@ -489,7 +489,7 @@ fn best_containing_with_genesis_block() {
 fn uncles_with_only_ancestors() {
 	// block tree:
 	// G -> A1 -> A2
-	let mut client = substrate_test_runtime_client::new();
+	let mut client = axlib_test_runtime_client::new();
 
 	// G -> A1
 	let a1 = client.new_block(Default::default()).unwrap().build().unwrap().block;
@@ -509,7 +509,7 @@ fn uncles_with_multiple_forks() {
 	//      A1 -> B2 -> B3 -> B4
 	// 	          B2 -> C3
 	// 	    A1 -> D2
-	let mut client = substrate_test_runtime_client::new();
+	let mut client = axlib_test_runtime_client::new();
 
 	// G -> A1
 	let a1 = client.new_block(Default::default()).unwrap().build().unwrap().block;
@@ -928,7 +928,7 @@ fn key_changes_works() {
 
 #[test]
 fn import_with_justification() {
-	let mut client = substrate_test_runtime_client::new();
+	let mut client = axlib_test_runtime_client::new();
 
 	// G -> A1
 	let a1 = client.new_block(Default::default()).unwrap().build().unwrap().block;
@@ -965,7 +965,7 @@ fn import_with_justification() {
 
 #[test]
 fn importing_diverged_finalized_block_should_trigger_reorg() {
-	let mut client = substrate_test_runtime_client::new();
+	let mut client = axlib_test_runtime_client::new();
 
 	// G -> A1 -> A2
 	//   \
@@ -1085,7 +1085,7 @@ fn finalizing_diverged_block_should_trigger_reorg() {
 
 #[test]
 fn get_header_by_block_number_doesnt_panic() {
-	let client = substrate_test_runtime_client::new();
+	let client = axlib_test_runtime_client::new();
 
 	// backend uses u32 for block numbers, make sure we don't panic when
 	// trying to convert
@@ -1096,9 +1096,9 @@ fn get_header_by_block_number_doesnt_panic() {
 #[test]
 fn state_reverted_on_reorg() {
 	sp_tracing::try_init_simple();
-	let mut client = substrate_test_runtime_client::new();
+	let mut client = axlib_test_runtime_client::new();
 
-	let current_balance = |client: &substrate_test_runtime_client::TestClient| {
+	let current_balance = |client: &axlib_test_runtime_client::TestClient| {
 		client
 			.runtime_api()
 			.balance_of(
@@ -1752,7 +1752,7 @@ fn storage_keys_iter_prefix_and_start_key_works() {
 
 #[test]
 fn storage_keys_iter_works() {
-	let client = substrate_test_runtime_client::new();
+	let client = axlib_test_runtime_client::new();
 
 	let prefix = StorageKey(hex!("").to_vec());
 
@@ -1825,14 +1825,14 @@ fn storage_keys_iter_works() {
 
 #[test]
 fn cleans_up_closed_notification_sinks_on_block_import() {
-	use substrate_test_runtime_client::GenesisInit;
+	use axlib_test_runtime_client::GenesisInit;
 
 	// NOTE: we need to build the client here instead of using the client
 	// provided by test_runtime_client otherwise we can't access the private
 	// `import_notification_sinks` and `finality_notification_sinks` fields.
 	let mut client = new_in_mem::<_, Block, _, RuntimeApi>(
-		substrate_test_runtime_client::new_native_executor(),
-		&substrate_test_runtime_client::GenesisParameters::default().genesis_storage(),
+		axlib_test_runtime_client::new_native_executor(),
+		&axlib_test_runtime_client::GenesisParameters::default().genesis_storage(),
 		None,
 		None,
 		None,

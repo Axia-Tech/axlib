@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -924,7 +924,7 @@ mod tests {
 	use sp_api::{BlockId, HeaderT};
 	use sp_blockchain::Backend;
 	use sp_runtime::{ConsensusEngineId, Justifications};
-	use substrate_test_runtime::{Block, Header, H256};
+	use axlib_test_runtime::{Block, Header, H256};
 
 	pub const ID1: ConsensusEngineId = *b"TST1";
 	pub const ID2: ConsensusEngineId = *b"TST2";

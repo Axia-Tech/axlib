@@ -64,7 +64,7 @@ decl_module! {
 
 ### Example from the FRAME
 
-The [Session module](https://github.com/axia-tech/substrate/blob/master/frame/session/src/lib.rs) uses
+The [Session module](https://github.com/axia-tech/axlib/blob/master/frame/session/src/lib.rs) uses
 the Timestamp module for session management.
 
 ## Related Modules

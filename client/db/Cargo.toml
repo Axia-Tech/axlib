@@ -37,7 +37,7 @@ parity-db = { version = "0.3.2", optional = true }
 
 [dev-dependencies]
 sp-tracing = { version = "4.0.0-dev", path = "../../primitives/tracing" }
-substrate-test-runtime-client = { version = "2.0.0", path = "../../test-utils/runtime/client" }
+axlib-test-runtime-client = { version = "2.0.0", path = "../../test-utils/runtime/client" }
 quickcheck = "1.0.3"
 kvdb-rocksdb = "0.14.0"
 tempfile = "3"

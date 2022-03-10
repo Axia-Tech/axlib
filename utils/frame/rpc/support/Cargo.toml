@@ -1,5 +1,5 @@
 [package]
-name = "substrate-frame-rpc-support"
+name = "axlib-frame-rpc-support"
 version = "3.0.0"
 authors = [
     "AXIA Technologies <admin@axiacoin.network>",
@@ -9,7 +9,7 @@ edition = "2018"
 license = "Apache-2.0"
 homepage = ""
 repository = "https://github.com/axia-tech/axlib/"
-description = "Substrate RPC for FRAME's support"
+description = "Axlib RPC for FRAME's support"
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]

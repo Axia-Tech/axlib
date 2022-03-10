@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0"
 homepage = ""
 repository = "https://github.com/axia-tech/axlib/"
-description = "Substrate runtime interface"
+description = "Axlib runtime interface"
 documentation = "https://docs.rs/sp-runtime-interface/"
 readme = "README.md"
 

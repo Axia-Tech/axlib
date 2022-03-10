@@ -507,7 +507,7 @@ dependencies = [
  "sp-keystore",
  "sp-runtime",
  "strum 0.21.0",
- "substrate-prometheus-endpoint",
+ "axlib-prometheus-endpoint",
  "thiserror",
  "wasm-timer",
 ]
@@ -2126,7 +2126,7 @@ dependencies = [
  "sp-runtime",
  "sp-std",
  "sp-version",
- "substrate-test-runtime-client",
+ "axlib-test-runtime-client",
 ]
 
 [[package]]
@@ -4507,8 +4507,8 @@ dependencies = [
  "sp-transaction-storage-proof",
  "sp-trie",
  "structopt",
- "substrate-build-script-utils",
- "substrate-frame-cli",
+ "axlib-build-script-utils",
+ "axlib-frame-cli",
  "tempfile",
  "tokio",
  "try-runtime-cli",
@@ -4601,7 +4601,7 @@ dependencies = [
  "sp-consensus-babe",
  "sp-keystore",
  "sp-runtime",
- "substrate-frame-rpc-system",
+ "axlib-frame-rpc-system",
 ]
 
 [[package]]
@@ -4693,7 +4693,7 @@ dependencies = [
  "sp-transaction-pool",
  "sp-version",
  "static_assertions",
- "substrate-wasm-builder",
+ "axlib-wasm-builder",
 ]
 
 [[package]]
@@ -4738,8 +4738,8 @@ dependencies = [
  "sp-runtime",
  "sp-timestamp",
  "structopt",
- "substrate-build-script-utils",
- "substrate-frame-rpc-system",
+ "axlib-build-script-utils",
+ "axlib-frame-rpc-system",
 ]
 
 [[package]]
@@ -4775,7 +4775,7 @@ dependencies = [
  "sp-std",
  "sp-transaction-pool",
  "sp-version",
- "substrate-wasm-builder",
+ "axlib-wasm-builder",
 ]
 
 [[package]]
@@ -4807,7 +4807,7 @@ dependencies = [
  "sp-keyring",
  "sp-runtime",
  "sp-timestamp",
- "substrate-test-client",
+ "axlib-test-client",
  "tempfile",
 ]
 
@@ -5418,7 +5418,7 @@ dependencies = [
  "sp-npos-elections",
  "sp-runtime",
  "sp-std",
- "substrate-test-utils",
+ "axlib-test-utils",
 ]
 
 [[package]]
@@ -5807,7 +5807,7 @@ dependencies = [
  "sp-io",
  "sp-runtime",
  "sp-std",
- "substrate-test-utils",
+ "axlib-test-utils",
 ]
 
 [[package]]
@@ -5912,7 +5912,7 @@ dependencies = [
  "sp-staking",
  "sp-std",
  "sp-tracing",
- "substrate-test-utils",
+ "axlib-test-utils",
 ]
 
 [[package]]
@@ -7392,8 +7392,8 @@ dependencies = [
  "sp-keystore",
  "sp-runtime",
  "sp-tracing",
- "substrate-prometheus-endpoint",
- "substrate-test-runtime-client",
+ "axlib-prometheus-endpoint",
+ "axlib-test-runtime-client",
 ]
 
 [[package]]
@@ -7417,8 +7417,8 @@ dependencies = [
  "sp-core",
  "sp-inherents",
  "sp-runtime",
- "substrate-prometheus-endpoint",
- "substrate-test-runtime-client",
+ "axlib-prometheus-endpoint",
+ "axlib-test-runtime-client",
 ]
 
 [[package]]
@@ -7434,7 +7434,7 @@ dependencies = [
  "sp-inherents",
  "sp-runtime",
  "sp-state-machine",
- "substrate-test-runtime-client",
+ "axlib-test-runtime-client",
 ]
 
 [[package]]
@@ -7525,8 +7525,8 @@ dependencies = [
  "sp-storage",
  "sp-test-primitives",
  "sp-trie",
- "substrate-prometheus-endpoint",
- "substrate-test-runtime",
+ "axlib-prometheus-endpoint",
+ "axlib-test-runtime",
  "thiserror",
 ]
 
@@ -7554,7 +7554,7 @@ dependencies = [
  "sp-state-machine",
  "sp-tracing",
  "sp-trie",
- "substrate-test-runtime-client",
+ "axlib-test-runtime-client",
  "tempfile",
 ]
 
@@ -7578,7 +7578,7 @@ dependencies = [
  "sp-runtime",
  "sp-state-machine",
  "sp-test-primitives",
- "substrate-prometheus-endpoint",
+ "axlib-prometheus-endpoint",
  "thiserror",
 ]
 
@@ -7615,8 +7615,8 @@ dependencies = [
  "sp-runtime",
  "sp-timestamp",
  "sp-tracing",
- "substrate-prometheus-endpoint",
- "substrate-test-runtime-client",
+ "axlib-prometheus-endpoint",
+ "axlib-test-runtime-client",
  "tempfile",
 ]
 
@@ -7665,8 +7665,8 @@ dependencies = [
  "sp-timestamp",
  "sp-tracing",
  "sp-version",
- "substrate-prometheus-endpoint",
- "substrate-test-runtime-client",
+ "axlib-prometheus-endpoint",
+ "axlib-test-runtime-client",
  "tempfile",
 ]
 
@@ -7695,7 +7695,7 @@ dependencies = [
  "sp-keyring",
  "sp-keystore",
  "sp-runtime",
- "substrate-test-runtime-client",
+ "axlib-test-runtime-client",
  "tempfile",
 ]
 
@@ -7742,9 +7742,9 @@ dependencies = [
  "sp-keystore",
  "sp-runtime",
  "sp-timestamp",
- "substrate-prometheus-endpoint",
- "substrate-test-runtime-client",
- "substrate-test-runtime-transaction-pool",
+ "axlib-prometheus-endpoint",
+ "axlib-test-runtime-client",
+ "axlib-test-runtime-transaction-pool",
  "tokio",
 ]
 
@@ -7769,7 +7769,7 @@ dependencies = [
  "sp-core",
  "sp-inherents",
  "sp-runtime",
- "substrate-prometheus-endpoint",
+ "axlib-prometheus-endpoint",
 ]
 
 [[package]]
@@ -7794,7 +7794,7 @@ dependencies = [
  "sp-runtime",
  "sp-state-machine",
  "sp-timestamp",
- "substrate-test-runtime-client",
+ "axlib-test-runtime-client",
  "thiserror",
 ]
 
@@ -7838,7 +7838,7 @@ dependencies = [
  "sp-trie",
  "sp-version",
  "sp-wasm-interface",
- "substrate-test-runtime",
+ "axlib-test-runtime",
  "tracing",
  "tracing-subscriber",
  "wasmi",
@@ -7936,8 +7936,8 @@ dependencies = [
  "sp-keystore",
  "sp-runtime",
  "sp-tracing",
- "substrate-prometheus-endpoint",
- "substrate-test-runtime-client",
+ "axlib-prometheus-endpoint",
+ "axlib-test-runtime-client",
  "tempfile",
  "tokio",
 ]
@@ -7966,7 +7966,7 @@ dependencies = [
  "sp-finality-grandpa",
  "sp-keyring",
  "sp-runtime",
- "substrate-test-runtime-client",
+ "axlib-test-runtime-client",
 ]
 
 [[package]]
@@ -8064,9 +8064,9 @@ dependencies = [
  "sp-runtime",
  "sp-test-primitives",
  "sp-tracing",
- "substrate-prometheus-endpoint",
- "substrate-test-runtime",
- "substrate-test-runtime-client",
+ "axlib-prometheus-endpoint",
+ "axlib-test-runtime",
+ "axlib-test-runtime-client",
  "tempfile",
  "thiserror",
  "unsigned-varint 0.6.0",
@@ -8087,8 +8087,8 @@ dependencies = [
  "quickcheck",
  "sc-network",
  "sp-runtime",
- "substrate-prometheus-endpoint",
- "substrate-test-runtime-client",
+ "axlib-prometheus-endpoint",
+ "axlib-test-runtime-client",
  "tracing",
 ]
 
@@ -8115,8 +8115,8 @@ dependencies = [
  "sp-core",
  "sp-runtime",
  "sp-tracing",
- "substrate-test-runtime",
- "substrate-test-runtime-client",
+ "axlib-test-runtime",
+ "axlib-test-runtime-client",
 ]
 
 [[package]]
@@ -8149,7 +8149,7 @@ dependencies = [
  "sp-offchain",
  "sp-runtime",
  "sp-tracing",
- "substrate-test-runtime-client",
+ "axlib-test-runtime-client",
  "threadpool",
  "tokio",
 ]
@@ -8172,7 +8172,7 @@ name = "sc-proposer-metrics"
 version = "0.9.0"
 dependencies = [
  "log 0.4.14",
- "substrate-prometheus-endpoint",
+ "axlib-prometheus-endpoint",
 ]
 
 [[package]]
@@ -8209,7 +8209,7 @@ dependencies = [
  "sp-runtime",
  "sp-session",
  "sp-version",
- "substrate-test-runtime-client",
+ "axlib-test-runtime-client",
 ]
 
 [[package]]
@@ -8248,7 +8248,7 @@ dependencies = [
  "jsonrpc-ws-server",
  "log 0.4.14",
  "serde_json",
- "substrate-prometheus-endpoint",
+ "axlib-prometheus-endpoint",
  "tokio",
 ]
 
@@ -8262,7 +8262,7 @@ dependencies = [
  "sp-sandbox",
  "sp-std",
  "sp-tasks",
- "substrate-wasm-builder",
+ "axlib-wasm-builder",
 ]
 
 [[package]]
@@ -8322,9 +8322,9 @@ dependencies = [
  "sp-transaction-storage-proof",
  "sp-trie",
  "sp-version",
- "substrate-prometheus-endpoint",
- "substrate-test-runtime",
- "substrate-test-runtime-client",
+ "axlib-prometheus-endpoint",
+ "axlib-test-runtime",
+ "axlib-test-runtime-client",
  "tempfile",
  "thiserror",
  "tokio",
@@ -8363,8 +8363,8 @@ dependencies = [
  "sp-storage",
  "sp-tracing",
  "sp-trie",
- "substrate-test-runtime",
- "substrate-test-runtime-client",
+ "axlib-test-runtime",
+ "axlib-test-runtime-client",
  "tempfile",
  "tokio",
 ]
@@ -8487,10 +8487,10 @@ dependencies = [
  "sp-runtime",
  "sp-tracing",
  "sp-transaction-pool",
- "substrate-prometheus-endpoint",
- "substrate-test-runtime",
- "substrate-test-runtime-client",
- "substrate-test-runtime-transaction-pool",
+ "axlib-prometheus-endpoint",
+ "axlib-test-runtime",
+ "axlib-test-runtime-client",
+ "axlib-test-runtime-transaction-pool",
  "thiserror",
 ]
 
@@ -8986,7 +8986,7 @@ dependencies = [
  "sp-state-machine",
  "sp-tracing",
  "sp-version",
- "substrate-test-runtime-client",
+ "axlib-test-runtime-client",
  "trybuild",
 ]
 
@@ -9011,7 +9011,7 @@ dependencies = [
  "sp-core",
  "sp-keystore",
  "sp-runtime",
- "substrate-test-runtime-client",
+ "axlib-test-runtime-client",
 ]
 
 [[package]]
@@ -9222,7 +9222,7 @@ dependencies = [
  "sp-std",
  "sp-storage",
  "ss58-registry",
- "substrate-bip39",
+ "axlib-bip39",
  "thiserror",
  "tiny-bip39",
  "tiny-keccak",
@@ -9360,7 +9360,7 @@ dependencies = [
  "sp-npos-elections-solution-type",
  "sp-runtime",
  "sp-std",
- "substrate-test-utils",
+ "axlib-test-utils",
 ]
 
 [[package]]
@@ -9440,7 +9440,7 @@ dependencies = [
  "sp-state-machine",
  "sp-std",
  "sp-tracing",
- "substrate-test-runtime-client",
+ "axlib-test-runtime-client",
 ]
 
 [[package]]
@@ -9500,7 +9500,7 @@ dependencies = [
  "sp-io",
  "sp-runtime-interface",
  "sp-std",
- "substrate-wasm-builder",
+ "axlib-wasm-builder",
 ]
 
 [[package]]
@@ -9511,7 +9511,7 @@ dependencies = [
  "sp-io",
  "sp-runtime-interface",
  "sp-std",
- "substrate-wasm-builder",
+ "axlib-wasm-builder",
 ]
 
 [[package]]
@@ -9861,7 +9861,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "substrate-bip39"
+name = "axlib-bip39"
 version = "0.4.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "49eee6965196b32f882dd2ee85a92b1dbead41b04e53907f269de3b0dc04733c"
@@ -9874,14 +9874,14 @@ dependencies = [
 ]
 
 [[package]]
-name = "substrate-build-script-utils"
+name = "axlib-build-script-utils"
 version = "3.0.0"
 dependencies = [
  "platforms",
 ]
 
 [[package]]
-name = "substrate-frame-cli"
+name = "axlib-frame-cli"
 version = "4.0.0-dev"
 dependencies = [
  "frame-support",
@@ -9893,7 +9893,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "substrate-frame-rpc-support"
+name = "axlib-frame-rpc-support"
 version = "3.0.0"
 dependencies = [
  "frame-support",
@@ -9909,7 +9909,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "substrate-frame-rpc-system"
+name = "axlib-frame-rpc-system"
 version = "4.0.0-dev"
 dependencies = [
  "frame-system-rpc-runtime-api",
@@ -9929,11 +9929,11 @@ dependencies = [
  "sp-core",
  "sp-runtime",
  "sp-tracing",
- "substrate-test-runtime-client",
+ "axlib-test-runtime-client",
 ]
 
 [[package]]
-name = "substrate-prometheus-endpoint"
+name = "axlib-prometheus-endpoint"
 version = "0.9.0"
 dependencies = [
  "async-std",
@@ -9946,7 +9946,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "substrate-test-client"
+name = "axlib-test-client"
 version = "2.0.1"
 dependencies = [
  "async-trait",
@@ -9972,7 +9972,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "substrate-test-runtime"
+name = "axlib-test-runtime"
 version = "2.0.0"
 dependencies = [
  "cfg-if 1.0.0",
@@ -10012,13 +10012,13 @@ dependencies = [
  "sp-transaction-pool",
  "sp-trie",
  "sp-version",
- "substrate-test-runtime-client",
- "substrate-wasm-builder",
+ "axlib-test-runtime-client",
+ "axlib-wasm-builder",
  "trie-db",
 ]
 
 [[package]]
-name = "substrate-test-runtime-client"
+name = "axlib-test-runtime-client"
 version = "2.0.0"
 dependencies = [
  "futures 0.3.19",
@@ -10032,12 +10032,12 @@ dependencies = [
  "sp-consensus",
  "sp-core",
  "sp-runtime",
- "substrate-test-client",
- "substrate-test-runtime",
+ "axlib-test-client",
+ "axlib-test-runtime",
 ]
 
 [[package]]
-name = "substrate-test-runtime-transaction-pool"
+name = "axlib-test-runtime-transaction-pool"
 version = "2.0.0"
 dependencies = [
  "derive_more",
@@ -10048,22 +10048,22 @@ dependencies = [
  "sc-transaction-pool-api",
  "sp-blockchain",
  "sp-runtime",
- "substrate-test-runtime-client",
+ "axlib-test-runtime-client",
 ]
 
 [[package]]
-name = "substrate-test-utils"
+name = "axlib-test-utils"
 version = "4.0.0-dev"
 dependencies = [
  "futures 0.3.19",
  "sc-service",
- "substrate-test-utils-derive",
+ "axlib-test-utils-derive",
  "tokio",
  "trybuild",
 ]
 
 [[package]]
-name = "substrate-test-utils-derive"
+name = "axlib-test-utils-derive"
 version = "0.10.0-dev"
 dependencies = [
  "proc-macro-crate 1.1.0",
@@ -10073,16 +10073,16 @@ dependencies = [
 ]
 
 [[package]]
-name = "substrate-test-utils-test-crate"
+name = "axlib-test-utils-test-crate"
 version = "0.1.0"
 dependencies = [
  "sc-service",
- "substrate-test-utils",
+ "axlib-test-utils",
  "tokio",
 ]
 
 [[package]]
-name = "substrate-wasm-builder"
+name = "axlib-wasm-builder"
 version = "5.0.0-dev"
 dependencies = [
  "ansi_term",

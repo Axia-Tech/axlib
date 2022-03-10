@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2018-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -25,8 +25,8 @@ mod block_builder_ext;
 
 pub use sc_consensus::LongestChain;
 use std::{collections::HashMap, sync::Arc};
-pub use substrate_test_client::*;
-pub use substrate_test_runtime as runtime;
+pub use axlib_test_client::*;
+pub use axlib_test_runtime as runtime;
 
 pub use self::block_builder_ext::BlockBuilderExt;
 
@@ -40,7 +40,7 @@ use sp_core::{
 	ChangesTrieConfiguration, Pair,
 };
 use sp_runtime::traits::{Block as BlockT, Hash as HashT, HashFor, Header as HeaderT, NumberFor};
-use substrate_test_runtime::genesismap::{additional_storage_with_genesis, GenesisConfig};
+use axlib_test_runtime::genesismap::{additional_storage_with_genesis, GenesisConfig};
 
 /// A prelude to import in tests.
 pub mod prelude {
@@ -66,35 +66,35 @@ impl sc_executor::NativeExecutionDispatch for LocalExecutorDispatch {
 	type ExtendHostFunctions = ();
 
 	fn dispatch(method: &str, data: &[u8]) -> Option<Vec<u8>> {
-		substrate_test_runtime::api::dispatch(method, data)
+		axlib_test_runtime::api::dispatch(method, data)
 	}
 
 	fn native_version() -> sc_executor::NativeVersion {
-		substrate_test_runtime::native_version()
+		axlib_test_runtime::native_version()
 	}
 }
 
 /// Test client database backend.
-pub type Backend = substrate_test_client::Backend<substrate_test_runtime::Block>;
+pub type Backend = axlib_test_client::Backend<axlib_test_runtime::Block>;
 
 /// Test client executor.
 pub type ExecutorDispatch = client::LocalCallExecutor<
-	substrate_test_runtime::Block,
+	axlib_test_runtime::Block,
 	Backend,
 	NativeElseWasmExecutor<LocalExecutorDispatch>,
 >;
 
 /// Test client light database backend.
-pub type LightBackend = substrate_test_client::LightBackend<substrate_test_runtime::Block>;
+pub type LightBackend = axlib_test_client::LightBackend<axlib_test_runtime::Block>;
 
 /// Test client light executor.
 pub type LightExecutor = sc_light::GenesisCallExecutor<
 	LightBackend,
 	client::LocalCallExecutor<
-		substrate_test_runtime::Block,
+		axlib_test_runtime::Block,
 		sc_light::Backend<
-			sc_client_db::light::LightStorage<substrate_test_runtime::Block>,
-			HashFor<substrate_test_runtime::Block>,
+			sc_client_db::light::LightStorage<axlib_test_runtime::Block>,
+			HashFor<axlib_test_runtime::Block>,
 		>,
 		NativeElseWasmExecutor<LocalExecutorDispatch>,
 	>,
@@ -139,7 +139,7 @@ impl GenesisParameters {
 	}
 }
 
-impl substrate_test_client::GenesisInit for GenesisParameters {
+impl axlib_test_client::GenesisInit for GenesisParameters {
 	fn genesis_storage(&self) -> Storage {
 		use codec::Encode;
 
@@ -171,8 +171,8 @@ impl substrate_test_client::GenesisInit for GenesisParameters {
 }
 
 /// A `TestClient` with `test-runtime` builder.
-pub type TestClientBuilder<E, B> = substrate_test_client::TestClientBuilder<
-	substrate_test_runtime::Block,
+pub type TestClientBuilder<E, B> = axlib_test_client::TestClientBuilder<
+	axlib_test_runtime::Block,
 	E,
 	B,
 	GenesisParameters,
@@ -182,12 +182,12 @@ pub type TestClientBuilder<E, B> = substrate_test_client::TestClientBuilder<
 pub type Client<B> = client::Client<
 	B,
 	client::LocalCallExecutor<
-		substrate_test_runtime::Block,
+		axlib_test_runtime::Block,
 		B,
 		sc_executor::NativeElseWasmExecutor<LocalExecutorDispatch>,
 	>,
-	substrate_test_runtime::Block,
-	substrate_test_runtime::RuntimeApi,
+	axlib_test_runtime::Block,
+	axlib_test_runtime::RuntimeApi,
 >;
 
 /// A test client with default backend.
@@ -270,7 +270,7 @@ pub trait TestClientBuilderExt<B>: Sized {
 	/// Build the test client and longest chain selector.
 	fn build_with_longest_chain(
 		self,
-	) -> (Client<B>, sc_consensus::LongestChain<B, substrate_test_runtime::Block>);
+	) -> (Client<B>, sc_consensus::LongestChain<B, axlib_test_runtime::Block>);
 
 	/// Build the test client and the backend.
 	fn build_with_backend(self) -> (Client<B>, Arc<B>);
@@ -279,13 +279,13 @@ pub trait TestClientBuilderExt<B>: Sized {
 impl<B> TestClientBuilderExt<B>
 	for TestClientBuilder<
 		client::LocalCallExecutor<
-			substrate_test_runtime::Block,
+			axlib_test_runtime::Block,
 			B,
 			sc_executor::NativeElseWasmExecutor<LocalExecutorDispatch>,
 		>,
 		B,
 	> where
-	B: sc_client_api::backend::Backend<substrate_test_runtime::Block> + 'static,
+	B: sc_client_api::backend::Backend<axlib_test_runtime::Block> + 'static,
 {
 	fn genesis_init_mut(&mut self) -> &mut GenesisParameters {
 		Self::genesis_init_mut(self)
@@ -293,7 +293,7 @@ impl<B> TestClientBuilderExt<B>
 
 	fn build_with_longest_chain(
 		self,
-	) -> (Client<B>, sc_consensus::LongestChain<B, substrate_test_runtime::Block>) {
+	) -> (Client<B>, sc_consensus::LongestChain<B, axlib_test_runtime::Block>) {
 		self.build_with_native_executor(None)
 	}
 
@@ -313,10 +313,10 @@ type FetcherFutureResult<Resp> = futures::future::Ready<Result<Resp, sp_blockcha
 /// Implementation of light client fetcher used in tests.
 #[derive(Default)]
 pub struct LightFetcher {
-	call: MaybeFetcherCallback<RemoteCallRequest<substrate_test_runtime::Header>, Vec<u8>>,
+	call: MaybeFetcherCallback<RemoteCallRequest<axlib_test_runtime::Header>, Vec<u8>>,
 	body: MaybeFetcherCallback<
-		RemoteBodyRequest<substrate_test_runtime::Header>,
-		Vec<substrate_test_runtime::Extrinsic>,
+		RemoteBodyRequest<axlib_test_runtime::Header>,
+		Vec<axlib_test_runtime::Extrinsic>,
 	>,
 }
 
@@ -324,7 +324,7 @@ impl LightFetcher {
 	/// Sets remote call callback.
 	pub fn with_remote_call(
 		self,
-		call: MaybeFetcherCallback<RemoteCallRequest<substrate_test_runtime::Header>, Vec<u8>>,
+		call: MaybeFetcherCallback<RemoteCallRequest<axlib_test_runtime::Header>, Vec<u8>>,
 	) -> Self {
 		LightFetcher { call, body: self.body }
 	}
@@ -333,46 +333,46 @@ impl LightFetcher {
 	pub fn with_remote_body(
 		self,
 		body: MaybeFetcherCallback<
-			RemoteBodyRequest<substrate_test_runtime::Header>,
-			Vec<substrate_test_runtime::Extrinsic>,
+			RemoteBodyRequest<axlib_test_runtime::Header>,
+			Vec<axlib_test_runtime::Extrinsic>,
 		>,
 	) -> Self {
 		LightFetcher { call: self.call, body }
 	}
 }
 
-impl Fetcher<substrate_test_runtime::Block> for LightFetcher {
-	type RemoteHeaderResult = FetcherFutureResult<substrate_test_runtime::Header>;
+impl Fetcher<axlib_test_runtime::Block> for LightFetcher {
+	type RemoteHeaderResult = FetcherFutureResult<axlib_test_runtime::Header>;
 	type RemoteReadResult = FetcherFutureResult<HashMap<Vec<u8>, Option<Vec<u8>>>>;
 	type RemoteCallResult = FetcherFutureResult<Vec<u8>>;
 	type RemoteChangesResult =
-		FetcherFutureResult<Vec<(NumberFor<substrate_test_runtime::Block>, u32)>>;
-	type RemoteBodyResult = FetcherFutureResult<Vec<substrate_test_runtime::Extrinsic>>;
+		FetcherFutureResult<Vec<(NumberFor<axlib_test_runtime::Block>, u32)>>;
+	type RemoteBodyResult = FetcherFutureResult<Vec<axlib_test_runtime::Extrinsic>>;
 
 	fn remote_header(
 		&self,
-		_: RemoteHeaderRequest<substrate_test_runtime::Header>,
+		_: RemoteHeaderRequest<axlib_test_runtime::Header>,
 	) -> Self::RemoteHeaderResult {
 		unimplemented!()
 	}
 
 	fn remote_read(
 		&self,
-		_: RemoteReadRequest<substrate_test_runtime::Header>,
+		_: RemoteReadRequest<axlib_test_runtime::Header>,
 	) -> Self::RemoteReadResult {
 		unimplemented!()
 	}
 
 	fn remote_read_child(
 		&self,
-		_: RemoteReadChildRequest<substrate_test_runtime::Header>,
+		_: RemoteReadChildRequest<axlib_test_runtime::Header>,
 	) -> Self::RemoteReadResult {
 		unimplemented!()
 	}
 
 	fn remote_call(
 		&self,
-		req: RemoteCallRequest<substrate_test_runtime::Header>,
+		req: RemoteCallRequest<axlib_test_runtime::Header>,
 	) -> Self::RemoteCallResult {
 		match self.call {
 			Some(ref call) => futures::future::ready(call(req)),
@@ -382,14 +382,14 @@ impl Fetcher<substrate_test_runtime::Block> for LightFetcher {
 
 	fn remote_changes(
 		&self,
-		_: RemoteChangesRequest<substrate_test_runtime::Header>,
+		_: RemoteChangesRequest<axlib_test_runtime::Header>,
 	) -> Self::RemoteChangesResult {
 		unimplemented!()
 	}
 
 	fn remote_body(
 		&self,
-		req: RemoteBodyRequest<substrate_test_runtime::Header>,
+		req: RemoteBodyRequest<axlib_test_runtime::Header>,
 	) -> Self::RemoteBodyResult {
 		match self.body {
 			Some(ref body) => futures::future::ready(body(req)),
@@ -408,8 +408,8 @@ pub fn new_light() -> (
 	client::Client<
 		LightBackend,
 		LightExecutor,
-		substrate_test_runtime::Block,
-		substrate_test_runtime::RuntimeApi,
+		axlib_test_runtime::Block,
+		axlib_test_runtime::RuntimeApi,
 	>,
 	Arc<LightBackend>,
 ) {

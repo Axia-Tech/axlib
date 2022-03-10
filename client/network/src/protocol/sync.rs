@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -2211,7 +2211,7 @@ impl<B: BlockT> ChainSync<B> {
 // This is purely during a backwards compatible transitionary period and should be removed
 // once we can assume all nodes can send and receive multiple Justifications
 // The ID tag is hardcoded here to avoid depending on the GRANDPA crate.
-// See: https://github.com/axia-tech/substrate/issues/8172
+// See: https://github.com/axia-tech/axlib/issues/8172
 fn legacy_justification_mapping(
 	justification: Option<EncodedJustification>,
 ) -> Option<Justifications> {
@@ -2569,7 +2569,7 @@ mod test {
 	use sc_block_builder::BlockBuilderProvider;
 	use sp_blockchain::HeaderBackend;
 	use sp_consensus::block_validation::DefaultBlockAnnounceValidator;
-	use substrate_test_runtime_client::{
+	use axlib_test_runtime_client::{
 		runtime::{Block, Hash, Header},
 		BlockBuilderExt, ClientBlockImportExt, ClientExt, DefaultTestClientBuilderExt, TestClient,
 		TestClientBuilder, TestClientBuilderExt,

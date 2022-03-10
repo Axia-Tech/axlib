@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2020-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -851,7 +851,7 @@ mod tests {
 	}
 
 	type Block =
-		sp_runtime::generic::Block<Header<u64, BlakeTwo256>, substrate_test_runtime::Extrinsic>;
+		sp_runtime::generic::Block<Header<u64, BlakeTwo256>, axlib_test_runtime::Extrinsic>;
 
 	#[test]
 	fn body_request_fields_encoded_properly() {

@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2020-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -30,7 +30,7 @@ async fn check_block_works() {
 
 	common::run_node_for_a_while(base_path.path(), &["--dev"]).await;
 
-	let status = Command::new(cargo_bin("substrate"))
+	let status = Command::new(cargo_bin("axlib"))
 		.args(&["check-block", "--dev", "--pruning", "archive", "-d"])
 		.arg(base_path.path())
 		.arg("1")

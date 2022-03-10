@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2020-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -38,7 +38,7 @@ pub fn expand_event(def: &mut Def) -> proc_macro2::TokenStream {
 
 		return quote::quote! {
 			#[doc(hidden)]
-			pub mod __substrate_event_check {
+			pub mod __axlib_event_check {
 				#[macro_export]
 				#[doc(hidden)]
 				macro_rules! #macro_ident {
@@ -98,7 +98,7 @@ pub fn expand_event(def: &mut Def) -> proc_macro2::TokenStream {
 	if get_doc_literals(&event_item.attrs).is_empty() {
 		event_item.attrs.push(syn::parse_quote!(
 			#[doc = r"
-			The [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted
+			The [event](https://docs.axlib.io/v3/runtime/events-and-errors) emitted
 			by this pallet.
 			"]
 		));
@@ -153,7 +153,7 @@ pub fn expand_event(def: &mut Def) -> proc_macro2::TokenStream {
 
 	quote::quote_spanned!(event.attr_span =>
 		#[doc(hidden)]
-		pub mod __substrate_event_check {
+		pub mod __axlib_event_check {
 			#[macro_export]
 			#[doc(hidden)]
 			macro_rules! #macro_ident {

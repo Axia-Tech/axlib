@@ -2,7 +2,7 @@
 name = "sp-state-machine"
 version = "0.10.0-dev"
 authors = ["AXIA Technologies <admin@axiacoin.network>"]
-description = "Substrate State Machine"
+description = "Axlib State Machine"
 edition = "2018"
 license = "Apache-2.0"
 homepage = ""

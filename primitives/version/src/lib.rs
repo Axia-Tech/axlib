@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -15,7 +15,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-//! Version module for the Substrate runtime; Provides a function that returns the runtime version.
+//! Version module for the Axlib runtime; Provides a function that returns the runtime version.
 
 #![cfg_attr(not(feature = "std"), no_std)]
 
@@ -128,7 +128,7 @@ macro_rules! create_apis_vec {
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "std", serde(rename_all = "camelCase"))]
 pub struct RuntimeVersion {
-	/// Identifies the different Substrate runtimes. There'll be at least axia and node.
+	/// Identifies the different Axlib runtimes. There'll be at least axia and node.
 	/// A different on-chain spec_name to that of the native runtime would normally result
 	/// in node not attempting to sync or author blocks.
 	pub spec_name: RuntimeString,

@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2020-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -16,18 +16,18 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-#[substrate_test_utils::test]
+#[axlib_test_utils::test]
 async fn basic_test() {
 	assert!(true);
 }
 
-#[substrate_test_utils::test]
+#[axlib_test_utils::test]
 #[should_panic(expected = "boo!")]
 async fn panicking_test() {
 	panic!("boo!");
 }
 
-#[substrate_test_utils::test(flavor = "multi_thread", worker_threads = 1)]
+#[axlib_test_utils::test(flavor = "multi_thread", worker_threads = 1)]
 async fn basic_test_with_args() {
 	assert!(true);
 }
@@ -35,7 +35,7 @@ async fn basic_test_with_args() {
 // NOTE: enable this test only after setting SUBSTRATE_TEST_TIMEOUT to a smaller value
 //
 // SUBSTRATE_TEST_TIMEOUT=1 cargo test -- --ignored timeout
-#[substrate_test_utils::test]
+#[axlib_test_utils::test]
 #[should_panic(expected = "test took too long")]
 #[ignore]
 async fn timeout() {

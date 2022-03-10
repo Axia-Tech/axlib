@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -265,7 +265,7 @@ pub struct ValidTransaction {
 	///
 	/// A list of tags this transaction provides. Successfully importing the transaction
 	/// will enable other transactions that depend on (require) those tags to be included as well.
-	/// Provided and required tags allow Substrate to build a dependency graph of transactions
+	/// Provided and required tags allow Axlib to build a dependency graph of transactions
 	/// and import them in the right (linear) order.
 	pub provides: Vec<TransactionTag>,
 	/// Transaction longevity

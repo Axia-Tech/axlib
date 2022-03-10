@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -29,7 +29,7 @@ use sp_io::hashing::{blake2_256, twox_128};
 use sp_runtime::traits::{Block as BlockT, Hash as HashT, Header as HeaderT};
 use std::collections::BTreeMap;
 
-/// Configuration of a general Substrate test genesis block.
+/// Configuration of a general Axlib test genesis block.
 pub struct GenesisConfig {
 	changes_trie_config: Option<ChangesTrieConfiguration>,
 	authorities: Vec<AuthorityId>,

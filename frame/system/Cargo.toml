@@ -27,7 +27,7 @@ log = { version = "0.4.14", default-features = false }
 [dev-dependencies]
 criterion = "0.3.3"
 sp-externalities = { version = "0.10.0-dev", path = "../../primitives/externalities" }
-substrate-test-runtime-client = { version = "2.0.0", path = "../../test-utils/runtime/client" }
+axlib-test-runtime-client = { version = "2.0.0", path = "../../test-utils/runtime/client" }
 
 [features]
 default = ["std"]

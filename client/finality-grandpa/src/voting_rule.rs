@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2018-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -337,7 +337,7 @@ mod tests {
 	use sp_consensus::BlockOrigin;
 	use sp_runtime::traits::Header as _;
 
-	use substrate_test_runtime_client::{
+	use axlib_test_runtime_client::{
 		runtime::{Block, Header},
 		Backend, Client, ClientBlockImportExt, DefaultTestClientBuilderExt, TestClientBuilder,
 		TestClientBuilderExt,

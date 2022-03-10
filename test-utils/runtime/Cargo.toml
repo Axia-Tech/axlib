@@ -1,5 +1,5 @@
 [package]
-name = "substrate-test-runtime"
+name = "axlib-test-runtime"
 version = "2.0.0"
 authors = ["AXIA Technologies <admin@axiacoin.network>"]
 edition = "2018"
@@ -54,11 +54,11 @@ serde = { version = "1.0.126", optional = true, features = ["derive"] }
 sc-block-builder = { version = "0.10.0-dev", path = "../../client/block-builder" }
 sc-executor = { version = "0.10.0-dev", path = "../../client/executor" }
 sp-consensus = { version = "0.10.0-dev", path = "../../primitives/consensus/common" }
-substrate-test-runtime-client = { version = "2.0.0", path = "./client" }
+axlib-test-runtime-client = { version = "2.0.0", path = "./client" }
 futures = "0.3.9"
 
 [build-dependencies]
-substrate-wasm-builder = { version = "5.0.0-dev", path = "../../utils/wasm-builder" }
+axlib-wasm-builder = { version = "5.0.0-dev", path = "../../utils/wasm-builder" }
 
 [features]
 default = [

@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -15,8 +15,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-//! WS RPC API for one off RPC calls to a substrate node.
-// TODO: Consolidate one off RPC calls https://github.com/axia-tech/substrate/issues/8988
+//! WS RPC API for one off RPC calls to a axlib node.
+// TODO: Consolidate one off RPC calls https://github.com/axia-tech/axlib/issues/8988
 
 use jsonrpsee_ws_client::{
 	types::{traits::Client, v2::params::JsonRpcParams},

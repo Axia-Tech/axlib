@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0"
 homepage = ""
 repository = "https://github.com/axia-tech/axlib/"
-description = "Substrate runtime api primitives"
+description = "Axlib runtime api primitives"
 readme = "README.md"
 
 [package.metadata.docs.rs]

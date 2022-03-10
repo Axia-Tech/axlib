@@ -2,7 +2,7 @@
 name = "sc-cli"
 version = "0.10.0-dev"
 authors = ["AXIA Technologies <admin@axiacoin.network>"]
-description = "Substrate CLI interface."
+description = "Axlib CLI interface."
 edition = "2018"
 license = "GPL-3.0-or-later WITH Classpath-exception-2.0"
 homepage = ""

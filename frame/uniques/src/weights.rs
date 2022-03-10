@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -22,7 +22,7 @@
 //! EXECUTION: Some(Wasm), WASM-EXECUTION: Compiled, CHAIN: Some("dev"), DB CACHE: 128
 
 // Executed Command:
-// target/release/substrate
+// target/release/axlib
 // benchmark
 // --chain=dev
 // --steps=50
@@ -69,9 +69,9 @@ pub trait WeightInfo {
 	fn cancel_approval() -> Weight;
 }
 
-/// Weights for pallet_uniques using the Substrate node and recommended hardware.
-pub struct SubstrateWeight<T>(PhantomData<T>);
-impl<T: frame_system::Config> WeightInfo for SubstrateWeight<T> {
+/// Weights for pallet_uniques using the Axlib node and recommended hardware.
+pub struct AxlibWeight<T>(PhantomData<T>);
+impl<T: frame_system::Config> WeightInfo for AxlibWeight<T> {
 	// Storage: Uniques Class (r:1 w:1)
 	fn create() -> Weight {
 		(42_138_000 as Weight)

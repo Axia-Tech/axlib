@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -333,7 +333,7 @@ pub static INTERMEDIATE_KEY: &[u8] = b"babe1";
 /// A slot duration. Create with `get_or_compute`.
 // FIXME: Once Rust has higher-kinded types, the duplication between this
 // and `super::babe::Config` can be eliminated.
-// https://github.com/axia-tech/substrate/issues/2434
+// https://github.com/axia-tech/axlib/issues/2434
 #[derive(Clone)]
 pub struct Config(sc_consensus_slots::SlotDuration<BabeGenesisConfiguration>);
 

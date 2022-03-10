@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2020-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -17,7 +17,7 @@
 
 //! # Remote Externalities
 //!
-//! An equivalent of `sp_io::TestExternalities` that can load its state from a remote substrate
+//! An equivalent of `sp_io::TestExternalities` that can load its state from a remote axlib
 //! based chain, or a local state snapshot file.
 
 use codec::{Decode, Encode};

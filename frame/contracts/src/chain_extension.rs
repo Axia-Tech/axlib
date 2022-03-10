@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2020 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -170,7 +170,7 @@ where
 	///
 	/// # Note
 	///
-	/// Weight is synonymous with gas in substrate.
+	/// Weight is synonymous with gas in axlib.
 	pub fn charge_weight(&mut self, amount: Weight) -> Result<ChargedAmount> {
 		self.inner.runtime.charge_gas(RuntimeCosts::ChainExtension(amount))
 	}

@@ -1,6 +1,6 @@
 # Subkey
 
-Subkey is a commandline utility included with Substrate. It allows generating and restoring keys for Substrate based chains such as AXIA, Kusama and a growing number of allychains and Substrate based projects.
+Subkey is a commandline utility included with Axlib. It allows generating and restoring keys for Axlib based chains such as AXIA, Kusama and a growing number of allychains and Axlib based projects.
 
 `subkey` provides a few sub-commands to generate keys, check keys, sign messages, verify messages, etc...
 
@@ -20,15 +20,15 @@ The following guide explains *some* of the `subkey` commands. For the full list 
 
 ### Install with Cargo
 
-You will need to have the Substrate build dependencies to install Subkey. Use the following two commands to install the dependencies and Subkey, respectively:
+You will need to have the Axlib build dependencies to install Subkey. Use the following two commands to install the dependencies and Subkey, respectively:
 
 Command:
 
 ```bash
-# Use the `--fast` flag to get the dependencies without needing to install the Substrate and Subkey binary
-curl https://getsubstrate.io -sSf | bash -s -- --fast
+# Use the `--fast` flag to get the dependencies without needing to install the Axlib and Subkey binary
+curl https://getaxlib.io -sSf | bash -s -- --fast
 # Install only `subkey`, at a specific version of the subkey crate
-cargo install --force subkey --git https://github.com/axiatech/substrate --version <SET VERSION> --locked
+cargo install --force subkey --git https://github.com/axiatech/axlib --version <SET VERSION> --locked
 ```
 
 ### Run in a container
@@ -69,7 +69,7 @@ The output above also show the **public key** and the **Account ID**. Those are 
 
 The **SS58 address** (or **Public Address**) of a new account is a reprensentation of the public keys of an account for a given network (for instance Kusama or AXIA).
 
-You can read more about the SS58 format in the [substrate wiki](https://github.com/axia-tech/substrate/wiki/External-Address-Format-(SS58)) and see the list of reserved prefixes in the [AXIA wiki](https://wiki.axia.network/docs/build-ss58-registry).
+You can read more about the SS58 format in the [axlib wiki](https://github.com/axia-tech/axlib/wiki/External-Address-Format-(SS58)) and see the list of reserved prefixes in the [AXIA wiki](https://wiki.axia.network/docs/build-ss58-registry).
 
 For instance, considering the previous seed `0xa05c75731970cc7868a2fb7cb577353cd5b31f62dccced92c441acd8fee0c92d` the SS58 addresses are:
 

@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -18,7 +18,7 @@
 #![deny(missing_docs, unused_extern_crates)]
 
 //! Test runner
-//! # Substrate Test Runner
+//! # Axlib Test Runner
 //!
 //! Allows you to test
 //! <br />

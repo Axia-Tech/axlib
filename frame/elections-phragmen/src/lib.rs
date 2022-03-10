@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -1109,7 +1109,7 @@ mod tests {
 		traits::{BlakeTwo256, IdentityLookup},
 		BuildStorage,
 	};
-	use substrate_test_utils::assert_eq_uvec;
+	use axlib_test_utils::assert_eq_uvec;
 
 	parameter_types! {
 		pub const BlockHashCount: u64 = 250;

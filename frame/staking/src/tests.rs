@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -38,7 +38,7 @@ use sp_staking::{
 	SessionIndex,
 };
 use sp_std::prelude::*;
-use substrate_test_utils::assert_eq_uvec;
+use axlib_test_utils::assert_eq_uvec;
 
 #[test]
 fn force_unstake_works() {
@@ -3105,7 +3105,7 @@ fn claim_reward_at_the_last_era_and_no_double_claim_and_invalid_claim() {
 	// * double claim of one era fails
 	ExtBuilder::default().nominate(true).build_and_execute(|| {
 		// Consumed weight for all payout_stakers dispatches that fail
-		let err_weight = weights::SubstrateWeight::<Test>::payout_stakers_alive_staked(0);
+		let err_weight = weights::AxlibWeight::<Test>::payout_stakers_alive_staked(0);
 
 		let init_balance_10 = Balances::total_balance(&10);
 		let init_balance_100 = Balances::total_balance(&100);
@@ -3442,7 +3442,7 @@ fn payout_stakers_handles_basic_errors() {
 	// Here we will test payouts handle all errors.
 	ExtBuilder::default().has_stakers(false).build_and_execute(|| {
 		// Consumed weight for all payout_stakers dispatches that fail
-		let err_weight = weights::SubstrateWeight::<Test>::payout_stakers_alive_staked(0);
+		let err_weight = weights::AxlibWeight::<Test>::payout_stakers_alive_staked(0);
 
 		// Same setup as the test above
 		let balance = 1000;

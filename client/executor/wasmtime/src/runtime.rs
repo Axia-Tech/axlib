@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -418,7 +418,7 @@ pub struct Semantics {
 	/// variables. The vast majority of the linear memory is not restored, meaning that effects
 	/// of previous executions on the same [`WasmInstance`] can be observed there.
 	///
-	/// This is not a problem for a standard substrate runtime execution because it's up to the
+	/// This is not a problem for a standard axlib runtime execution because it's up to the
 	/// runtime itself to make sure that it doesn't involve any non-determinism.
 	///
 	/// Since this feature depends on instrumentation, it can be set only if runtime is
@@ -447,7 +447,7 @@ pub struct Semantics {
 	/// depend on the particular machine that executes wasmtime generated JITed machine code. That
 	/// is a source of non-deterministic values.
 	///
-	/// The classical runtime environment for Substrate allowed it and punted this on the runtime
+	/// The classical runtime environment for Axlib allowed it and punted this on the runtime
 	/// developers. For PVFs, we want to ensure that execution is deterministic though. Therefore,
 	/// for PVF execution this flag is meant to be turned on.
 	pub canonicalize_nans: bool,
@@ -494,7 +494,7 @@ enum CodeSupplyMode<'a> {
 		// Rationale to take the `RuntimeBlob` here is so that the client will be able to reuse
 		// the blob e.g. if they did a prevalidation. If they didn't they can pass a `RuntimeBlob`
 		// instance and it will be used anyway in most cases, because we are going to do at least
-		// some instrumentations for both anticipated paths: substrate execution and PVF execution.
+		// some instrumentations for both anticipated paths: axlib execution and PVF execution.
 		//
 		// Should there raise a need in performing no instrumentation and the client doesn't need
 		// to do any checks, then we can provide a `Cow` like semantics here: if we need the blob

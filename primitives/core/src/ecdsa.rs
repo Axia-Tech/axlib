@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -452,7 +452,7 @@ impl TraitPair for Pair {
 		phrase: &str,
 		password: Option<&str>,
 	) -> Result<(Pair, Seed), SecretStringError> {
-		let big_seed = substrate_bip39::seed_from_entropy(
+		let big_seed = axlib_bip39::seed_from_entropy(
 			Mnemonic::from_phrase(phrase, Language::English)
 				.map_err(|_| SecretStringError::InvalidPhrase)?
 				.entropy(),

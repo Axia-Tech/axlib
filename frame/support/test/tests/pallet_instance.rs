@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2020-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -515,7 +515,7 @@ fn pallet_hooks_expand() {
 
 		assert_eq!(AllPallets::on_runtime_upgrade(), 61);
 
-		// The order is indeed reversed due to https://github.com/axia-tech/substrate/issues/6280
+		// The order is indeed reversed due to https://github.com/axia-tech/axlib/issues/6280
 		assert_eq!(
 			frame_system::Pallet::<Runtime>::events()[0].event,
 			Event::Instance1Example(pallet::Event::Something(11)),

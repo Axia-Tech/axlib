@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -37,7 +37,7 @@ use sp_std::vec::Vec;
 #[cfg(feature = "std")]
 use std::convert::TryFrom;
 #[cfg(feature = "std")]
-use substrate_bip39::mini_secret_from_entropy;
+use axlib_bip39::mini_secret_from_entropy;
 
 use crate::{
 	crypto::{
@@ -58,7 +58,7 @@ use sp_runtime_interface::pass_by::PassByInner;
 
 // signing context
 #[cfg(feature = "full_crypto")]
-const SIGNING_CTX: &[u8] = b"substrate";
+const SIGNING_CTX: &[u8] = b"axlib";
 
 /// An identifier used to match public keys against sr25519 keys
 pub const CRYPTO_ID: CryptoTypeId = CryptoTypeId(*b"sr25");

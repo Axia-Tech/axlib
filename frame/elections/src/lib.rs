@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -244,14 +244,14 @@ pub mod pallet {
 
 	#[pallet::extra_constants]
 	impl<T: Config> Pallet<T> {
-		// TODO: rename to snake case after https://github.com/axia-tech/substrate/issues/8826 fixed.
+		// TODO: rename to snake case after https://github.com/axia-tech/axlib/issues/8826 fixed.
 		/// The chunk size of the voter vector.
 		#[allow(non_snake_case)]
 		fn VOTER_SET_SIZE() -> u32 {
 			VOTER_SET_SIZE as u32
 		}
 
-		// TODO: rename to snake case after https://github.com/axia-tech/substrate/issues/8826 fixed.
+		// TODO: rename to snake case after https://github.com/axia-tech/axlib/issues/8826 fixed.
 		/// The chunk size of the approval vector.
 		#[allow(non_snake_case)]
 		fn APPROVAL_SET_SIZE() -> u32 {

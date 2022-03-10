@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -73,8 +73,8 @@ use sp_runtime::{
 	traits::{Block as BlockT, Header as HeaderT, NumberFor},
 	Justification, Justifications,
 };
-use substrate_test_runtime_client::AccountKeyring;
-pub use substrate_test_runtime_client::{
+use axlib_test_runtime_client::AccountKeyring;
+pub use axlib_test_runtime_client::{
 	runtime::{Block, Extrinsic, Hash, Transfer},
 	TestClient, TestClientBuilder, TestClientBuilderExt,
 };
@@ -128,22 +128,22 @@ impl<B: BlockT> Verifier<B> for PassThroughVerifier {
 }
 
 pub type PeersFullClient = Client<
-	substrate_test_runtime_client::Backend,
-	substrate_test_runtime_client::ExecutorDispatch,
+	axlib_test_runtime_client::Backend,
+	axlib_test_runtime_client::ExecutorDispatch,
 	Block,
-	substrate_test_runtime_client::runtime::RuntimeApi,
+	axlib_test_runtime_client::runtime::RuntimeApi,
 >;
 pub type PeersLightClient = Client<
-	substrate_test_runtime_client::LightBackend,
-	substrate_test_runtime_client::LightExecutor,
+	axlib_test_runtime_client::LightBackend,
+	axlib_test_runtime_client::LightExecutor,
 	Block,
-	substrate_test_runtime_client::runtime::RuntimeApi,
+	axlib_test_runtime_client::runtime::RuntimeApi,
 >;
 
 #[derive(Clone)]
 pub enum PeersClient {
-	Full(Arc<PeersFullClient>, Arc<substrate_test_runtime_client::Backend>),
-	Light(Arc<PeersLightClient>, Arc<substrate_test_runtime_client::LightBackend>),
+	Full(Arc<PeersFullClient>, Arc<axlib_test_runtime_client::Backend>),
+	Light(Arc<PeersLightClient>, Arc<axlib_test_runtime_client::LightBackend>),
 }
 
 impl PeersClient {
@@ -269,8 +269,8 @@ pub struct Peer<D, BlockImport> {
 	/// We keep a copy of the block_import so that we can invoke it for locally-generated blocks,
 	/// instead of going through the import queue.
 	block_import: BlockImportAdapter<BlockImport>,
-	select_chain: Option<LongestChain<substrate_test_runtime_client::Backend, Block>>,
-	backend: Option<Arc<substrate_test_runtime_client::Backend>>,
+	select_chain: Option<LongestChain<axlib_test_runtime_client::Backend, Block>>,
+	backend: Option<Arc<axlib_test_runtime_client::Backend>>,
 	network: NetworkWorker<Block, <Block as BlockT>::Hash>,
 	imported_blocks_stream: Pin<Box<dyn Stream<Item = BlockImportNotification<Block>> + Send>>,
 	finality_notification_stream: Pin<Box<dyn Stream<Item = FinalityNotification<Block>> + Send>>,
@@ -295,7 +295,7 @@ where
 	// Returns a clone of the local SelectChain, only available on full nodes
 	pub fn select_chain(
 		&self,
-	) -> Option<LongestChain<substrate_test_runtime_client::Backend, Block>> {
+	) -> Option<LongestChain<axlib_test_runtime_client::Backend, Block>> {
 		self.select_chain.clone()
 	}
 
@@ -338,7 +338,7 @@ where
 	pub fn generate_blocks<F>(&mut self, count: usize, origin: BlockOrigin, edit_block: F) -> H256
 	where
 		F: FnMut(
-			BlockBuilder<Block, PeersFullClient, substrate_test_runtime_client::Backend>,
+			BlockBuilder<Block, PeersFullClient, axlib_test_runtime_client::Backend>,
 		) -> Block,
 	{
 		let best_hash = self.client.info().best_hash;
@@ -367,7 +367,7 @@ where
 	) -> H256
 	where
 		F: FnMut(
-			BlockBuilder<Block, PeersFullClient, substrate_test_runtime_client::Backend>,
+			BlockBuilder<Block, PeersFullClient, axlib_test_runtime_client::Backend>,
 		) -> Block,
 	{
 		let full_client =
@@ -554,7 +554,7 @@ where
 pub trait BlockImportAdapterFull:
 	BlockImport<
 		Block,
-		Transaction = TransactionFor<substrate_test_runtime_client::Backend, Block>,
+		Transaction = TransactionFor<axlib_test_runtime_client::Backend, Block>,
 		Error = ConsensusError,
 	> + Send
 	+ Sync
@@ -565,7 +565,7 @@ pub trait BlockImportAdapterFull:
 impl<T> BlockImportAdapterFull for T where
 	T: BlockImport<
 			Block,
-			Transaction = TransactionFor<substrate_test_runtime_client::Backend, Block>,
+			Transaction = TransactionFor<axlib_test_runtime_client::Backend, Block>,
 			Error = ConsensusError,
 		> + Send
 		+ Sync
@@ -907,7 +907,7 @@ where
 
 	/// Add a light peer.
 	fn add_light_peer(&mut self) {
-		let (c, backend) = substrate_test_runtime_client::new_light();
+		let (c, backend) = axlib_test_runtime_client::new_light();
 		let client = Arc::new(c);
 		let (block_import, justification_import, data) =
 			self.make_block_import(PeersClient::Light(client.clone(), backend.clone()));

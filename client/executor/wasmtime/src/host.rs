@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -63,7 +63,7 @@ impl HostState {
 		}
 	}
 
-	/// Materialize `HostContext` that can be used to invoke a substrate host `dyn Function`.
+	/// Materialize `HostContext` that can be used to invoke a axlib host `dyn Function`.
 	pub(crate) fn materialize<'a, 'b, 'c>(
 		&'a self,
 		caller: &'b mut Caller<'c, StoreData>,

@@ -1,5 +1,5 @@
 [package]
-name = "substrate-wasm-builder"
+name = "axlib-wasm-builder"
 version = "5.0.0-dev"
 authors = ["AXIA Technologies <admin@axiacoin.network>"]
 description = "Utility for building WASM binaries"

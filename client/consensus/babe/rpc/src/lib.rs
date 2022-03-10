@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2020-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -219,7 +219,7 @@ mod tests {
 	use sp_core::crypto::key_types::BABE;
 	use sp_keyring::Sr25519Keyring;
 	use sp_keystore::{SyncCryptoStore, SyncCryptoStorePtr};
-	use substrate_test_runtime_client::{
+	use axlib_test_runtime_client::{
 		runtime::Block, Backend, DefaultTestClientBuilderExt, TestClient, TestClientBuilder,
 		TestClientBuilderExt,
 	};

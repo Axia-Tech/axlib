@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -85,7 +85,7 @@
 //!
 //! ### Example from the FRAME
 //!
-//! The [Session pallet](https://github.com/axia-tech/substrate/blob/master/frame/session/src/lib.rs) uses
+//! The [Session pallet](https://github.com/axia-tech/axlib/blob/master/frame/session/src/lib.rs) uses
 //! the Timestamp pallet for session management.
 //!
 //! ## Related Pallets

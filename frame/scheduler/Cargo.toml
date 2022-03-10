@@ -23,7 +23,7 @@ frame-benchmarking = { version = "4.0.0-dev", default-features = false, path = "
 
 [dev-dependencies]
 sp-core = { version = "4.0.0-dev", path = "../../primitives/core", default-features = false }
-substrate-test-utils = { version = "4.0.0-dev", path = "../../test-utils" }
+axlib-test-utils = { version = "4.0.0-dev", path = "../../test-utils" }
 
 [features]
 default = ["std"]

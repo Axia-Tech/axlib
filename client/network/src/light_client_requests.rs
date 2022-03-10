@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2020-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -176,10 +176,10 @@ mod tests {
 	}
 
 	type Block =
-		sp_runtime::generic::Block<Header<u64, BlakeTwo256>, substrate_test_runtime::Extrinsic>;
+		sp_runtime::generic::Block<Header<u64, BlakeTwo256>, axlib_test_runtime::Extrinsic>;
 
 	fn send_receive(request: sender::Request<Block>, pool: &LocalPool) {
-		let client = Arc::new(substrate_test_runtime_client::new());
+		let client = Arc::new(axlib_test_runtime_client::new());
 		let (handler, protocol_config) =
 			handler::LightClientRequestHandler::new(&protocol_id(), client);
 		pool.spawner().spawn_obj(handler.run().boxed().into()).unwrap();

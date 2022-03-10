@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -48,7 +48,7 @@ pub type Weight = u64;
 ///
 /// As 1 gas is equal to 1 weight we base this on the conducted benchmarks which
 /// determined runtime weights:
-/// <https://github.com/axia-tech/substrate/pull/5446>
+/// <https://github.com/axia-tech/axlib/pull/5446>
 const GAS_PER_SECOND: Weight = 1_000_000_000_000;
 
 /// The maximum amount of weight that the call and instantiate rpcs are allowed to consume.

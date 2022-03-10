@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -356,7 +356,7 @@ mod tests {
 		NeverNativeValue,
 	};
 	use sp_io::{hashing::twox_128, TestExternalities};
-	use substrate_test_runtime_client::{AccountKeyring, Sr25519Keyring};
+	use axlib_test_runtime_client::{AccountKeyring, Sr25519Keyring};
 
 	// Declare an instance of the native executor dispatch for the test runtime.
 	pub struct NativeDispatch;

@@ -1,4 +1,4 @@
-// This file is part of Substrate.
+// This file is part of Axlib.
 
 // Copyright (C) 2020-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -32,7 +32,7 @@ use sp_runtime::{
 	},
 };
 use std::collections::{BTreeMap, HashMap, HashSet};
-use substrate_test_runtime_client::{
+use axlib_test_runtime_client::{
 	runtime::{AccountId, Block, BlockNumber, Extrinsic, Hash, Header, Index, Transfer},
 	AccountKeyring::{self, *},
 };
