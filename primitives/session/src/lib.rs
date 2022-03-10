@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -15,7 +15,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-//! Axlib core types around sessions.
+//! Substrate core types around sessions.
 
 #![cfg_attr(not(feature = "std"), no_std)]
 

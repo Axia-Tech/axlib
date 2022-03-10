@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -35,7 +35,7 @@ const LAST_CANONICAL: &[u8] = b"last_canonical";
 const MAX_BLOCKS_PER_LEVEL: u64 = 32;
 
 /// See module documentation.
-#[derive(axia_util_mem_derive::MallocSizeOf)]
+#[derive(parity_util_mem_derive::MallocSizeOf)]
 pub struct NonCanonicalOverlay<BlockHash: Hash, Key: Hash> {
 	last_canonicalized: Option<(BlockHash, u64)>,
 	levels: VecDeque<OverlayLevel<BlockHash, Key>>,
@@ -48,7 +48,7 @@ pub struct NonCanonicalOverlay<BlockHash: Hash, Key: Hash> {
 	pinned_insertions: HashMap<BlockHash, (Vec<Key>, u32)>,
 }
 
-#[derive(axia_util_mem_derive::MallocSizeOf)]
+#[derive(parity_util_mem_derive::MallocSizeOf)]
 #[cfg_attr(test, derive(PartialEq, Debug))]
 struct OverlayLevel<BlockHash: Hash, Key: Hash> {
 	blocks: Vec<BlockOverlay<BlockHash, Key>>,
@@ -88,7 +88,7 @@ fn to_journal_key(block: u64, index: u64) -> Vec<u8> {
 }
 
 #[cfg_attr(test, derive(PartialEq, Debug))]
-#[derive(axia_util_mem_derive::MallocSizeOf)]
+#[derive(parity_util_mem_derive::MallocSizeOf)]
 struct BlockOverlay<BlockHash: Hash, Key: Hash> {
 	hash: BlockHash,
 	journal_index: u64,

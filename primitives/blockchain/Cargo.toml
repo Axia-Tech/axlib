@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0"
 homepage = ""
 repository = "https://github.com/axia-tech/axlib/"
-description = "Axlib blockchain traits and primitives."
+description = "Substrate blockchain traits and primitives."
 documentation = "https://docs.rs/sp-blockchain"
 readme = "README.md"
 
@@ -19,7 +19,7 @@ lru = "0.6.6"
 parking_lot = "0.11.1"
 thiserror = "1.0.21"
 futures = "0.3.9"
-codec = { git = "https://github.com/axia-tech/axia-scale-codec", package = "axia-scale-codec", branch = "v2.3.1", default-features = false, features = ["derive"] }
+codec = { package = "parity-scale-codec", version = "2.0.0", default-features = false, features = ["derive"] }
 sp-consensus = { version = "0.10.0-dev", path = "../consensus/common" }
 sp-runtime = { version = "4.0.0-dev", path = "../runtime" }
 sp-state-machine = { version = "0.10.0-dev", path = "../state-machine" }

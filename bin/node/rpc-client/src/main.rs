@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -17,10 +17,10 @@
 
 #![warn(missing_docs)]
 
-//! Example axlib RPC client code.
+//! Example substrate RPC client code.
 //!
 //! This module shows how you can write a Rust RPC client that connects to a running
-//! axlib node and use statically typed RPC wrappers.
+//! substrate node and use statically typed RPC wrappers.
 
 use futures::{Future, TryFutureExt};
 use jsonrpc_core_client::{transports::http, RpcError};

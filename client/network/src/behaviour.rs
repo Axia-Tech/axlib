@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -60,8 +60,8 @@ pub use crate::request_responses::{
 #[derive(NetworkBehaviour)]
 #[behaviour(out_event = "BehaviourOut<B>", poll_method = "poll")]
 pub struct Behaviour<B: BlockT> {
-	/// All the axlib-specific protocols.
-	axlib: Protocol<B>,
+	/// All the substrate-specific protocols.
+	substrate: Protocol<B>,
 	/// Periodically pings and identifies the nodes we are connected to, and store information in a
 	/// cache.
 	peer_info: peer_info::PeerInfoBehaviour,
@@ -195,7 +195,7 @@ pub enum BehaviourOut<B: BlockT> {
 impl<B: BlockT> Behaviour<B> {
 	/// Builds a new `Behaviour`.
 	pub fn new(
-		axlib: Protocol<B>,
+		substrate: Protocol<B>,
 		user_agent: String,
 		local_public_key: PublicKey,
 		light_client_request_sender: light_client_requests::sender::LightClientRequestSender<B>,
@@ -225,7 +225,7 @@ impl<B: BlockT> Behaviour<B> {
 		request_response_protocols.push(light_client_request_protocol_config);
 
 		Ok(Self {
-			axlib,
+			substrate,
 			peer_info: peer_info::PeerInfoBehaviour::new(user_agent, local_public_key),
 			discovery: disco_config.finish(),
 			bitswap: bitswap.into(),
@@ -297,12 +297,12 @@ impl<B: BlockT> Behaviour<B> {
 
 	/// Returns a shared reference to the user protocol.
 	pub fn user_protocol(&self) -> &Protocol<B> {
-		&self.axlib
+		&self.substrate
 	}
 
 	/// Returns a mutable reference to the user protocol.
 	pub fn user_protocol_mut(&mut self) -> &mut Protocol<B> {
-		&mut self.axlib
+		&mut self.substrate
 	}
 
 	/// Start querying a record from the DHT. Will later produce either a `ValueFound` or a
@@ -468,7 +468,7 @@ impl<B: BlockT> NetworkBehaviourEventProcess<request_responses::Event> for Behav
 			},
 			request_responses::Event::ReputationChanges { peer, changes } =>
 				for change in changes {
-					self.axlib.report_peer(peer, change);
+					self.substrate.report_peer(peer, change);
 				},
 		}
 	}
@@ -493,7 +493,7 @@ impl<B: BlockT> NetworkBehaviourEventProcess<peer_info::PeerInfoEvent> for Behav
 		for addr in listen_addrs {
 			self.discovery.add_self_reported_address(&peer_id, protocols.iter(), addr);
 		}
-		self.axlib.add_default_set_discovered_nodes(iter::once(peer_id));
+		self.substrate.add_default_set_discovered_nodes(iter::once(peer_id));
 	}
 }
 
@@ -507,7 +507,7 @@ impl<B: BlockT> NetworkBehaviourEventProcess<DiscoveryOut> for Behaviour<B> {
 				// implementation for `PeerInfoEvent`.
 			},
 			DiscoveryOut::Discovered(peer_id) => {
-				self.axlib.add_default_set_discovered_nodes(iter::once(peer_id));
+				self.substrate.add_default_set_discovered_nodes(iter::once(peer_id));
 			},
 			DiscoveryOut::ValueFound(results, duration) => {
 				self.events

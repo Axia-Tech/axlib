@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd. SPDX-License-Identifier: Apache-2.0
 
@@ -12,7 +12,7 @@
 // or implied. See the License for the specific language governing permissions and limitations under
 // the License.
 
-//! A set of election algorithms to be used with a axlib runtime, typically within the staking
+//! A set of election algorithms to be used with a substrate runtime, typically within the staking
 //! sub-system. Notable implementation include:
 //!
 //! - [`seq_phragmen`]: Implements the Phragmén Sequential Method. An un-ranked, relatively fast

@@ -14,25 +14,25 @@ targets = ["x86_64-unknown-linux-gnu"]
 
 [dependencies]
 bitflags = "1.3"
-codec = { git = "https://github.com/axia-tech/axia-scale-codec", package = "axia-scale-codec", branch = "v2.3.1", default-features = false, features = [
+codec = { package = "parity-scale-codec", version = "2.3.1", default-features = false, features = [
 	"derive",
 	"max-encoded-len",
 ] }
-scale-info = { git = "https://github.com/axia-tech/scale-info", branch = "v1.0.0", default-features = false, features = ["derive"] }
+scale-info = { version = "1.0", default-features = false, features = ["derive"] }
 log = { version = "0.4", default-features = false }
-pwasm-utils = { git = "https://github.com/axia-tech/wasm-utils", branch = "v0.19.0", version = "0.19.0", default-features = false }
+pwasm-utils = { version = "0.18.2", default-features = false }
 serde = { version = "1", optional = true, features = ["derive"] }
 smallvec = { version = "1", default-features = false, features = [
 	"const_generics",
 ] }
-wasmi-validation = { git = "https://github.com/axia-tech/wasmi", branch = "v0.9.1", version = "0.4", default-features = false }
+wasmi-validation = { version = "0.4", default-features = false }
 
 # Only used in benchmarking to generate random contract code
 libsecp256k1 = { version = "0.6.0", optional = true, default-features = false, features = ["hmac", "static-context"] }
 rand = { version = "0.7.3", optional = true, default-features = false }
 rand_pcg = { version = "0.2", optional = true }
 
-# Axlib Dependencies
+# Substrate Dependencies
 frame-benchmarking = { version = "4.0.0-dev", default-features = false, path = "../benchmarking", optional = true }
 frame-support = { version = "4.0.0-dev", default-features = false, path = "../support" }
 frame-system = { version = "4.0.0-dev", default-features = false, path = "../system" }
@@ -50,7 +50,7 @@ hex-literal = "0.3"
 pretty_assertions = "1.0.0"
 wat = "1"
 
-# Axlib Dependencies
+# Substrate Dependencies
 pallet-balances = { version = "4.0.0-dev", path = "../balances" }
 pallet-timestamp = { version = "4.0.0-dev", path = "../timestamp" }
 pallet-randomness-collective-flip = { version = "4.0.0-dev", path = "../randomness-collective-flip" }

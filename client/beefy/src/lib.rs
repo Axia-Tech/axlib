@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -40,7 +40,7 @@ mod worker;
 
 pub mod notification;
 
-pub const BEEFY_PROTOCOL_NAME: &str = "/axia-tech/beefy/1";
+pub const BEEFY_PROTOCOL_NAME: &str = "/axiatech/beefy/1";
 
 /// Returns the configuration value to put in
 /// [`sc_network::config::NetworkConfiguration::extra_sets`].

@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2020 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -51,7 +51,7 @@
 //! # Example
 //!
 //! The ink! repository maintains an
-//! [end-to-end example](https://github.com/axia-tech/ink/tree/master/examples/rand-extension)
+//! [end-to-end example](https://github.com/axiatech/ink/tree/master/examples/rand-extension)
 //! on how to use a chain extension in order to provide new features to ink! contracts.
 
 use crate::{
@@ -170,7 +170,7 @@ where
 	///
 	/// # Note
 	///
-	/// Weight is synonymous with gas in axlib.
+	/// Weight is synonymous with gas in substrate.
 	pub fn charge_weight(&mut self, amount: Weight) -> Result<ChargedAmount> {
 		self.inner.runtime.charge_gas(RuntimeCosts::ChainExtension(amount))
 	}

@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2018-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -18,7 +18,7 @@
 use super::Runtime;
 use crate::exec::Ext;
 
-use pwasm_utils::axia_wasm::elements::{FunctionType, ValueType};
+use pwasm_utils::parity_wasm::elements::{FunctionType, ValueType};
 use sp_sandbox::Value;
 
 #[macro_use]

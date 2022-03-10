@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -61,7 +61,7 @@
 //!
 //! ### Goals
 //!
-//! The assets system in Axlib is designed to make the following possible:
+//! The assets system in Substrate is designed to make the following possible:
 //!
 //! * Issue a new assets in a permissioned or permissionless way, if permissionless, then with a
 //!   deposit required.

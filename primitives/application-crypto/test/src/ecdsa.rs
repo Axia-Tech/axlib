@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -22,7 +22,7 @@ use sp_core::{crypto::Pair, testing::ECDSA};
 use sp_keystore::{testing::KeyStore, SyncCryptoStore};
 use sp_runtime::generic::BlockId;
 use std::sync::Arc;
-use axlib_test_runtime_client::{
+use substrate_test_runtime_client::{
 	runtime::TestAPI, DefaultTestClientBuilderExt, TestClientBuilder, TestClientBuilderExt,
 };
 

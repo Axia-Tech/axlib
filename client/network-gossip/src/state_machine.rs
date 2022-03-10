@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -32,9 +32,9 @@ use std::{
 	time::Instant,
 };
 
-// FIXME: Add additional spam/DoS attack protection: https://github.com/axia-tech/axlib/issues/1115
-// NOTE: The current value is adjusted based on largest production network deployment (Axiatest) and
-// the current main gossip user (GRANDPA). Currently there are ~800 validators on Axiatest, as such,
+// FIXME: Add additional spam/DoS attack protection: https://github.com/axia-tech/substrate/issues/1115
+// NOTE: The current value is adjusted based on largest production network deployment (Kusama) and
+// the current main gossip user (GRANDPA). Currently there are ~800 validators on Kusama, as such,
 // each GRANDPA round should generate ~1600 messages, and we currently keep track of the last 2
 // completed rounds and the current live one. That makes it so that at any point we will be holding
 // ~4800 live messages.

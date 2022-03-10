@@ -14,10 +14,10 @@ targets = ["x86_64-unknown-linux-gnu"]
 
 [dependencies]
 serde = { version = "1.0.126", optional = true }
-codec = { git = "https://github.com/axia-tech/axia-scale-codec", package = "axia-scale-codec", branch = "v2.3.1", default-features = false, features = [
+codec = { package = "parity-scale-codec", version = "2.0.0", default-features = false, features = [
 	"derive",
 ] }
-scale-info = { git = "https://github.com/axia-tech/scale-info", branch = "v1.0.0", default-features = false, features = ["derive"] }
+scale-info = { version = "1.0", default-features = false, features = ["derive"] }
 sp-std = { version = "4.0.0-dev", default-features = false, path = "../../primitives/std" }
 sp-io = { version = "4.0.0-dev", default-features = false, path = "../../primitives/io" }
 sp-runtime = { version = "4.0.0-dev", default-features = false, path = "../../primitives/runtime" }
@@ -44,7 +44,7 @@ pallet-balances = { version = "4.0.0-dev", path = "../balances" }
 pallet-timestamp = { version = "4.0.0-dev", path = "../timestamp" }
 pallet-staking-reward-curve = { version = "4.0.0-dev", path = "../staking/reward-curve" }
 pallet-bags-list = { version = "4.0.0-dev", features = ["runtime-benchmarks"], path = "../bags-list" }
-axlib-test-utils = { version = "4.0.0-dev", path = "../../test-utils" }
+substrate-test-utils = { version = "4.0.0-dev", path = "../../test-utils" }
 frame-benchmarking = { version = "4.0.0-dev", path = "../benchmarking" }
 frame-election-provider-support = { version = "4.0.0-dev", path = "../election-provider-support" }
 rand_chacha = { version = "0.2" }

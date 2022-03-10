@@ -3,8 +3,8 @@ use sc_transaction_pool::test_helpers::{Pool, RevalidationQueue};
 use sc_transaction_pool_api::TransactionSource;
 use sp_runtime::generic::BlockId;
 use std::sync::Arc;
-use axlib_test_runtime_client::AccountKeyring::*;
-use axlib_test_runtime_transaction_pool::{uxt, TestApi};
+use substrate_test_runtime_client::AccountKeyring::*;
+use substrate_test_runtime_transaction_pool::{uxt, TestApi};
 
 fn setup() -> (Arc<TestApi>, Pool<TestApi>) {
 	let test_api = Arc::new(TestApi::empty());

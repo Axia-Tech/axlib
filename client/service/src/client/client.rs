@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -16,7 +16,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-//! Axlib Client
+//! Substrate Client
 
 use super::{
 	block_rules::{BlockRules, LookupResult as BlockLookupResult},
@@ -50,7 +50,7 @@ use sc_consensus::{
 };
 use sc_executor::RuntimeVersion;
 use sc_light::fetcher::ChangesProof;
-use sc_telemetry::{telemetry, TelemetryHandle, AXLIB_INFO};
+use sc_telemetry::{telemetry, TelemetryHandle, SUBSTRATE_INFO};
 use sp_api::{
 	ApiExt, ApiRef, CallApiAt, CallApiAtParams, ConstructRuntimeApi, Core as CoreApi,
 	ProvideRuntimeApi,
@@ -102,7 +102,7 @@ use {
 
 type NotificationSinks<T> = Mutex<Vec<TracingUnboundedSender<T>>>;
 
-/// Axlib Client
+/// Substrate Client
 pub struct Client<B, E, Block, RA>
 where
 	Block: BlockT,
@@ -321,7 +321,7 @@ where
 	Block: BlockT,
 	Block::Header: Clone,
 {
-	/// Creates new Axlib Client with given blockchain and code executor.
+	/// Creates new Substrate Client with given blockchain and code executor.
 	pub fn new(
 		backend: Arc<B>,
 		executor: E,
@@ -729,7 +729,7 @@ where
 				if origin != BlockOrigin::NetworkInitialSync || rand::thread_rng().gen_bool(0.1) {
 					telemetry!(
 						self.telemetry;
-						AXLIB_INFO;
+						SUBSTRATE_INFO;
 						"block.import";
 						"height" => height,
 						"best" => ?hash,
@@ -1086,7 +1086,7 @@ where
 
 			telemetry!(
 				self.telemetry;
-				AXLIB_INFO;
+				SUBSTRATE_INFO;
 				"notify.finalized";
 				"height" => format!("{}", header.number()),
 				"best" => ?last,
@@ -1314,7 +1314,7 @@ where
 		// Make sure we include the `:code` and `:heap_pages` in the execution proof to be
 		// backwards compatible.
 		//
-		// TODO: Remove when solved: https://github.com/axia-tech/axlib/issues/5047
+		// TODO: Remove when solved: https://github.com/axia-tech/substrate/issues/5047
 		let code_proof = self.read_proof(
 			id,
 			&mut [well_known_keys::CODE, well_known_keys::HEAP_PAGES].iter().map(|v| *v),

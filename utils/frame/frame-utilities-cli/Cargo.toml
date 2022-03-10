@@ -1,5 +1,5 @@
 [package]
-name = "axlib-frame-cli"
+name = "substrate-frame-cli"
 version = "4.0.0-dev"
 authors = ["AXIA Technologies <admin@axiacoin.network>"]
 edition = "2018"
@@ -7,7 +7,7 @@ license = "Apache-2.0"
 homepage = ""
 repository = "https://github.com/axia-tech/axlib/"
 description = "cli interface for FRAME"
-documentation = "https://docs.rs/axlib-frame-cli"
+documentation = "https://docs.rs/substrate-frame-cli"
 readme = "README.md"
 
 [dependencies]

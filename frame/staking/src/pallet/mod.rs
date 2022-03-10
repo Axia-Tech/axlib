@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -156,7 +156,7 @@ pub mod pallet {
 
 	#[pallet::extra_constants]
 	impl<T: Config> Pallet<T> {
-		// TODO: rename to snake case after https://github.com/axia-tech/axlib/issues/8826 fixed.
+		// TODO: rename to snake case after https://github.com/axia-tech/substrate/issues/8826 fixed.
 		#[allow(non_snake_case)]
 		fn MaxNominations() -> u32 {
 			T::MAX_NOMINATIONS

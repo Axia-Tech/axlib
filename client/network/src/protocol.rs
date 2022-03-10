@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -221,7 +221,7 @@ pub struct PeerInfo<B: BlockT> {
 	pub best_number: <B::Header as HeaderT>::Number,
 }
 
-/// Configuration for the Axlib-specific part of the networking layer.
+/// Configuration for the Substrate-specific part of the networking layer.
 #[derive(Clone)]
 pub struct ProtocolConfig {
 	/// Assigned roles.
@@ -1662,7 +1662,7 @@ impl<B: BlockT> NetworkBehaviour for Protocol<B> {
 							// As a convenience, we allow opening substreams for "external"
 							// notification protocols with an empty handshake. This fetches the
 							// roles from the locally-known roles.
-							// TODO: remove this after https://github.com/axia-tech/axlib/issues/5685
+							// TODO: remove this after https://github.com/axia-tech/substrate/issues/5685
 							CustomMessageOutcome::NotificationStreamOpened {
 								remote: peer_id,
 								protocol: self.notification_protocols

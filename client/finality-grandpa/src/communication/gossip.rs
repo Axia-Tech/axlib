@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -84,7 +84,7 @@
 //!
 //! We only send polite messages to peers,
 
-use axia_scale_codec::{Decode, Encode};
+use parity_scale_codec::{Decode, Encode};
 use sc_network::{ObservedRole, PeerId, ReputationChange};
 use sc_network_gossip::{MessageIntent, ValidatorContext};
 use sp_finality_grandpa::AuthorityId;

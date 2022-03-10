@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -138,11 +138,11 @@ impl pallet_beefy_mmr::Config for Test {
 
 	type BeefyAuthorityToMerkleLeaf = pallet_beefy_mmr::BeefyEcdsaToEthereum;
 
-	type AllychainHeads = DummyParaHeads;
+	type ParachainHeads = DummyParaHeads;
 }
 
 pub struct DummyParaHeads;
-impl pallet_beefy_mmr::AllychainHeadsProvider for DummyParaHeads {
+impl pallet_beefy_mmr::ParachainHeadsProvider for DummyParaHeads {
 	fn allychain_heads() -> Vec<(pallet_beefy_mmr::ParaId, pallet_beefy_mmr::ParaHead)> {
 		vec![(15, vec![1, 2, 3]), (5, vec![4, 5, 6])]
 	}

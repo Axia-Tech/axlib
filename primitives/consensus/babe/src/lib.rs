@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -48,7 +48,7 @@ mod app {
 }
 
 /// The prefix used by BABE for its VRF keys.
-pub const BABE_VRF_PREFIX: &[u8] = b"axlib-babe-vrf";
+pub const BABE_VRF_PREFIX: &[u8] = b"substrate-babe-vrf";
 
 /// BABE VRFInOut context.
 pub static BABE_VRF_INOUT_CONTEXT: &[u8] = b"BabeVRFInOutContext";

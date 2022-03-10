@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -19,7 +19,7 @@ use crate::{
 	build_executor, ensure_matching_spec, extract_code, full_extensions, hash_of, local_spec,
 	parse, state_machine_call, SharedParams, State, LOG_TARGET,
 };
-use axia_scale_codec::Encode;
+use parity_scale_codec::Encode;
 use remote_externalities::rpc_api;
 use sc_executor::NativeExecutionDispatch;
 use sc_service::Configuration;

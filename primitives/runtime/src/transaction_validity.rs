@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -223,7 +223,7 @@ impl From<UnknownTransaction> for TransactionValidity {
 /// For instance we can disallow specific kinds of transactions if they were not produced
 /// by our local node (for instance off-chain workers).
 #[derive(
-	Copy, Clone, PartialEq, Eq, Encode, Decode, RuntimeDebug, axia_util_mem::MallocSizeOf,
+	Copy, Clone, PartialEq, Eq, Encode, Decode, RuntimeDebug, parity_util_mem::MallocSizeOf,
 )]
 pub enum TransactionSource {
 	/// Transaction is already included in block.
@@ -265,7 +265,7 @@ pub struct ValidTransaction {
 	///
 	/// A list of tags this transaction provides. Successfully importing the transaction
 	/// will enable other transactions that depend on (require) those tags to be included as well.
-	/// Provided and required tags allow Axlib to build a dependency graph of transactions
+	/// Provided and required tags allow Substrate to build a dependency graph of transactions
 	/// and import them in the right (linear) order.
 	pub provides: Vec<TransactionTag>,
 	/// Transaction longevity

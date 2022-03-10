@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2020-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -18,7 +18,7 @@
 
 use sp_wasm_interface::Value;
 
-/// Converts a [`wasmtime::Val`] into a axlib runtime interface [`Value`].
+/// Converts a [`wasmtime::Val`] into a substrate runtime interface [`Value`].
 ///
 /// Panics if the given value doesn't have a corresponding variant in `Value`.
 pub fn from_wasmtime_val(val: wasmtime::Val) -> Value {
@@ -27,7 +27,7 @@ pub fn from_wasmtime_val(val: wasmtime::Val) -> Value {
 		wasmtime::Val::I64(v) => Value::I64(v),
 		wasmtime::Val::F32(f_bits) => Value::F32(f_bits),
 		wasmtime::Val::F64(f_bits) => Value::F64(f_bits),
-		v => panic!("Given value type is unsupported by Axlib: {:?}", v),
+		v => panic!("Given value type is unsupported by Substrate: {:?}", v),
 	}
 }
 

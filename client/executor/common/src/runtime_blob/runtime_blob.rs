@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -19,7 +19,7 @@
 use crate::error::WasmError;
 use pwasm_utils::{
 	export_mutable_globals,
-	axia_wasm::elements::{deserialize_buffer, serialize, DataSegment, Internal, Module},
+	parity_wasm::elements::{deserialize_buffer, serialize, DataSegment, Internal, Module},
 };
 
 /// A bunch of information collected from a WebAssembly module.
@@ -130,7 +130,7 @@ impl RuntimeBlob {
 		serialize(self.raw_module).expect("serializing into a vec should succeed; qed")
 	}
 
-	/// Destructure this structure into the underlying axia-wasm Module.
+	/// Destructure this structure into the underlying parity-wasm Module.
 	pub fn into_inner(self) -> Module {
 		self.raw_module
 	}

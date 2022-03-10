@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2020-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -46,7 +46,7 @@ pub fn expand_genesis_config(def: &mut Def) -> proc_macro2::TokenStream {
 
 			return quote::quote! {
 				#[doc(hidden)]
-				pub mod __axlib_genesis_config_check {
+				pub mod __substrate_genesis_config_check {
 					#[macro_export]
 					#[doc(hidden)]
 					macro_rules! #def_macro_ident {
@@ -89,7 +89,7 @@ pub fn expand_genesis_config(def: &mut Def) -> proc_macro2::TokenStream {
 				attrs.push(syn::parse_quote!(
 					#[doc = r"
 					Can be used to configure the
-					[genesis state](https://docs.axlib.io/v3/runtime/chain-specs#the-genesis-state)
+					[genesis state](https://docs.substrate.io/v3/runtime/chain-specs#the-genesis-state)
 					of this pallet.
 					"]
 				));
@@ -109,7 +109,7 @@ pub fn expand_genesis_config(def: &mut Def) -> proc_macro2::TokenStream {
 
 	quote::quote! {
 		#[doc(hidden)]
-		pub mod __axlib_genesis_config_check {
+		pub mod __substrate_genesis_config_check {
 			#[macro_export]
 			#[doc(hidden)]
 			macro_rules! #def_macro_ident {

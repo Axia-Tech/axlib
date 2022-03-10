@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -41,7 +41,7 @@ use tracing_subscriber::layer::SubscriberExt;
 use crate::WasmExecutionMethod;
 
 pub type TestExternalities = CoreTestExternalities<BlakeTwo256, u64>;
-type HostFunctions = sp_io::AxlibHostFunctions;
+type HostFunctions = sp_io::SubstrateHostFunctions;
 
 /// Simple macro that runs a given method as test with the available wasm execution methods.
 #[macro_export]
@@ -496,7 +496,7 @@ fn returns_mutable_static_bss(wasm_method: WasmExecutionMethod) {
 // If we didn't restore the wasm instance properly, on a trap the stack pointer would not be
 // returned to its initial value and thus the stack space is going to be leaked.
 //
-// See https://github.com/axia-tech/axlib/issues/2967 for details
+// See https://github.com/axia-tech/substrate/issues/2967 for details
 test_wasm_execution!(restoration_of_globals);
 fn restoration_of_globals(wasm_method: WasmExecutionMethod) {
 	// Allocate 32 pages (of 65536 bytes) which gives the runtime 2048KB of heap to operate on

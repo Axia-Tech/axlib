@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -15,7 +15,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-//! Axlib inherent extrinsics
+//! Substrate inherent extrinsics
 //!
 //! Inherent extrinsics are extrinsics that are inherently added to each block. However, it is up to
 //! runtime implementation to require an inherent for each block or to make it optional. Inherents
@@ -206,7 +206,7 @@ pub type InherentIdentifier = [u8; 8];
 /// Inherent data to include in a block.
 #[derive(Clone, Default, Encode, Decode)]
 pub struct InherentData {
-	/// All inherent data encoded with axia-scale-codec and an identifier.
+	/// All inherent data encoded with parity-scale-codec and an identifier.
 	data: BTreeMap<InherentIdentifier, Vec<u8>>,
 }
 

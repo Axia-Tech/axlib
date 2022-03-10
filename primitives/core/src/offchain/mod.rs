@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -345,7 +345,7 @@ pub trait Externalities: Send {
 
 	/// Initiates a http request given HTTP verb and the URL.
 	///
-	/// Meta is a future-reserved field containing additional, axia-scale-codec encoded
+	/// Meta is a future-reserved field containing additional, parity-scale-codec encoded
 	/// parameters. Returns the id of newly started request.
 	///
 	/// Returns an error if:
@@ -647,7 +647,7 @@ impl<T: Externalities> Externalities for LimitedExternalities<T> {
 
 #[cfg(feature = "std")]
 sp_externalities::decl_extension! {
-	/// The offchain worker extension that will be registered at the Axlib externalities.
+	/// The offchain worker extension that will be registered at the Substrate externalities.
 	pub struct OffchainWorkerExt(Box<dyn Externalities>);
 }
 
@@ -753,7 +753,7 @@ impl<T: DbExternalities> DbExternalities for LimitedExternalities<T> {
 
 #[cfg(feature = "std")]
 sp_externalities::decl_extension! {
-	/// The offchain database extension that will be registered at the Axlib externalities.
+	/// The offchain database extension that will be registered at the Substrate externalities.
 	pub struct OffchainDbExt(Box<dyn DbExternalities>);
 }
 

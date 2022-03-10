@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -25,7 +25,7 @@ use crate::{
 use rand::{self, SeedableRng};
 use sp_arithmetic::{PerU16, Perbill, Percent, Permill};
 use std::convert::TryInto;
-use axlib_test_utils::assert_eq_uvec;
+use substrate_test_utils::assert_eq_uvec;
 
 #[test]
 fn float_phragmen_poc_works() {
@@ -851,7 +851,7 @@ mod score {
 
 	#[test]
 	fn score_comparison_large_value() {
-		// some random value taken from eras in axiatest.
+		// some random value taken from eras in kusama.
 		let initial =
 			[12488167277027543u128, 5559266368032409496, 118749283262079244270992278287436446];
 		// this claim is 0.04090% better in the third component. It should be accepted as better if

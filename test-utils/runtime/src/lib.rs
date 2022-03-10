@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -15,7 +15,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-//! The Axlib runtime. This can be compiled with `#[no_std]`, ready for Wasm.
+//! The Substrate runtime. This can be compiled with `#[no_std]`, ready for Wasm.
 
 #![cfg_attr(not(feature = "std"), no_std)]
 
@@ -167,7 +167,7 @@ pub enum Extrinsic {
 	Store(Vec<u8>),
 }
 
-axia_util_mem::malloc_size_of_is_0!(Extrinsic); // non-opaque extrinsic does not need this
+parity_util_mem::malloc_size_of_is_0!(Extrinsic); // non-opaque extrinsic does not need this
 
 #[cfg(feature = "std")]
 impl serde::Serialize for Extrinsic {
@@ -1289,7 +1289,7 @@ mod tests {
 	use sp_core::storage::well_known_keys::HEAP_PAGES;
 	use sp_runtime::generic::BlockId;
 	use sp_state_machine::ExecutionStrategy;
-	use axlib_test_runtime_client::{
+	use substrate_test_runtime_client::{
 		prelude::*, runtime::TestAPI, DefaultTestClientBuilderExt, TestClientBuilder,
 	};
 

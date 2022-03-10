@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2018-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -24,7 +24,7 @@ use crate::{
 	wasm::{env_def::ImportSatisfyCheck, PrefabWasmModule},
 	Config, Schedule,
 };
-use pwasm_utils::axia_wasm::elements::{self, External, Internal, MemoryType, Type, ValueType};
+use pwasm_utils::parity_wasm::elements::{self, External, Internal, MemoryType, Type, ValueType};
 use sp_runtime::traits::Hash;
 use sp_std::prelude::*;
 

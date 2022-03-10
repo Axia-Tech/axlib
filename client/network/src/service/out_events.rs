@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -19,7 +19,7 @@
 //! Registering events streams.
 //!
 //! This code holds the logic that is used for the network service to inform other parts of
-//! Axlib about what is happening.
+//! Substrate about what is happening.
 //!
 //! # Usage
 //!

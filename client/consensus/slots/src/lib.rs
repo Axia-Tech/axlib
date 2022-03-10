@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -16,7 +16,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-//! Slots functionality for Axlib.
+//! Slots functionality for Substrate.
 //!
 //! Some consensus algorithms have a concept of *slots*, which are intervals in
 //! time during which certain events can and/or must occur.  This crate
@@ -888,7 +888,7 @@ mod test {
 	use super::*;
 	use sp_api::NumberFor;
 	use std::time::{Duration, Instant};
-	use axlib_test_runtime_client::runtime::{Block, Header};
+	use substrate_test_runtime_client::runtime::{Block, Header};
 
 	const SLOT_DURATION: Duration = Duration::from_millis(6000);
 

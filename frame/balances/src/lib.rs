@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -980,7 +980,7 @@ impl<T: Config<I>, I: 'static> Pallet<T, I> {
 			Locks::<T, I>::remove(who);
 			if existed {
 				// TODO: use Locks::<T, I>::hashed_key
-				// https://github.com/axia-tech/axlib/issues/4969
+				// https://github.com/axia-tech/substrate/issues/4969
 				system::Pallet::<T>::dec_consumers(who);
 			}
 		} else {

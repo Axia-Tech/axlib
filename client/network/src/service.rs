@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -98,7 +98,7 @@ mod out_events;
 #[cfg(test)]
 mod tests;
 
-/// Axlib network service. Handles network IO and manages connectivity.
+/// Substrate network service. Handles network IO and manages connectivity.
 pub struct NetworkService<B: BlockT + 'static, H: ExHashT> {
 	/// Number of peers we're connected to.
 	num_connected: Arc<AtomicUsize>,
@@ -1797,11 +1797,11 @@ impl<B: BlockT + 'static, H: ExHashT> Future for NetworkWorker<B, H> {
 					// reopened.
 					// The code below doesn't compile because `role` is unknown. Propagating the
 					// handshake of the secondary connections is quite an invasive change and
-					// would conflict with https://github.com/axia-tech/axlib/issues/6403.
+					// would conflict with https://github.com/axia-tech/substrate/issues/6403.
 					// Considering that dropping notifications is generally regarded as
 					// acceptable, this bug is at the moment intentionally left there and is
 					// intended to be fixed at the same time as
-					// https://github.com/axia-tech/axlib/issues/6403.
+					// https://github.com/axia-tech/substrate/issues/6403.
 					// this.event_streams.send(Event::NotificationStreamClosed {
 					// remote,
 					// protocol,

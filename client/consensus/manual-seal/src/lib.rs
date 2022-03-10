@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2020-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -254,10 +254,10 @@ mod tests {
 	use sc_transaction_pool::{BasicPool, Options, RevalidationType};
 	use sc_transaction_pool_api::{MaintainedTransactionPool, TransactionPool, TransactionSource};
 	use sp_runtime::generic::BlockId;
-	use axlib_test_runtime_client::{
+	use substrate_test_runtime_client::{
 		AccountKeyring::*, DefaultTestClientBuilderExt, TestClientBuilder, TestClientBuilderExt,
 	};
-	use axlib_test_runtime_transaction_pool::{uxt, TestApi};
+	use substrate_test_runtime_transaction_pool::{uxt, TestApi};
 
 	fn api() -> Arc<TestApi> {
 		Arc::new(TestApi::empty())

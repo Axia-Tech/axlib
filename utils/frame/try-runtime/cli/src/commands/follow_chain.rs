@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -23,7 +23,7 @@ use jsonrpsee_ws_client::{
 	types::{traits::SubscriptionClient, v2::params::JsonRpcParams, Subscription},
 	WsClientBuilder,
 };
-use axia_scale_codec::Decode;
+use parity_scale_codec::Decode;
 use remote_externalities::{rpc_api, Builder, Mode, OnlineConfig};
 use sc_executor::NativeExecutionDispatch;
 use sc_service::Configuration;

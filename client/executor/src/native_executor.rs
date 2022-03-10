@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -59,7 +59,7 @@ where
 	F: UnwindSafe + FnOnce() -> U,
 {
 	sp_externalities::set_and_run_with_externalities(ext, move || {
-		// Axlib uses custom panic hook that terminates process on panic. Disable
+		// Substrate uses custom panic hook that terminates process on panic. Disable
 		// termination for the native call.
 		let _guard = sp_panic_handler::AbortGuard::force_unwind();
 		std::panic::catch_unwind(f).map_err(|e| {
@@ -79,7 +79,7 @@ where
 /// By dispatching we mean that we execute a runtime function specified by it's name.
 pub trait NativeExecutionDispatch: Send + Sync {
 	/// Host functions for custom runtime interfaces that should be callable from within the runtime
-	/// besides the default Axlib runtime interfaces.
+	/// besides the default Substrate runtime interfaces.
 	type ExtendHostFunctions: HostFunctions;
 
 	/// Dispatch a method in the runtime.
@@ -332,7 +332,7 @@ impl<D: NativeExecutionDispatch> NativeElseWasmExecutor<D> {
 		max_runtime_instances: usize,
 	) -> Self {
 		let extended = D::ExtendHostFunctions::host_functions();
-		let mut host_functions = sp_io::AxlibHostFunctions::host_functions()
+		let mut host_functions = sp_io::SubstrateHostFunctions::host_functions()
 			.into_iter()
 			// filter out any host function overrides provided.
 			.filter(|host_fn| {
@@ -437,7 +437,7 @@ impl RuntimeSpawn for RuntimeInstanceSpawn {
 					// Instantiating wasm here every time is suboptimal at the moment, shared
 					// pool of instances should be used.
 					//
-					// https://github.com/axia-tech/axlib/issues/7354
+					// https://github.com/axia-tech/substrate/issues/7354
 					let mut instance =
 						module.new_instance().expect("Failed to create new instance from module");
 
@@ -621,11 +621,11 @@ mod tests {
 		type ExtendHostFunctions = (my_interface::HostFunctions, my_interface::HostFunctions);
 
 		fn dispatch(method: &str, data: &[u8]) -> Option<Vec<u8>> {
-			axlib_test_runtime::api::dispatch(method, data)
+			substrate_test_runtime::api::dispatch(method, data)
 		}
 
 		fn native_version() -> NativeVersion {
-			axlib_test_runtime::native_version()
+			substrate_test_runtime::native_version()
 		}
 	}
 

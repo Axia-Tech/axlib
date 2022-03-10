@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2018-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -17,7 +17,7 @@
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 use super::prepare_client_with_key_changes;
-use axia_scale_codec::{Decode, Encode};
+use parity_scale_codec::{Decode, Encode};
 use parking_lot::Mutex;
 use sc_block_builder::BlockBuilderProvider;
 use sc_client_api::{
@@ -52,7 +52,7 @@ use sp_runtime::{
 };
 use sp_state_machine::{ExecutionManager, OverlayedChanges};
 use std::{cell::RefCell, collections::HashMap, panic::UnwindSafe, sync::Arc};
-use axlib_test_runtime_client::{
+use substrate_test_runtime_client::{
 	runtime::{self, Block, Extrinsic, Hash, Header},
 	AccountKeyring, ClientBlockImportExt, TestClient,
 };
@@ -199,7 +199,7 @@ struct DummyCallExecutor;
 impl CallExecutor<Block> for DummyCallExecutor {
 	type Error = ClientError;
 
-	type Backend = axlib_test_runtime_client::Backend;
+	type Backend = substrate_test_runtime_client::Backend;
 
 	fn call(
 		&self,
@@ -258,7 +258,7 @@ impl CallExecutor<Block> for DummyCallExecutor {
 	}
 }
 
-fn local_executor() -> NativeElseWasmExecutor<axlib_test_runtime_client::LocalExecutorDispatch>
+fn local_executor() -> NativeElseWasmExecutor<substrate_test_runtime_client::LocalExecutorDispatch>
 {
 	NativeElseWasmExecutor::new(WasmExecutionMethod::Interpreted, None, 8)
 }
@@ -267,7 +267,7 @@ fn local_executor() -> NativeElseWasmExecutor<axlib_test_runtime_client::LocalEx
 fn local_state_is_created_when_genesis_state_is_available() {
 	let def = Default::default();
 	let header0 =
-		axlib_test_runtime_client::runtime::Header::new(0, def, def, def, Default::default());
+		substrate_test_runtime_client::runtime::Header::new(0, def, def, def, Default::default());
 
 	let backend: Backend<_, BlakeTwo256> =
 		Backend::new(Arc::new(DummyBlockchain::new(DummyStorage::new())));
@@ -318,7 +318,7 @@ fn execution_proof_is_generated_and_checked() {
 			&local_executor(),
 			Box::new(TaskExecutor::new()),
 			&RemoteCallRequest {
-				block: axlib_test_runtime_client::runtime::Hash::default(),
+				block: substrate_test_runtime_client::runtime::Hash::default(),
 				header: remote_header,
 				method: method.into(),
 				call_data: vec![],
@@ -356,7 +356,7 @@ fn execution_proof_is_generated_and_checked() {
 			&local_executor(),
 			Box::new(TaskExecutor::new()),
 			&RemoteCallRequest {
-				block: axlib_test_runtime_client::runtime::Hash::default(),
+				block: substrate_test_runtime_client::runtime::Hash::default(),
 				header: remote_header.clone(),
 				method: "Core_initialize_block".into(),
 				call_data: Header::new(
@@ -378,7 +378,7 @@ fn execution_proof_is_generated_and_checked() {
 	}
 
 	// prepare remote client
-	let mut remote_client = axlib_test_runtime_client::new();
+	let mut remote_client = substrate_test_runtime_client::new();
 	for i in 1u32..3u32 {
 		let mut digest = Digest::default();
 		digest.push(sp_runtime::generic::DigestItem::Other::<H256>(i.to_le_bytes().to_vec()));
@@ -410,10 +410,10 @@ fn code_is_executed_at_genesis_only() {
 	let backend = Arc::new(InMemBackend::<Block>::new());
 	let def = H256::default();
 	let header0 =
-		axlib_test_runtime_client::runtime::Header::new(0, def, def, def, Default::default());
+		substrate_test_runtime_client::runtime::Header::new(0, def, def, def, Default::default());
 	let hash0 = header0.hash();
 	let header1 =
-		axlib_test_runtime_client::runtime::Header::new(1, def, def, hash0, Default::default());
+		substrate_test_runtime_client::runtime::Header::new(1, def, def, hash0, Default::default());
 	let hash1 = header1.hash();
 	backend
 		.blockchain()
@@ -447,14 +447,14 @@ fn code_is_executed_at_genesis_only() {
 }
 
 type TestChecker = LightDataChecker<
-	NativeElseWasmExecutor<axlib_test_runtime_client::LocalExecutorDispatch>,
+	NativeElseWasmExecutor<substrate_test_runtime_client::LocalExecutorDispatch>,
 	Block,
 	DummyStorage,
 >;
 
 fn prepare_for_read_proof_check() -> (TestChecker, Header, StorageProof, u32) {
 	// prepare remote client
-	let remote_client = axlib_test_runtime_client::new();
+	let remote_client = substrate_test_runtime_client::new();
 	let remote_block_id = BlockId::Number(0);
 	let remote_block_hash = remote_client.block_hash(0).unwrap().unwrap();
 	let mut remote_block_header = remote_client.header(&remote_block_id).unwrap().unwrap();
@@ -489,11 +489,11 @@ fn prepare_for_read_proof_check() -> (TestChecker, Header, StorageProof, u32) {
 }
 
 fn prepare_for_read_child_proof_check() -> (TestChecker, Header, StorageProof, Vec<u8>) {
-	use axlib_test_runtime_client::{DefaultTestClientBuilderExt, TestClientBuilderExt};
+	use substrate_test_runtime_client::{DefaultTestClientBuilderExt, TestClientBuilderExt};
 	let child_info = ChildInfo::new_default(b"child1");
 	let child_info = &child_info;
 	// prepare remote client
-	let remote_client = axlib_test_runtime_client::TestClientBuilder::new()
+	let remote_client = substrate_test_runtime_client::TestClientBuilder::new()
 		.add_extra_child_storage(child_info, b"key1".to_vec(), b"value1".to_vec())
 		.build();
 	let remote_block_id = BlockId::Number(0);
@@ -532,7 +532,7 @@ fn prepare_for_read_child_proof_check() -> (TestChecker, Header, StorageProof, V
 
 fn prepare_for_header_proof_check(insert_cht: bool) -> (TestChecker, Hash, Header, StorageProof) {
 	// prepare remote client
-	let mut remote_client = axlib_test_runtime_client::new();
+	let mut remote_client = substrate_test_runtime_client::new();
 	let mut local_headers_hashes = Vec::new();
 	for i in 0..4 {
 		let block = remote_client.new_block(Default::default()).unwrap().build().unwrap().block;

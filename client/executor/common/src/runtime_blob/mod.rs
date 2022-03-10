@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -30,7 +30,7 @@
 //!   doesn’t support that.
 //!
 //!   We need to reset the globals because when we
-//!   execute the Axlib Runtime, we do not drop and create the instance anew, instead
+//!   execute the Substrate Runtime, we do not drop and create the instance anew, instead
 //!   we restore some selected parts of the state.
 //!
 //! - stack depth metering can be performed via instrumentation or deferred to the engine and say be
@@ -38,7 +38,7 @@
 //!   instrumentation looks like a good solution.
 //!
 //!   Stack depth metering is needed to make a wasm blob
-//!   execution deterministic, which in turn is needed by the Allychain Validation Function in
+//!   execution deterministic, which in turn is needed by the Parachain Validation Function in
 //! AXIA.
 //!
 //! ## Inspection

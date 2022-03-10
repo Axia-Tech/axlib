@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2020-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -23,7 +23,7 @@ use futures_timer::Delay;
 use prometheus_endpoint::{register, Gauge, GaugeVec, Opts, PrometheusError, Registry, U64};
 use sc_client_api::{ClientInfo, UsageProvider};
 use sc_network::{config::Role, NetworkService, NetworkStatus};
-use sc_telemetry::{telemetry, TelemetryHandle, AXLIB_INFO};
+use sc_telemetry::{telemetry, TelemetryHandle, SUBSTRATE_INFO};
 use sc_transaction_pool_api::{MaintainedTransactionPool, PoolStatus};
 use sc_utils::metrics::register_globals;
 use sp_api::ProvideRuntimeApi;
@@ -224,7 +224,7 @@ impl MetricsService {
 		// Update/send metrics that are always available.
 		telemetry!(
 			self.telemetry;
-			AXLIB_INFO;
+			SUBSTRATE_INFO;
 			"system.interval";
 			"height" => best_number,
 			"best" => ?best_hash,
@@ -282,7 +282,7 @@ impl MetricsService {
 
 			telemetry!(
 				self.telemetry;
-				AXLIB_INFO;
+				SUBSTRATE_INFO;
 				"system.interval";
 				"peers" => num_peers,
 				"bandwidth_download" => avg_bytes_per_sec_inbound,

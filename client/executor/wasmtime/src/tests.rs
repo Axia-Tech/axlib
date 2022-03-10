@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -21,7 +21,7 @@ use sc_executor_common::{runtime_blob::RuntimeBlob, wasm_runtime::WasmModule};
 use sc_runtime_test::wasm_binary_unwrap;
 use std::sync::Arc;
 
-type HostFunctions = sp_io::AxlibHostFunctions;
+type HostFunctions = sp_io::SubstrateHostFunctions;
 
 struct RuntimeBuilder {
 	code: Option<&'static str>,
@@ -198,7 +198,7 @@ fn test_max_memory_pages() {
 			;; However, due to a bug in wasmtime (I think wasmi is also affected) it is only possible
 			;; to allocate 65536 - 1 pages.
 			;;
-			;; Then, during creation of the Axlib Runtime instance, 1024 (heap_pages) pages are
+			;; Then, during creation of the Substrate Runtime instance, 1024 (heap_pages) pages are
 			;; mounted.
 			;;
 			;; Thus 65535 = 64511 + 1024

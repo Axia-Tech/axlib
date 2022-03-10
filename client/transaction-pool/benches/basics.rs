@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2018-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -33,7 +33,7 @@ use sp_runtime::{
 		ValidTransaction,
 	},
 };
-use axlib_test_runtime::{AccountId, Block, Extrinsic, Transfer, H256};
+use substrate_test_runtime::{AccountId, Block, Extrinsic, Transfer, H256};
 
 #[derive(Clone, Debug, Default)]
 struct TestApi {

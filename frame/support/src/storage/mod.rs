@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -122,7 +122,7 @@ pub fn with_transaction<R>(f: impl FnOnce() -> TransactionOutcome<R>) -> R {
 	}
 }
 
-/// A trait for working with macro-generated storage values under the axlib storage API.
+/// A trait for working with macro-generated storage values under the substrate storage API.
 ///
 /// Details on implementation can be found at [`generator::StorageValue`].
 pub trait StorageValue<T: FullCodec> {

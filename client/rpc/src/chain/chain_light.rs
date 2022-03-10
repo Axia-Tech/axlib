@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -35,7 +35,7 @@ use sp_blockchain::HeaderBackend;
 /// Blockchain API backend for light nodes. Reads all the data from local
 /// database, if available, or fetches it from remote node otherwise.
 pub struct LightChain<Block: BlockT, Client, F> {
-	/// Axlib client.
+	/// Substrate client.
 	client: Arc<Client>,
 	/// Current subscriptions.
 	subscriptions: SubscriptionManager,

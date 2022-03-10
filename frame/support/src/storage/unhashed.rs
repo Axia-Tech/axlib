@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -103,7 +103,7 @@ pub fn get_raw(key: &[u8]) -> Option<Vec<u8>> {
 
 /// Put a raw byte slice into storage.
 ///
-/// **WARNING**: If you set the storage of the Axlib Wasm (`well_known_keys::CODE`),
+/// **WARNING**: If you set the storage of the Substrate Wasm (`well_known_keys::CODE`),
 /// you should also call `frame_system::RuntimeUpgraded::put(true)` to trigger the
 /// `on_runtime_upgrade` logic.
 pub fn put_raw(key: &[u8], value: &[u8]) {

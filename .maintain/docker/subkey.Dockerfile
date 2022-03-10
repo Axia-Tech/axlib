@@ -7,7 +7,7 @@ ARG BUILD_DATE
 LABEL io.axia.image.authors="devops-team@axiacoin.network" \
 	io.axia.image.vendor="AXIA Technologies" \
 	io.axia.image.title="axia/subkey" \
-	io.axia.image.description="Subkey: key generating utility for Axlib." \
+	io.axia.image.description="Subkey: key generating utility for Substrate." \
 	io.axia.image.source="https://github.com/axia-tech/axlib/blob/${VCS_REF}/.maintain/docker/subkey.Dockerfile" \
 	io.axia.image.revision="${VCS_REF}" \
 	io.axia.image.created="${BUILD_DATE}" \

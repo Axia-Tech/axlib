@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -19,7 +19,7 @@
 //! BABE testsuite
 
 // FIXME #2532: need to allow deprecated until refactor is done
-// https://github.com/axia-tech/axlib/issues/2532
+// https://github.com/axia-tech/substrate/issues/2532
 #![allow(deprecated)]
 use super::*;
 use authorship::claim_slot;
@@ -53,11 +53,11 @@ type Item = DigestItem<Hash>;
 
 type Error = sp_blockchain::Error;
 
-type TestClient = axlib_test_runtime_client::client::Client<
-	axlib_test_runtime_client::Backend,
-	axlib_test_runtime_client::ExecutorDispatch,
+type TestClient = substrate_test_runtime_client::client::Client<
+	substrate_test_runtime_client::Backend,
+	substrate_test_runtime_client::ExecutorDispatch,
 	TestBlock,
-	axlib_test_runtime_client::runtime::RuntimeApi,
+	substrate_test_runtime_client::runtime::RuntimeApi,
 >;
 
 #[derive(Copy, Clone, PartialEq)]
@@ -113,7 +113,7 @@ impl DummyProposer {
 		Result<
 			Proposal<
 				TestBlock,
-				sc_client_api::TransactionFor<axlib_test_runtime_client::Backend, TestBlock>,
+				sc_client_api::TransactionFor<substrate_test_runtime_client::Backend, TestBlock>,
 				(),
 			>,
 			Error,
@@ -173,7 +173,7 @@ impl DummyProposer {
 impl Proposer<TestBlock> for DummyProposer {
 	type Error = Error;
 	type Transaction =
-		sc_client_api::TransactionFor<axlib_test_runtime_client::Backend, TestBlock>;
+		sc_client_api::TransactionFor<substrate_test_runtime_client::Backend, TestBlock>;
 	type Proposal = future::Ready<Result<Proposal<TestBlock, Self::Transaction, ()>, Error>>;
 	type ProofRecording = DisableProofRecording;
 	type Proof = ();
@@ -230,7 +230,7 @@ pub struct BabeTestNet {
 type TestHeader = <TestBlock as BlockT>::Header;
 
 type TestSelectChain =
-	axlib_test_runtime_client::LongestChain<axlib_test_runtime_client::Backend, TestBlock>;
+	substrate_test_runtime_client::LongestChain<substrate_test_runtime_client::Backend, TestBlock>;
 
 pub struct TestVerifier {
 	inner: BabeVerifier<
@@ -270,7 +270,7 @@ pub struct PeerData {
 		Option<
 			BoxBlockImport<
 				TestBlock,
-				TransactionFor<axlib_test_runtime_client::Backend, TestBlock>,
+				TransactionFor<substrate_test_runtime_client::Backend, TestBlock>,
 			>,
 		>,
 	>,
@@ -318,7 +318,7 @@ impl TestNetFactory for BabeTestNet {
 		_cfg: &ProtocolConfig,
 		maybe_link: &Option<PeerData>,
 	) -> Self::Verifier {
-		use axlib_test_runtime_client::DefaultTestClientBuilderExt;
+		use substrate_test_runtime_client::DefaultTestClientBuilderExt;
 
 		let client = client.as_full().expect("only full clients are used in test");
 		trace!(target: "babe", "Creating a verifier");

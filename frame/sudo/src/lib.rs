@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -89,7 +89,7 @@
 //!
 //! * [Democracy](../pallet_democracy/index.html)
 //!
-//! [`Origin`]: https://docs.axlib.io/v3/runtime/origins
+//! [`Origin`]: https://docs.substrate.io/v3/runtime/origins
 
 #![cfg_attr(not(feature = "std"), no_std)]
 

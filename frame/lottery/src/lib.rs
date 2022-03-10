@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -478,7 +478,7 @@ impl<T: Config> Pallet<T> {
 	// You should call this function with different seed values until the random
 	// number lies within `u32::MAX - u32::MAX % n`.
 	// TODO: deal with randomness freshness
-	// https://github.com/axia-tech/axlib/issues/8311
+	// https://github.com/axia-tech/substrate/issues/8311
 	fn generate_random_number(seed: u32) -> u32 {
 		let (random_seed, _) = T::Randomness::random(&(T::PalletId::get(), seed).encode());
 		let random_number = <u32>::decode(&mut random_seed.as_ref())

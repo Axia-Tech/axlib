@@ -37,7 +37,7 @@ Responsible investigation and reporting includes, but isn't limited to, the foll
 
 ## Bug Bounty Program
 
-Our Bug Bounty Program allows us to recognize and reward members of the AXIA community for helping us find and address significant bugs, in accordance with the terms of the AXIA Bug Bounty Program. A detailed description on eligibility, rewards, legal information and terms & conditions for contributors can be found on [our website](https://axia-tech.io/bug-bounty.html).
+Our Bug Bounty Program allows us to recognize and reward members of the AXIA community for helping us find and address significant bugs, in accordance with the terms of the AXIA Bug Bounty Program. A detailed description on eligibility, rewards, legal information and terms & conditions for contributors can be found on [our website](https://axiatech.io/bug-bounty.html).
 
 
 

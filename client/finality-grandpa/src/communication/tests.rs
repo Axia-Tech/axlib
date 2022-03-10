@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -24,7 +24,7 @@ use super::{
 };
 use crate::{communication::GRANDPA_PROTOCOL_NAME, environment::SharedVoterSetState};
 use futures::prelude::*;
-use axia_scale_codec::Encode;
+use parity_scale_codec::Encode;
 use sc_network::{config::Role, Event as NetworkEvent, ObservedRole, PeerId};
 use sc_network_gossip::Validator;
 use sc_network_test::{Block, Hash};

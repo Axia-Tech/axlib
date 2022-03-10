@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -901,7 +901,7 @@ mod tests {
 	use super::*;
 	use crate::cache::list_storage::tests::{DummyStorage, DummyTransaction, FaultyStorage};
 	use sp_runtime::testing::{Block as RawBlock, ExtrinsicWrapper, Header};
-	use axlib_test_runtime_client::runtime::H256;
+	use substrate_test_runtime_client::runtime::H256;
 
 	type Block = RawBlock<ExtrinsicWrapper<u64>>;
 

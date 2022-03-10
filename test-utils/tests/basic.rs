@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2020-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -16,32 +16,32 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-#[axlib_test_utils::test]
+#[substrate_test_utils::test]
 async fn basic_test() {
 	assert!(true);
 }
 
-#[axlib_test_utils::test]
+#[substrate_test_utils::test]
 #[should_panic(expected = "boo!")]
 async fn panicking_test() {
 	panic!("boo!");
 }
 
-#[axlib_test_utils::test(flavor = "multi_thread", worker_threads = 1)]
+#[substrate_test_utils::test(flavor = "multi_thread", worker_threads = 1)]
 async fn basic_test_with_args() {
 	assert!(true);
 }
 
-// NOTE: enable this test only after setting AXLIB_TEST_TIMEOUT to a smaller value
+// NOTE: enable this test only after setting SUBSTRATE_TEST_TIMEOUT to a smaller value
 //
-// AXLIB_TEST_TIMEOUT=1 cargo test -- --ignored timeout
-#[axlib_test_utils::test]
+// SUBSTRATE_TEST_TIMEOUT=1 cargo test -- --ignored timeout
+#[substrate_test_utils::test]
 #[should_panic(expected = "test took too long")]
 #[ignore]
 async fn timeout() {
 	tokio::time::sleep(std::time::Duration::from_secs(
-		std::env::var("AXLIB_TEST_TIMEOUT")
-			.expect("env var AXLIB_TEST_TIMEOUT has been provided by the user")
+		std::env::var("SUBSTRATE_TEST_TIMEOUT")
+			.expect("env var SUBSTRATE_TEST_TIMEOUT has been provided by the user")
 			.parse::<u64>()
 			.unwrap() + 1,
 	))

@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2020-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -23,7 +23,7 @@ use crate::{weights::WeightInfo, Config};
 use codec::{Decode, Encode};
 use frame_support::{weights::Weight, DefaultNoBound};
 use pallet_contracts_proc_macro::{ScheduleDebug, WeightDebug};
-use pwasm_utils::{axia_wasm::elements, rules};
+use pwasm_utils::{parity_wasm::elements, rules};
 use scale_info::TypeInfo;
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize};

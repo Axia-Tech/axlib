@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2018-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -58,7 +58,7 @@ pub struct RunCmd {
 	///
 	/// Default is local. Note: not all RPC methods are safe to be exposed publicly. Use an RPC
 	/// proxy server to filter out dangerous methods. More details:
-	/// <https://github.com/axia-tech/axlib/wiki/Public-RPC>.
+	/// <https://github.com/axia-tech/substrate/wiki/Public-RPC>.
 	/// Use `--unsafe-rpc-external` to suppress the warning if you understand the risks.
 	#[structopt(long = "rpc-external")]
 	pub rpc_external: bool,
@@ -89,7 +89,7 @@ pub struct RunCmd {
 	///
 	/// Default is local. Note: not all RPC methods are safe to be exposed publicly. Use an RPC
 	/// proxy server to filter out dangerous methods. More details:
-	/// <https://github.com/axia-tech/axlib/wiki/Public-RPC>.
+	/// <https://github.com/axia-tech/substrate/wiki/Public-RPC>.
 	/// Use `--unsafe-ws-external` to suppress the warning if you understand the risks.
 	#[structopt(long = "ws-external")]
 	pub ws_external: bool,
@@ -156,7 +156,7 @@ pub struct RunCmd {
 	#[structopt(long = "name", value_name = "NAME")]
 	pub name: Option<String>,
 
-	/// Disable connecting to the Axlib telemetry server.
+	/// Disable connecting to the Substrate telemetry server.
 	///
 	/// Telemetry is on by default on global chains.
 	#[structopt(long = "no-telemetry")]

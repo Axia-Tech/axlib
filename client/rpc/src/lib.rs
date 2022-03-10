@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -16,9 +16,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-//! Axlib RPC implementation.
+//! Substrate RPC implementation.
 //!
-//! A core implementation of Axlib RPC interfaces.
+//! A core implementation of Substrate RPC interfaces.
 
 #![warn(missing_docs)]
 
@@ -54,7 +54,7 @@ impl SubscriptionTaskExecutor {
 
 impl Spawn for SubscriptionTaskExecutor {
 	fn spawn_obj(&self, future: FutureObj<'static, ()>) -> Result<(), SpawnError> {
-		self.0.spawn("axlib-rpc-subscription", future.map(drop).boxed());
+		self.0.spawn("substrate-rpc-subscription", future.map(drop).boxed());
 		Ok(())
 	}
 

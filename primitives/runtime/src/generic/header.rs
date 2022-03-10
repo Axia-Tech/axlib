@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -31,7 +31,7 @@ use serde::{Deserialize, Serialize};
 use sp_core::U256;
 use sp_std::{convert::TryFrom, fmt::Debug};
 
-/// Abstraction over a block header for a axlib chain.
+/// Abstraction over a block header for a substrate chain.
 #[derive(Encode, Decode, PartialEq, Eq, Clone, sp_core::RuntimeDebug, TypeInfo)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "std", serde(rename_all = "camelCase"))]
@@ -55,13 +55,13 @@ pub struct Header<Number: Copy + Into<U256> + TryFrom<U256>, Hash: HashT> {
 }
 
 #[cfg(feature = "std")]
-impl<Number, Hash> axia_util_mem::MallocSizeOf for Header<Number, Hash>
+impl<Number, Hash> parity_util_mem::MallocSizeOf for Header<Number, Hash>
 where
-	Number: Copy + Into<U256> + TryFrom<U256> + axia_util_mem::MallocSizeOf,
+	Number: Copy + Into<U256> + TryFrom<U256> + parity_util_mem::MallocSizeOf,
 	Hash: HashT,
-	Hash::Output: axia_util_mem::MallocSizeOf,
+	Hash::Output: parity_util_mem::MallocSizeOf,
 {
-	fn size_of(&self, ops: &mut axia_util_mem::MallocSizeOfOps) -> usize {
+	fn size_of(&self, ops: &mut parity_util_mem::MallocSizeOfOps) -> usize {
 		self.parent_hash.size_of(ops) +
 			self.number.size_of(ops) +
 			self.state_root.size_of(ops) +

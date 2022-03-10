@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -84,12 +84,12 @@ where
 }
 
 #[cfg(feature = "std")]
-impl<Address, Call, Signature, Extra> axia_util_mem::MallocSizeOf
+impl<Address, Call, Signature, Extra> parity_util_mem::MallocSizeOf
 	for UncheckedExtrinsic<Address, Call, Signature, Extra>
 where
 	Extra: SignedExtension,
 {
-	fn size_of(&self, _ops: &mut axia_util_mem::MallocSizeOfOps) -> usize {
+	fn size_of(&self, _ops: &mut parity_util_mem::MallocSizeOfOps) -> usize {
 		// Instantiated only in runtime.
 		0
 	}
@@ -235,7 +235,7 @@ where
 {
 	fn decode<I: Input>(input: &mut I) -> Result<Self, Error> {
 		// This is a little more complicated than usual since the binary format must be compatible
-		// with axlib's generic `Vec<u8>` type. Basically this just means accepting that there
+		// with substrate's generic `Vec<u8>` type. Basically this just means accepting that there
 		// will be a prefix of vector length (we don't need
 		// to use this).
 		let _length_do_not_remove_me_see_above: Compact<u32> = Decode::decode(input)?;

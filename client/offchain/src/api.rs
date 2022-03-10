@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -40,7 +40,7 @@ fn unavailable_yet<R: Default>(name: &str) -> R {
 	log::error!(
 		target: "sc_offchain",
 		"The {:?} API is not available for offchain workers yet. Follow \
-		https://github.com/axia-tech/axlib/issues/1458 for details", name
+		https://github.com/axia-tech/substrate/issues/1458 for details", name
 	);
 	Default::default()
 }
@@ -139,7 +139,7 @@ impl<Storage: OffchainStorage> offchain::DbExternalities for Db<Storage> {
 /// NOTE this is done to prevent recursive calls into the runtime
 /// (which are not supported currently).
 pub(crate) struct Api {
-	/// A provider for axlib networking.
+	/// A provider for substrate networking.
 	network_provider: Arc<dyn NetworkProvider + Send + Sync>,
 	/// Is this node a potential validator?
 	is_validator: bool,

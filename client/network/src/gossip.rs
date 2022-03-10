@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -41,7 +41,7 @@
 //! In normal situations, messages sent through a [`QueuedSender`] will arrive in the same
 //! order as they have been sent.
 //! It is possible, in the situation of disconnects and reconnects, that messages arrive in a
-//! different order. See also <https://github.com/axia-tech/axlib/issues/6756>.
+//! different order. See also <https://github.com/axia-tech/substrate/issues/6756>.
 //! However, if multiple instances of [`QueuedSender`] exist for the same peer and protocol, or
 //! if some other code uses the [`NetworkService`] to send notifications to this combination or
 //! peer and protocol, then the notifications will be interleaved in an unpredictable way.

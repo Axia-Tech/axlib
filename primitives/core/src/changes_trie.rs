@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2018-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -15,17 +15,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-//! Axlib changes trie configuration.
+//! Substrate changes trie configuration.
 
 use codec::{Decode, Encode};
 use num_traits::Zero;
 #[cfg(any(feature = "std", test))]
 use serde::{Deserialize, Serialize};
 
-/// Axlib changes trie configuration.
+/// Substrate changes trie configuration.
 #[cfg_attr(
 	any(feature = "std", test),
-	derive(Serialize, Deserialize, axia_util_mem::MallocSizeOf)
+	derive(Serialize, Deserialize, parity_util_mem::MallocSizeOf)
 )]
 #[derive(Debug, Clone, PartialEq, Eq, Default, Encode, Decode, scale_info::TypeInfo)]
 pub struct ChangesTrieConfiguration {
@@ -42,7 +42,7 @@ pub struct ChangesTrieConfiguration {
 	pub digest_levels: u32,
 }
 
-/// Axlib changes trie configuration range.
+/// Substrate changes trie configuration range.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ChangesTrieConfigurationRange<Number, Hash> {
 	/// Zero block of configuration.

@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2020-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -16,8 +16,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-/// Axiatest value size distribution
-pub const AXIATEST_STATE_DISTRIBUTION: &'static [(u32, u32)] = &[
+/// Kusama value size distribution
+pub const KUSAMA_STATE_DISTRIBUTION: &'static [(u32, u32)] = &[
 	(32, 35),
 	(33, 20035),
 	(34, 5369),

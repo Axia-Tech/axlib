@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2018-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -22,7 +22,7 @@ use std::{
 };
 
 use finality_grandpa::{voter_set::VoterSet, Error as GrandpaError};
-use axia_scale_codec::{Decode, Encode};
+use parity_scale_codec::{Decode, Encode};
 use sp_blockchain::{Error as ClientError, HeaderBackend};
 use sp_finality_grandpa::AuthorityId;
 use sp_runtime::{

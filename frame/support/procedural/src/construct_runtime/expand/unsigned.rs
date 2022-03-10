@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -35,7 +35,7 @@ pub fn expand_outer_validate_unsigned(
 
 			pallet_names.push(name);
 			query_validate_unsigned_part_macros.push(quote! {
-				#path::__axlib_validate_unsigned_check::is_validate_unsigned_part_defined!(#name);
+				#path::__substrate_validate_unsigned_check::is_validate_unsigned_part_defined!(#name);
 			});
 		}
 	}

@@ -3,14 +3,14 @@
 ### ARGS FOR THIS SCRIPT ###
 # ./${SCRIPT_NAME} NAMESPACE IMAGE LOG_PATH FEATURES
 #   NAMESPACE the kubernetes namespace where the test will run
-#   IMAGE Axlib image used to spawn network
+#   IMAGE Substrate image used to spawn network
 #   LOG_PATH path to dir where to save logs from external JS script that is run as part 
 # of step in features file
 #   FEATURES directory containing cucumber files or single  cucumber file that describes 
 # what to test.   
 #
 # All args have default values, specify args to override
-# e.g: ./${SCRIPT_NAME} test-name axia/axlib:latest logs quick
+# e.g: ./${SCRIPT_NAME} test-name axia/substrate:latest logs quick
 
 set -eou pipefail
 SCRIPT_NAME="$0"
@@ -26,7 +26,7 @@ function random_string {
 #
 
 NAMESPACE=${1:-gurke-"$(random_string)"-runtest}
-IMAGE=${2:-"axia/axlib:latest"}
+IMAGE=${2:-"axia/substrate:latest"}
 LOG_PATH=${3:-"${SCRIPT_PATH}/logs"}
 FEATURES=${4:-"ALL"}
 

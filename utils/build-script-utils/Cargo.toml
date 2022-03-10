@@ -1,5 +1,5 @@
 [package]
-name = "axlib-build-script-utils"
+name = "substrate-build-script-utils"
 version = "3.0.0"
 authors = ["AXIA Technologies <admin@axiacoin.network>"]
 edition = "2018"

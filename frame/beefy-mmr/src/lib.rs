@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -95,15 +95,15 @@ type ParaId = u32;
 type ParaHead = Vec<u8>;
 
 /// A type that is able to return current list of allychain heads that end up in the MMR leaf.
-pub trait AllychainHeadsProvider {
-	/// Return a list of tuples containing a `ParaId` and Allychain Header data (ParaHead).
+pub trait ParachainHeadsProvider {
+	/// Return a list of tuples containing a `ParaId` and Parachain Header data (ParaHead).
 	///
 	/// The returned data does not have to be sorted.
 	fn allychain_heads() -> Vec<(ParaId, ParaHead)>;
 }
 
 /// A default implementation for runtimes without allychains.
-impl AllychainHeadsProvider for () {
+impl ParachainHeadsProvider for () {
 	fn allychain_heads() -> Vec<(ParaId, ParaHead)> {
 		Default::default()
 	}
@@ -135,7 +135,7 @@ pub mod pallet {
 		///
 		/// For instance for ECDSA (secp256k1) we want to store uncompressed public keys (65 bytes)
 		/// and later to Ethereum Addresses (160 bits) to simplify using them on Ethereum chain,
-		/// but the rest of the Axlib codebase is storing them compressed (33 bytes) for
+		/// but the rest of the Substrate codebase is storing them compressed (33 bytes) for
 		/// efficiency reasons.
 		type BeefyAuthorityToMerkleLeaf: Convert<<Self as pallet_beefy::Config>::BeefyId, Vec<u8>>;
 
@@ -144,7 +144,7 @@ pub mod pallet {
 		/// The trait is implemented for `paras` module, but since not all chains might have
 		/// allychains, and we want to keep the MMR leaf structure uniform, it's possible to use
 		/// `()` as well to simply put dummy data to the leaf.
-		type AllychainHeads: AllychainHeadsProvider;
+		type ParachainHeads: ParachainHeadsProvider;
 	}
 
 	/// Details of next BEEFY authority set.
@@ -200,7 +200,7 @@ where
 	/// [Self::on_initialize] call of this pallet and update the merkle tree efficiently (use
 	/// on-chain storage to persist inner nodes).
 	fn allychain_heads_merkle_root() -> MerkleRootOf<T> {
-		let mut para_heads = T::AllychainHeads::allychain_heads();
+		let mut para_heads = T::ParachainHeads::allychain_heads();
 		para_heads.sort();
 		let para_heads = para_heads.into_iter().map(|pair| pair.encode());
 		beefy_merkle_tree::merkle_root::<Self, _, _>(para_heads).into()

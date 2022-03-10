@@ -14,14 +14,14 @@ readme = "README.md"
 targets = ["x86_64-unknown-linux-gnu"]
 
 [dependencies]
-codec = { git = "https://github.com/axia-tech/axia-scale-codec", package = "axia-scale-codec", branch = "v2.3.1" }
+codec = { package = "parity-scale-codec", version = "2.0.0" }
 sp-io = { version = "4.0.0-dev", path = "../../primitives/io" }
 sp-core = { version = "4.0.0-dev", path = "../../primitives/core" }
 sp-tasks = { version = "4.0.0-dev", path = "../../primitives/tasks" }
 sp-trie = { version = "4.0.0-dev", path = "../../primitives/trie" }
 sp-version = { version = "4.0.0-dev", path = "../../primitives/version" }
 sp-panic-handler = { version = "3.0.0", path = "../../primitives/panic-handler" }
-wasmi = { git = "https://github.com/axia-tech/wasmi", branch = "v0.9.1", version = "0.9.1" }
+wasmi = "0.9.0"
 lazy_static = "1.4.0"
 sp-api = { version = "4.0.0-dev", path = "../../primitives/api" }
 sp-wasm-interface = { version = "4.0.0-dev", path = "../../primitives/wasm-interface" }
@@ -38,7 +38,7 @@ libsecp256k1 = "0.6"
 wat = "1.0"
 hex-literal = "0.3.3"
 sc-runtime-test = { version = "2.0.0", path = "runtime-test" }
-axlib-test-runtime = { version = "2.0.0", path = "../../test-utils/runtime" }
+substrate-test-runtime = { version = "2.0.0", path = "../../test-utils/runtime" }
 sp-state-machine = { version = "0.10.0-dev", path = "../../primitives/state-machine" }
 sp-runtime = { version = "4.0.0-dev", path = "../../primitives/runtime" }
 sp-maybe-compressed-blob = { version = "4.0.0-dev", path = "../../primitives/maybe-compressed-blob" }

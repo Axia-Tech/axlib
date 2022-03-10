@@ -7,11 +7,11 @@ ARG BUILD_DATE
 LABEL io.axia.image.authors="devops-team@axiacoin.network" \
 	io.axia.image.vendor="AXIA Technologies" \
 	io.axia.image.title="axia/axlib" \
-	io.axia.image.description="Axlib: The platform for blockchain innovators." \
+	io.axia.image.description="Substrate: The platform for blockchain innovators." \
 	io.axia.image.source="https://github.com/axia-tech/axlib/blob/${VCS_REF}/.maintain/docker/Dockerfile" \
 	io.axia.image.revision="${VCS_REF}" \
 	io.axia.image.created="${BUILD_DATE}" \
-	io.axia.image.documentation="https://wiki.axiacoin.network/AXIA-Axlib"
+	io.axia.image.documentation="https://wiki.axiacoin.network/AXIA-Substrate"
 
 # show backtraces
 ENV RUST_BACKTRACE 1

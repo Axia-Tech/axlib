@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2020-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -16,11 +16,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-//! Configuration trait for a CLI based on axlib
+//! Configuration trait for a CLI based on substrate
 
 use crate::{
 	arg_enums::Database, error::Result, DatabaseParams, ImportParams, KeystoreParams,
-	NetworkParams, NodeKeyParams, OffchainWorkerParams, PruningParams, SharedParams, AxlibCli,
+	NetworkParams, NodeKeyParams, OffchainWorkerParams, PruningParams, SharedParams, SubstrateCli,
 };
 use log::warn;
 use names::{Generator, Name};
@@ -45,33 +45,33 @@ pub(crate) const DEFAULT_NETWORK_CONFIG_PATH: &'static str = "network";
 /// The recommended open file descriptor limit to be configured for the process.
 const RECOMMENDED_OPEN_FILE_DESCRIPTOR_LIMIT: u64 = 10_000;
 
-/// Default configuration values used by Axlib
+/// Default configuration values used by Substrate
 ///
 /// These values will be used by [`CliConfiguration`] to set
 /// default values for e.g. the listen port or the RPC port.
 pub trait DefaultConfigurationValues {
-	/// The port Axlib should listen on for p2p connections.
+	/// The port Substrate should listen on for p2p connections.
 	///
 	/// By default this is `30333`.
 	fn p2p_listen_port() -> u16 {
 		30333
 	}
 
-	/// The port Axlib should listen on for websocket connections.
+	/// The port Substrate should listen on for websocket connections.
 	///
 	/// By default this is `9944`.
 	fn rpc_ws_listen_port() -> u16 {
 		9944
 	}
 
-	/// The port Axlib should listen on for http connections.
+	/// The port Substrate should listen on for http connections.
 	///
 	/// By default this is `9933`.
 	fn rpc_http_listen_port() -> u16 {
 		9933
 	}
 
-	/// The port Axlib should listen on for prometheus connections.
+	/// The port Substrate should listen on for prometheus connections.
 	///
 	/// By default this is `9615`.
 	fn prometheus_listen_port() -> u16 {
@@ -460,7 +460,7 @@ pub trait CliConfiguration<DCV: DefaultConfigurationValues = ()>: Sized {
 	}
 
 	/// Create a Configuration object from the current object
-	fn create_configuration<C: AxlibCli>(
+	fn create_configuration<C: SubstrateCli>(
 		&self,
 		cli: &C,
 		tokio_handle: tokio::runtime::Handle,
@@ -557,14 +557,14 @@ pub trait CliConfiguration<DCV: DefaultConfigurationValues = ()>: Sized {
 		Ok(self.shared_params().disable_log_color())
 	}
 
-	/// Initialize axlib. This must be done only once per process.
+	/// Initialize substrate. This must be done only once per process.
 	///
 	/// This method:
 	///
 	/// 1. Sets the panic handler
 	/// 2. Initializes the logger
 	/// 3. Raises the FD limit
-	fn init<C: AxlibCli>(&self) -> Result<()> {
+	fn init<C: SubstrateCli>(&self) -> Result<()> {
 		sp_panic_handler::set(&C::support_url(), &C::impl_version());
 
 		let mut logger = LoggerBuilder::new(self.log_filters()?);

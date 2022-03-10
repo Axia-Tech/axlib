@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -186,7 +186,7 @@ where
 	let mut changes = OverlayedChanges::default();
 	let trie_backend = create_proof_check_backend(root, remote_proof)?;
 
-	// TODO: Remove when solved: https://github.com/axia-tech/axlib/issues/5047
+	// TODO: Remove when solved: https://github.com/axia-tech/substrate/issues/5047
 	let backend_runtime_code = sp_state_machine::backend::BackendRuntimeCode::new(&trie_backend);
 	let runtime_code = backend_runtime_code
 		.runtime_code()

@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0"
 homepage = ""
 repository = "https://github.com/axia-tech/axlib/"
-description = "Axlib customizable serde serializer."
+description = "Substrate customizable serde serializer."
 documentation = "https://docs.rs/sp-serializer"
 readme = "README.md"
 

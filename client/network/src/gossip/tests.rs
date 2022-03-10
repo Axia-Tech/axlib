@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -25,11 +25,11 @@ use crate::{config,  Event, NetworkService, NetworkWorker};
 use futures::prelude::*;
 use sp_runtime::traits::{Block as BlockT, Header as _};
 use std::{borrow::Cow, sync::Arc, time::Duration};
-use axlib_test_runtime_client::{TestClientBuilder, TestClientBuilderExt as _};
+use substrate_test_runtime_client::{TestClientBuilder, TestClientBuilderExt as _};
 
 type TestNetworkService = NetworkService<
-	axlib_test_runtime_client::runtime::Block,
-	axlib_test_runtime_client::runtime::Hash,
+	substrate_test_runtime_client::runtime::Block,
+	substrate_test_runtime_client::runtime::Hash,
 >;
 
 /// Builds a full node to be used for testing. Returns the node service and its associated events

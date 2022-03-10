@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2018-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -16,7 +16,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-//! Aura (Authority-round) consensus in axlib.
+//! Aura (Authority-round) consensus in substrate.
 //!
 //! Aura works by having a list of authorities A who are expected to roughly
 //! agree on the current time. Time is divided up into discrete slots of t
@@ -580,7 +580,7 @@ mod tests {
 		task::Poll,
 		time::{Duration, Instant},
 	};
-	use axlib_test_runtime_client::{
+	use substrate_test_runtime_client::{
 		runtime::{Header, H256},
 		TestClient,
 	};
@@ -603,7 +603,7 @@ mod tests {
 	impl Proposer<TestBlock> for DummyProposer {
 		type Error = Error;
 		type Transaction =
-			sc_client_api::TransactionFor<axlib_test_runtime_client::Backend, TestBlock>;
+			sc_client_api::TransactionFor<substrate_test_runtime_client::Backend, TestBlock>;
 		type Proposal = future::Ready<Result<Proposal<TestBlock, Self::Transaction, ()>, Error>>;
 		type ProofRecording = DisableProofRecording;
 		type Proof = ();
@@ -790,7 +790,7 @@ mod tests {
 
 	#[test]
 	fn authorities_call_works() {
-		let client = axlib_test_runtime_client::new();
+		let client = substrate_test_runtime_client::new();
 
 		assert_eq!(client.chain_info().best_number, 0);
 		assert_eq!(

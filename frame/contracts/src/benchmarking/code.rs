@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2020-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -26,7 +26,7 @@
 
 use crate::Config;
 use frame_support::traits::Get;
-use pwasm_utils::axia_wasm::{
+use pwasm_utils::parity_wasm::{
 	builder,
 	elements::{
 		self, BlockType, CustomSection, External, FuncBody, Instruction, Instructions, Module,
@@ -41,7 +41,7 @@ use sp_std::{borrow::ToOwned, convert::TryFrom, prelude::*};
 /// Pass to `create_code` in order to create a compiled `WasmModule`.
 ///
 /// This exists to have a more declarative way to describe a wasm module than to use
-/// axia-wasm directly. It is tailored to fit the structure of contracts that are
+/// parity-wasm directly. It is tailored to fit the structure of contracts that are
 /// needed for benchmarking.
 #[derive(Default)]
 pub struct ModuleDefinition {

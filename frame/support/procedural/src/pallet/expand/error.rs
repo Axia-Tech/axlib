@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2020-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -69,7 +69,7 @@ pub fn expand_error(def: &mut Def) -> proc_macro2::TokenStream {
 	if get_doc_literals(&error_item.attrs).is_empty() {
 		error_item.attrs.push(syn::parse_quote!(
 			#[doc = r"
-			Custom [dispatch errors](https://docs.axlib.io/v3/runtime/events-and-errors)
+			Custom [dispatch errors](https://docs.substrate.io/v3/runtime/events-and-errors)
 			of this pallet.
 			"]
 		));

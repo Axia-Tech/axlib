@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -49,7 +49,7 @@ mod test;
 use codec::Codec;
 use log::trace;
 use noncanonical::NonCanonicalOverlay;
-use axia_util_mem::{malloc_size, MallocSizeOf};
+use parity_util_mem::{malloc_size, MallocSizeOf};
 use parking_lot::RwLock;
 use pruning::RefWindow;
 use sc_client_api::{MemorySize, StateDbMemoryInfo};

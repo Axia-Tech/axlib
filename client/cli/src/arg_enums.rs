@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2018-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -80,7 +80,7 @@ impl Into<sc_service::config::WasmExecutionMethod> for WasmExecutionMethod {
 			WasmExecutionMethod::Compiled => sc_service::config::WasmExecutionMethod::Compiled,
 			#[cfg(not(feature = "wasmtime"))]
 			WasmExecutionMethod::Compiled => panic!(
-				"Axlib must be compiled with \"wasmtime\" feature for compiled Wasm execution"
+				"Substrate must be compiled with \"wasmtime\" feature for compiled Wasm execution"
 			),
 		}
 	}
@@ -195,7 +195,7 @@ impl Into<sc_service::config::RpcMethods> for RpcMethods {
 pub enum Database {
 	/// Facebooks RocksDB
 	RocksDb,
-	/// AXIADb. <https://github.com/axia-tech/axia-db/>
+	/// AXIADb. <https://github.com/axiatech/parity-db/>
 	AXIADb,
 	/// Detect whether there is an existing database. Use it, if there is, if not, create new
 	/// instance of axiadb

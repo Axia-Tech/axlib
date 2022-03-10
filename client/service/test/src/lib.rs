@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2018-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -407,7 +407,7 @@ pub fn connectivity<G, E, Fb, F, Lb, L>(
 	let expected_light_connections = NUM_FULL_NODES;
 
 	{
-		let temp = tempdir_with_prefix("axlib-connectivity-test");
+		let temp = tempdir_with_prefix("substrate-connectivity-test");
 		{
 			let mut network = TestNet::new(
 				&temp,
@@ -451,7 +451,7 @@ pub fn connectivity<G, E, Fb, F, Lb, L>(
 		temp.close().expect("Error removing temp dir");
 	}
 	{
-		let temp = tempdir_with_prefix("axlib-connectivity-test");
+		let temp = tempdir_with_prefix("substrate-connectivity-test");
 		{
 			let mut network = TestNet::new(
 				&temp,
@@ -524,7 +524,7 @@ pub fn sync<G, E, Fb, F, Lb, L, B, ExF, U>(
 	// FIXME: BABE light client support is currently not working.
 	const NUM_LIGHT_NODES: usize = 10;
 	const NUM_BLOCKS: usize = 512;
-	let temp = tempdir_with_prefix("axlib-sync-test");
+	let temp = tempdir_with_prefix("substrate-sync-test");
 	let mut network = TestNet::new(
 		&temp,
 		spec,
@@ -607,7 +607,7 @@ pub fn consensus<G, E, Fb, F, Lb, L>(
 	const NUM_FULL_NODES: usize = 10;
 	const NUM_LIGHT_NODES: usize = 10;
 	const NUM_BLOCKS: usize = 10; // 10 * 2 sec block production time = ~20 seconds
-	let temp = tempdir_with_prefix("axlib-consensus-test");
+	let temp = tempdir_with_prefix("substrate-consensus-test");
 	let mut network = TestNet::new(
 		&temp,
 		spec,

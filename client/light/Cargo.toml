@@ -12,7 +12,7 @@ readme = "README.md"
 
 [dependencies]
 parking_lot = "0.11.1"
-hash-db = { git = "https://github.com/axia-tech/trie", branch = "master", version = "0.15.2" }
+hash-db = "0.15.2"
 sp-runtime = { version = "4.0.0-dev", path = "../../primitives/runtime" }
 sp-externalities = { version = "0.10.0-dev", path = "../../primitives/externalities" }
 sp-blockchain = { version = "4.0.0-dev", path = "../../primitives/blockchain" }
@@ -20,7 +20,7 @@ sp-core = { version = "4.0.0-dev", path = "../../primitives/core" }
 sp-state-machine = { version = "0.10.0-dev", path = "../../primitives/state-machine" }
 sc-client-api = { version = "4.0.0-dev", path = "../api" }
 sp-api = { version = "4.0.0-dev", path = "../../primitives/api" }
-codec = { git = "https://github.com/axia-tech/axia-scale-codec", package = "axia-scale-codec", branch = "v2.3.1" }
+codec = { package = "parity-scale-codec", version = "2.0.0" }
 sc-executor = { version = "0.10.0-dev", path = "../executor" }
 
 [features]

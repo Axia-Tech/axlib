@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2018-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -23,7 +23,7 @@ use std::{cmp::Ord, fmt::Debug, ops::Add};
 use finality_grandpa::voter_set::VoterSet;
 use fork_tree::ForkTree;
 use log::debug;
-use axia_scale_codec::{Decode, Encode};
+use parity_scale_codec::{Decode, Encode};
 use parking_lot::MappedMutexGuard;
 use sc_consensus::shared_data::{SharedData, SharedDataLocked};
 use sc_telemetry::{telemetry, TelemetryHandle, CONSENSUS_INFO};
@@ -629,9 +629,9 @@ pub struct PendingChange<H, N> {
 }
 
 impl<H: Decode, N: Decode> Decode for PendingChange<H, N> {
-	fn decode<I: axia_scale_codec::Input>(
+	fn decode<I: parity_scale_codec::Input>(
 		value: &mut I,
-	) -> Result<Self, axia_scale_codec::Error> {
+	) -> Result<Self, parity_scale_codec::Error> {
 		let next_authorities = Decode::decode(value)?;
 		let delay = Decode::decode(value)?;
 		let canon_height = Decode::decode(value)?;

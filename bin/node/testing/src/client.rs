@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -21,7 +21,7 @@
 use sc_service::client;
 use sp_runtime::BuildStorage;
 /// Re-export test-client utilities.
-pub use axlib_test_client::*;
+pub use substrate_test_client::*;
 
 /// Call executor for `node-runtime` `TestClient`.
 pub type ExecutorDispatch = sc_executor::NativeElseWasmExecutor<node_executor::ExecutorDispatch>;
@@ -46,7 +46,7 @@ pub struct GenesisParameters {
 	support_changes_trie: bool,
 }
 
-impl axlib_test_client::GenesisInit for GenesisParameters {
+impl substrate_test_client::GenesisInit for GenesisParameters {
 	fn genesis_storage(&self) -> Storage {
 		crate::genesis::config(self.support_changes_trie, None).build_storage().unwrap()
 	}
@@ -62,7 +62,7 @@ pub trait TestClientBuilderExt: Sized {
 }
 
 impl TestClientBuilderExt
-	for axlib_test_client::TestClientBuilder<
+	for substrate_test_client::TestClientBuilder<
 		node_primitives::Block,
 		client::LocalCallExecutor<node_primitives::Block, Backend, ExecutorDispatch>,
 		Backend,

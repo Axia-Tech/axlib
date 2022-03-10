@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -46,7 +46,7 @@ use sc_network::{
 	warp_request_handler::{self, RequestHandler as WarpSyncRequestHandler, WarpSyncProvider},
 	NetworkService,
 };
-use sc_telemetry::{telemetry, ConnectionMessage, Telemetry, TelemetryHandle, AXLIB_INFO};
+use sc_telemetry::{telemetry, ConnectionMessage, Telemetry, TelemetryHandle, SUBSTRATE_INFO};
 use sc_transaction_pool_api::MaintainedTransactionPool;
 use sc_utils::mpsc::{tracing_unbounded, TracingUnboundedSender};
 use sp_api::{CallApiAt, ProvideRuntimeApi};
@@ -551,7 +551,7 @@ where
 	TBl::Header: Unpin,
 	TBackend: 'static + sc_client_api::backend::Backend<TBl> + Send,
 	TExPool: MaintainedTransactionPool<Block = TBl, Hash = <TBl as BlockT>::Hash>
-		+ axia_util_mem::MallocSizeOf
+		+ parity_util_mem::MallocSizeOf
 		+ 'static,
 	TRpc: sc_rpc::RpcExtension<sc_rpc::Metadata>,
 {
@@ -683,7 +683,7 @@ async fn transaction_notifications<TBl, TExPool>(
 			let status = transaction_pool.status();
 			telemetry!(
 				telemetry;
-				AXLIB_INFO;
+				SUBSTRATE_INFO;
 				"txpool.import";
 				"ready" => status.ready,
 				"future" => status.future,
@@ -1016,7 +1016,7 @@ where
 	// This entire hack should eventually be removed in favour of passing the list of protocols
 	// through the configuration.
 	//
-	// See also https://github.com/axia-tech/axlib/issues/6827
+	// See also https://github.com/axia-tech/substrate/issues/6827
 	let (network_start_tx, network_start_rx) = oneshot::channel();
 
 	// The network worker is responsible for gathering all network messages and processing

@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2020-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -589,7 +589,7 @@ where
 }
 
 /// NetworkProvider provides [`Worker`] with all necessary hooks into the
-/// underlying Axlib networking. Using this trait abstraction instead of
+/// underlying Substrate networking. Using this trait abstraction instead of
 /// [`sc_network::NetworkService`] directly is necessary to unit test [`Worker`].
 #[async_trait]
 pub trait NetworkProvider: NetworkStateInfo {

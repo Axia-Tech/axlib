@@ -13,10 +13,10 @@ readme = "README.md"
 targets = ["x86_64-unknown-linux-gnu"]
 
 [dependencies]
-codec = { git = "https://github.com/axia-tech/axia-scale-codec", package = "axia-scale-codec", branch = "v2.3.1", default-features = false, features = [
+codec = { package = "parity-scale-codec", version = "2.0.0", default-features = false, features = [
 	"derive",
 ] }
-scale-info = { git = "https://github.com/axia-tech/scale-info", branch = "v1.0.0", default-features = false, features = ["derive"] }
+scale-info = { version = "1.0", default-features = false, features = ["derive"] }
 sp-runtime = { version = "4.0.0-dev", default-features = false, path = "../../primitives/runtime" }
 sp-npos-elections = { version = "4.0.0-dev", default-features = false, path = "../../primitives/npos-elections" }
 sp-io = { version = "4.0.0-dev", default-features = false, path = "../../primitives/io" }
@@ -30,7 +30,7 @@ log = { version = "0.4.14", default-features = false }
 [dev-dependencies]
 pallet-balances = { version = "4.0.0-dev", path = "../balances" }
 sp-core = { version = "4.0.0-dev", path = "../../primitives/core" }
-axlib-test-utils = { version = "4.0.0-dev", path = "../../test-utils" }
+substrate-test-utils = { version = "4.0.0-dev", path = "../../test-utils" }
 
 [features]
 default = ["std"]

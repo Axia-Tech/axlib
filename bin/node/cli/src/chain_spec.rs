@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2018-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -16,7 +16,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-//! Axlib chain configurations.
+//! Substrate chain configurations.
 
 use grandpa_primitives::AuthorityId as GrandpaId;
 use hex_literal::hex;
@@ -48,7 +48,7 @@ const STAGING_TELEMETRY_URL: &str = "wss://telemetry.axia.io/submit/";
 
 /// Node `ChainSpec` extensions.
 ///
-/// Additional parameters for some Axlib core modules,
+/// Additional parameters for some Substrate core modules,
 /// customizable from the chain spec.
 #[derive(Default, Clone, Serialize, Deserialize, ChainSpecExtension)]
 #[serde(rename_all = "camelCase")]

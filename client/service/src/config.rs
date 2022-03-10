@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -187,11 +187,11 @@ pub struct PrometheusConfig {
 impl PrometheusConfig {
 	/// Create a new config using the default registry.
 	///
-	/// The default registry prefixes metrics with `axlib`.
+	/// The default registry prefixes metrics with `substrate`.
 	pub fn new_with_default_registry(port: SocketAddr) -> Self {
 		Self {
 			port,
-			registry: Registry::new_custom(Some("axlib".into()), None)
+			registry: Registry::new_custom(Some("substrate".into()), None)
 				.expect("this can only fail if the prefix is empty"),
 		}
 	}
@@ -253,13 +253,13 @@ pub enum BasePath {
 }
 
 impl BasePath {
-	/// Create a `BasePath` instance using a temporary directory prefixed with "axlib" and use
+	/// Create a `BasePath` instance using a temporary directory prefixed with "substrate" and use
 	/// it as base path.
 	///
 	/// Note: the temporary directory will be created automatically and deleted when the `BasePath`
 	/// instance is dropped.
 	pub fn new_temp_dir() -> io::Result<BasePath> {
-		Ok(BasePath::Temporary(tempfile::Builder::new().prefix("axlib").tempdir()?))
+		Ok(BasePath::Temporary(tempfile::Builder::new().prefix("substrate").tempdir()?))
 	}
 
 	/// Create a `BasePath` instance based on an existing path on disk.

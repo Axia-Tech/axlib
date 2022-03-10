@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
@@ -27,7 +27,7 @@ mod cli {
 
 	use sc_cli::structopt::clap::Shell;
 	use std::{env, fs, path::Path};
-	use axlib_build_script_utils::{generate_cargo_keys, rerun_if_git_head_changed};
+	use substrate_build_script_utils::{generate_cargo_keys, rerun_if_git_head_changed};
 
 	pub fn main() {
 		build_shell_completion();
@@ -61,6 +61,6 @@ mod cli {
 
 		fs::create_dir(&path).ok();
 
-		Cli::clap().gen_completions("axlib-node", *shell, &path);
+		Cli::clap().gen_completions("substrate-node", *shell, &path);
 	}
 }

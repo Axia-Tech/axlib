@@ -19,7 +19,7 @@ sp-io = { version = "4.0.0-dev", default-features = false, path = "../../io" }
 sp-core = { version = "4.0.0-dev", default-features = false, path = "../../core" }
 
 [build-dependencies]
-axlib-wasm-builder = { version = "5.0.0-dev", path = "../../../utils/wasm-builder" }
+substrate-wasm-builder = { version = "5.0.0-dev", path = "../../../utils/wasm-builder" }
 
 [features]
 default = [ "std" ]

@@ -10,7 +10,7 @@ error: `Pallet` does not have the std feature enabled, this will cause the `test
 22 | | }
    | |_^
    |
-   = note: this error originates in the macro `test_pallet::__axlib_genesis_config_check::is_std_enabled_for_genesis` (in Nightly builds, run with -Z macro-backtrace for more info)
+   = note: this error originates in the macro `test_pallet::__substrate_genesis_config_check::is_std_enabled_for_genesis` (in Nightly builds, run with -Z macro-backtrace for more info)
 
 error[E0433]: failed to resolve: use of undeclared crate or module `system`
   --> $DIR/no_std_genesis_config.rs:19:11

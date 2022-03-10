@@ -1,4 +1,4 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
 // Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
@@ -40,7 +40,7 @@ fn call_wasm_method_with_result<HF: HostFunctionsT>(
 	let mut ext = TestExternalities::default();
 	let mut ext_ext = ext.ext();
 	let mut host_functions = HF::host_functions();
-	host_functions.extend(sp_io::AxlibHostFunctions::host_functions());
+	host_functions.extend(sp_io::SubstrateHostFunctions::host_functions());
 
 	let executor = sc_executor::WasmExecutor::new(
 		sc_executor::WasmExecutionMethod::Interpreted,
