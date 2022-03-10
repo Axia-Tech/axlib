@@ -9426,7 +9426,7 @@ dependencies = [
  "sp-std",
  "sp-storage",
  "ss58-registry",
- "substrate-bip39",
+ "axlib-bip39",
  "thiserror",
  "tiny-bip39",
  "tiny-keccak",
@@ -10063,7 +10063,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "substrate-bip39"
+name = "axlib-bip39"
 version = "0.4.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "49eee6965196b32f882dd2ee85a92b1dbead41b04e53907f269de3b0dc04733c"
