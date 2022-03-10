@@ -46,7 +46,7 @@ use sc_network::{
 	warp_request_handler::{self, RequestHandler as WarpSyncRequestHandler, WarpSyncProvider},
 	NetworkService,
 };
-use sc_telemetry::{telemetry, ConnectionMessage, Telemetry, TelemetryHandle, SUBSTRATE_INFO};
+use sc_telemetry::{telemetry, ConnectionMessage, Telemetry, TelemetryHandle, AXLIB_INFO};
 use sc_transaction_pool_api::MaintainedTransactionPool;
 use sc_utils::mpsc::{tracing_unbounded, TracingUnboundedSender};
 use sp_api::{CallApiAt, ProvideRuntimeApi};
@@ -683,7 +683,7 @@ async fn transaction_notifications<TBl, TExPool>(
 			let status = transaction_pool.status();
 			telemetry!(
 				telemetry;
-				SUBSTRATE_INFO;
+				AXLIB_INFO;
 				"txpool.import";
 				"ready" => status.ready,
 				"future" => status.future,

@@ -60,9 +60,9 @@ use node::*;
 use transport::*;
 
 /// Axlib DEBUG log level.
-pub const SUBSTRATE_DEBUG: VerbosityLevel = 9;
+pub const AXLIB_DEBUG: VerbosityLevel = 9;
 /// Axlib INFO log level.
-pub const SUBSTRATE_INFO: VerbosityLevel = 0;
+pub const AXLIB_INFO: VerbosityLevel = 0;
 
 /// Consensus TRACE log level.
 pub const CONSENSUS_TRACE: VerbosityLevel = 9;
