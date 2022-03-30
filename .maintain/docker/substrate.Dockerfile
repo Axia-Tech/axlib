@@ -4,14 +4,14 @@ FROM docker.io/library/ubuntu:20.04
 ARG VCS_REF
 ARG BUILD_DATE
 
-LABEL io.axia.image.authors="devops-team@axiacoin.network" \
-	io.axia.image.vendor="AXIA Technologies" \
-	io.axia.image.title="axia/axlib" \
-	io.axia.image.description="Axlib: The platform for blockchain innovators." \
-	io.axia.image.source="https://github.com/axia-tech/axlib/blob/${VCS_REF}/.maintain/docker/Dockerfile" \
+LABEL io.axia.image.authors="devops-team@axia.io" \
+	io.axia.image.vendor="Axia Technologies" \
+	io.axia.image.title="axia/substrate" \
+	io.axia.image.description="Substrate: The platform for blockchain innovators." \
+	io.axia.image.source="https://github.com/axiatech/substrate/blob/${VCS_REF}/.maintain/docker/Dockerfile" \
 	io.axia.image.revision="${VCS_REF}" \
 	io.axia.image.created="${BUILD_DATE}" \
-	io.axia.image.documentation="https://wiki.axiacoin.network/AXIA-Axlib"
+	io.axia.image.documentation="https://wiki.axia.io/Axia-Substrate"
 
 # show backtraces
 ENV RUST_BACKTRACE 1
@@ -28,17 +28,17 @@ RUN apt-get update && \
 	apt-get clean && \
 	find /var/lib/apt/lists/ -type f -not -name lock -delete; \
 # add user
-	useradd -m -u 1000 -U -s /bin/sh -d /axlib axlib
+	useradd -m -u 1000 -U -s /bin/sh -d /substrate substrate
 
-# add axlib binary to docker image
-COPY ./axlib /usr/local/bin
+# add substrate binary to docker image
+COPY ./substrate /usr/local/bin
 
-USER axlib
+USER substrate
 
 # check if executable works in this container
-RUN /usr/local/bin/axlib --version
+RUN /usr/local/bin/substrate --version
 
 EXPOSE 30333 9933 9944
-VOLUME ["/axlib"]
+VOLUME ["/substrate"]
 
-ENTRYPOINT ["/usr/local/bin/axlib"]
+ENTRYPOINT ["/usr/local/bin/substrate"]

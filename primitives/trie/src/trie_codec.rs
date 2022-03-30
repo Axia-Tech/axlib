@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2021-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2021-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,7 +18,7 @@
 //! Compact proof support.
 //!
 //! This uses compact proof from trie crate and extends
-//! it to axlib specific layout and child trie system.
+//! it to substrate specific layout and child trie system.
 
 use crate::{
 	CompactProof, HashDBT, StorageProof, TrieConfiguration, TrieError, TrieHash, EMPTY_PREFIX,
@@ -112,8 +112,7 @@ where
 	I: IntoIterator<Item = &'a [u8]>,
 {
 	let mut nodes_iter = encoded.into_iter();
-	let (top_root, _nb_used) =
-		trie_db::decode_compact_from_iter::<L, _, _, _>(db, &mut nodes_iter)?;
+	let (top_root, _nb_used) = trie_db::decode_compact_from_iter::<L, _, _>(db, &mut nodes_iter)?;
 
 	// Only check root if expected root is passed as argument.
 	if let Some(expected_root) = expected_root {
@@ -164,8 +163,7 @@ where
 	let mut nodes_iter = nodes_iter.peekable();
 	for child_root in child_tries.into_iter() {
 		if previous_extracted_child_trie.is_none() && nodes_iter.peek().is_some() {
-			let (top_root, _) =
-				trie_db::decode_compact_from_iter::<L, _, _, _>(db, &mut nodes_iter)?;
+			let (top_root, _) = trie_db::decode_compact_from_iter::<L, _, _>(db, &mut nodes_iter)?;
 			previous_extracted_child_trie = Some(top_root);
 		}
 

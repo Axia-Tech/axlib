@@ -1,11 +1,11 @@
 [package]
 name = "pallet-contracts-rpc"
 version = "4.0.0-dev"
-authors = ["AXIA Technologies <admin@axiacoin.network>"]
-edition = "2018"
+authors = ["Axia Technologies <admin@axia.io>"]
+edition = "2021"
 license = "Apache-2.0"
-homepage = ""
-repository = "https://github.com/axia-tech/axia-core/"
+homepage = "https://substrate.io"
+repository = "https://github.com/axia-tech/substrate/"
 description = "Node-specific RPC methods for interaction with contracts."
 readme = "README.md"
 
@@ -13,20 +13,20 @@ readme = "README.md"
 targets = ["x86_64-unknown-linux-gnu"]
 
 [dependencies]
-codec = { git = "https://github.com/axia-tech/axia-scale-codec", package = "axia-scale-codec", branch = "v2.3.1" }
-jsonrpc-core = { git = "https://github.com/axia-tech/jsonrpc", branch = "master", version = "18.0.0" }
-jsonrpc-core-client = { git = "https://github.com/axia-tech/jsonrpc", branch = "master", version = "18.0.0" }
-jsonrpc-derive = { git = "https://github.com/axia-tech/jsonrpc", branch = "master", version = "18.0.0" }
+codec = { package = "parity-scale-codec", version = "2" }
+jsonrpc-core = "18.0.0"
+jsonrpc-core-client = "18.0.0"
+jsonrpc-derive = "18.0.0"
 serde = { version = "1", features = ["derive"] }
 
-# Axlib Dependencies
-pallet-contracts-primitives = { version = "4.0.0-dev", path = "../common" }
+# Substrate Dependencies
+pallet-contracts-primitives = { version = "5.0.0", path = "../common" }
 pallet-contracts-rpc-runtime-api = { version = "4.0.0-dev", path = "./runtime-api" }
 sp-api = { version = "4.0.0-dev", path = "../../../primitives/api" }
 sp-blockchain = { version = "4.0.0-dev", path = "../../../primitives/blockchain" }
-sp-core = { version = "4.0.0-dev", path = "../../../primitives/core" }
-sp-rpc = { version = "4.0.0-dev", path = "../../../primitives/rpc" }
-sp-runtime = { version = "4.0.0-dev", path = "../../../primitives/runtime" }
+sp-core = { version = "5.0.0", path = "../../../primitives/core" }
+sp-rpc = { version = "5.0.0", path = "../../../primitives/rpc" }
+sp-runtime = { version = "5.0.0", path = "../../../primitives/runtime" }
 
 [dev-dependencies]
 serde_json = "1"

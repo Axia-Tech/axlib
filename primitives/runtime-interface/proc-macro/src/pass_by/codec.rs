@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2019-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +17,7 @@
 
 //! Derive macro implementation of `PassBy` with the associated type set to `Codec`.
 //!
-//! It is required that the type implements `Encode` and `Decode` from the `axia-scale-codec`
+//! It is required that the type implements `Encode` and `Decode` from the `parity-scale-codec`
 //! crate.
 
 use crate::utils::{generate_crate_access, generate_runtime_interface_include};

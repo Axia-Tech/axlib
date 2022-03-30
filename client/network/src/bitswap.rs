@@ -1,20 +1,20 @@
-// Copyright 2021 AXIA Technologies (UK) Ltd.
-// This file is part of Axlib.
+// Copyright 2021 Axia Technologies (UK) Ltd.
+// This file is part of Substrate.
 
-// Axlib is free software: you can redistribute it and/or modify
+// Substrate is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Axlib is distributed in the hope that it will be useful,
+// Substrate is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Axlib.  If not, see <http://www.gnu.org/licenses/>.
+// along with Substrate.  If not, see <http://www.gnu.org/licenses/>.
 
-//! Bitswap server for axlib.
+//! Bitswap server for substrate.
 //!
 //! Allows querying transactions by hash over standard bitswap protocol
 //! Only supports bitswap 1.2.0.
@@ -39,8 +39,7 @@ use libp2p::{
 		UpgradeInfo,
 	},
 	swarm::{
-		IntoProtocolsHandler, NetworkBehaviour, NetworkBehaviourAction, NotifyHandler,
-		OneShotHandler, PollParameters, ProtocolsHandler,
+		NetworkBehaviour, NetworkBehaviourAction, NotifyHandler, OneShotHandler, PollParameters,
 	},
 };
 use log::{debug, error, trace};
@@ -59,7 +58,7 @@ const LOG_TARGET: &str = "bitswap";
 // Undocumented, but according to JS the bitswap messages have a max size of 512*1024 bytes
 // https://github.com/ipfs/js-ipfs-bitswap/blob/
 // d8f80408aadab94c962f6b88f343eb9f39fa0fcc/src/decision-engine/index.js#L16
-// We set it to the same value as max axlib protocol message
+// We set it to the same value as max substrate protocol message
 const MAX_PACKET_SIZE: usize = 16 * 1024 * 1024;
 
 // Max number of queued responses before denying requests.
@@ -297,12 +296,11 @@ impl<B: BlockT> NetworkBehaviour for Bitswap<B> {
 		self.ready_blocks.push_back((peer, response));
 	}
 
-	fn poll(&mut self, _ctx: &mut Context, _: &mut impl PollParameters) -> Poll<
-		NetworkBehaviourAction<
-			<<Self::ProtocolsHandler as IntoProtocolsHandler>::Handler as ProtocolsHandler>::InEvent,
-			Self::OutEvent,
-		>,
-	>{
+	fn poll(
+		&mut self,
+		_ctx: &mut Context,
+		_: &mut impl PollParameters,
+	) -> Poll<NetworkBehaviourAction<Self::OutEvent, Self::ProtocolsHandler>> {
 		if let Some((peer_id, message)) = self.ready_blocks.pop_front() {
 			return Poll::Ready(NetworkBehaviourAction::NotifyHandler {
 				peer_id,
@@ -315,21 +313,29 @@ impl<B: BlockT> NetworkBehaviour for Bitswap<B> {
 }
 
 /// Bitswap protocol error.
-#[derive(derive_more::Display, derive_more::From)]
+#[derive(Debug, thiserror::Error)]
 pub enum BitswapError {
 	/// Protobuf decoding error.
-	#[display(fmt = "Failed to decode request: {}.", _0)]
-	DecodeProto(prost::DecodeError),
+	#[error("Failed to decode request: {0}.")]
+	DecodeProto(#[from] prost::DecodeError),
+
 	/// Protobuf encoding error.
-	#[display(fmt = "Failed to encode response: {}.", _0)]
-	EncodeProto(prost::EncodeError),
+	#[error("Failed to encode response: {0}.")]
+	EncodeProto(#[from] prost::EncodeError),
+
 	/// Client backend error.
-	Client(sp_blockchain::Error),
+	#[error(transparent)]
+	Client(#[from] sp_blockchain::Error),
+
 	/// Error parsing CID
-	BadCid(cid::Error),
+	#[error(transparent)]
+	BadCid(#[from] cid::Error),
+
 	/// Packet read error.
-	Read(io::Error),
+	#[error(transparent)]
+	Read(#[from] io::Error),
+
 	/// Error sending response.
-	#[display(fmt = "Failed to send response.")]
+	#[error("Failed to send response.")]
 	SendResponse,
 }

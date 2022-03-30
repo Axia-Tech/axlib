@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2017-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -60,7 +60,7 @@ pub enum InvalidTransaction {
 	/// # Possible causes
 	///
 	/// For `FRAME`-based runtimes this would be caused by `current block number
-	/// - Era::birth block number > BlockHashCount`. (e.g. in AXIA `BlockHashCount` = 2400, so
+	/// - Era::birth block number > BlockHashCount`. (e.g. in Axia `BlockHashCount` = 2400, so
 	///   a
 	/// transaction with birth block number 1337 would be valid up until block number 1337 + 2400,
 	/// after which point the transaction would be considered to have an ancient birth block.)
@@ -79,6 +79,8 @@ pub enum InvalidTransaction {
 	/// A transaction with a mandatory dispatch. This is invalid; only inherent extrinsics are
 	/// allowed to have mandatory dispatches.
 	MandatoryDispatch,
+	/// The sending address is disabled or known to be invalid.
+	BadSigner,
 }
 
 impl InvalidTransaction {
@@ -109,6 +111,7 @@ impl From<InvalidTransaction> for &'static str {
 			InvalidTransaction::MandatoryDispatch =>
 				"Transaction dispatch is mandatory; transactions may not have mandatory dispatches.",
 			InvalidTransaction::Custom(_) => "InvalidTransaction custom error",
+			InvalidTransaction::BadSigner => "Invalid signing address",
 		}
 	}
 }
@@ -223,7 +226,7 @@ impl From<UnknownTransaction> for TransactionValidity {
 /// For instance we can disallow specific kinds of transactions if they were not produced
 /// by our local node (for instance off-chain workers).
 #[derive(
-	Copy, Clone, PartialEq, Eq, Encode, Decode, RuntimeDebug, axia_util_mem::MallocSizeOf,
+	Copy, Clone, PartialEq, Eq, Encode, Decode, RuntimeDebug, parity_util_mem::MallocSizeOf,
 )]
 pub enum TransactionSource {
 	/// Transaction is already included in block.
@@ -265,7 +268,7 @@ pub struct ValidTransaction {
 	///
 	/// A list of tags this transaction provides. Successfully importing the transaction
 	/// will enable other transactions that depend on (require) those tags to be included as well.
-	/// Provided and required tags allow Axlib to build a dependency graph of transactions
+	/// Provided and required tags allow Substrate to build a dependency graph of transactions
 	/// and import them in the right (linear) order.
 	pub provides: Vec<TransactionTag>,
 	/// Transaction longevity

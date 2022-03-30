@@ -1,34 +1,34 @@
 [package]
 name = "sp-api-test"
 version = "2.0.1"
-authors = ["AXIA Technologies <admin@axiacoin.network>"]
-edition = "2018"
+authors = ["Axia Technologies <admin@axia.io>"]
+edition = "2021"
 license = "Apache-2.0"
 publish = false
-homepage = ""
-repository = "https://github.com/axia-tech/axia-core/"
+homepage = "https://substrate.io"
+repository = "https://github.com/axia-tech/substrate/"
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]
 
 [dependencies]
 sp-api = { version = "4.0.0-dev", path = "../" }
-axlib-test-runtime-client = { version = "2.0.0", path = "../../../test-utils/runtime/client" }
+substrate-test-runtime-client = { version = "2.0.0", path = "../../../test-utils/runtime/client" }
 sp-version = { version = "4.0.0-dev", path = "../../version" }
-sp-tracing = { version = "4.0.0-dev", path = "../../tracing" }
-sp-runtime = { version = "4.0.0-dev", path = "../../runtime" }
+sp-tracing = { version = "4.0.0", path = "../../tracing" }
+sp-runtime = { version = "5.0.0", path = "../../runtime" }
 sp-consensus = { version = "0.10.0-dev", path = "../../consensus/common" }
 sc-block-builder = { version = "0.10.0-dev", path = "../../../client/block-builder" }
-codec = { git = "https://github.com/axia-tech/axia-scale-codec", package = "axia-scale-codec", branch = "v2.3.1" }
-sp-state-machine = { version = "0.10.0-dev", path = "../../state-machine" }
-trybuild = "1.0.43"
-rustversion = "1.0.0"
+codec = { package = "parity-scale-codec", version = "2.0.0" }
+sp-state-machine = { version = "0.11.0", path = "../../state-machine" }
+trybuild = "1.0.53"
+rustversion = "1.0.6"
 
 [dev-dependencies]
 criterion = "0.3.0"
 futures = "0.3.9"
 log = "0.4.14"
-sp-core = { version = "4.0.0-dev", path = "../../core" }
+sp-core = { version = "5.0.0", path = "../../core" }
 
 [[bench]]
 name = "bench"

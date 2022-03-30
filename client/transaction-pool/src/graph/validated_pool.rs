@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2018-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2018-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
 
 // This program is free software: you can redistribute it and/or modify
@@ -111,11 +111,11 @@ pub struct ValidatedPool<B: ChainApi> {
 	rotator: PoolRotator<ExtrinsicHash<B>>,
 }
 
-impl<B: ChainApi> axia_util_mem::MallocSizeOf for ValidatedPool<B>
+impl<B: ChainApi> parity_util_mem::MallocSizeOf for ValidatedPool<B>
 where
-	ExtrinsicFor<B>: axia_util_mem::MallocSizeOf,
+	ExtrinsicFor<B>: parity_util_mem::MallocSizeOf,
 {
-	fn size_of(&self, ops: &mut axia_util_mem::MallocSizeOfOps) -> usize {
+	fn size_of(&self, ops: &mut parity_util_mem::MallocSizeOfOps) -> usize {
 		// other entries insignificant or non-primary references
 		self.pool.size_of(ops)
 	}
@@ -567,12 +567,6 @@ impl<B: ChainApi> ValidatedPool<B> {
 		self.rotator.clear_timeouts(&now);
 
 		Ok(())
-	}
-
-	/// Get rotator reference.
-	#[cfg(feature = "test-helpers")]
-	pub fn rotator(&self) -> &PoolRotator<ExtrinsicHash<B>> {
-		&self.rotator
 	}
 
 	/// Get api reference.

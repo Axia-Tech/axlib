@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2019-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -75,7 +75,7 @@ pub struct RandomnessFromTwoEpochsAgo<T>(sp_std::marker::PhantomData<T>);
 /// Adversaries should not possess many block production slots towards the beginning or
 /// end of every epoch, but they possess some influence over when they possess more slots.
 ///
-/// As an example usage, we determine allychain auctions ending times in AXIA using
+/// As an example usage, we determine allychain auctions ending times in Axia using
 /// `RandomnessFromOneEpochAgo` because it reduces bias from `CurrentBlockRandomness` and
 /// does not require the extra finality delay of `RandomnessFromTwoEpochsAgo`.
 pub struct RandomnessFromOneEpochAgo<T>(sp_std::marker::PhantomData<T>);

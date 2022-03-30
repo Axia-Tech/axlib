@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2017-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
 
 // This program is free software: you can redistribute it and/or modify
@@ -36,7 +36,7 @@ pub use sc_telemetry::TelemetryEndpoints;
 pub use sc_transaction_pool::Options as TransactionPoolOptions;
 use sp_core::crypto::SecretString;
 use std::{
-	io,
+	io, iter,
 	net::SocketAddr,
 	path::{Path, PathBuf},
 };
@@ -132,6 +132,8 @@ pub struct Configuration {
 	pub base_path: Option<BasePath>,
 	/// Configuration of the output format that the informant uses.
 	pub informant_output_format: sc_informant::OutputFormat,
+	/// Maximum number of different runtime versions that can be cached.
+	pub runtime_cache_size: u8,
 }
 
 /// Type for tasks spawned by the executor.
@@ -186,12 +188,11 @@ pub struct PrometheusConfig {
 
 impl PrometheusConfig {
 	/// Create a new config using the default registry.
-	///
-	/// The default registry prefixes metrics with `axlib`.
-	pub fn new_with_default_registry(port: SocketAddr) -> Self {
+	pub fn new_with_default_registry(port: SocketAddr, chain_id: String) -> Self {
+		let param = iter::once((String::from("chain"), chain_id)).collect();
 		Self {
 			port,
-			registry: Registry::new_custom(Some("axlib".into()), None)
+			registry: Registry::new_custom(None, Some(param))
 				.expect("this can only fail if the prefix is empty"),
 		}
 	}
@@ -253,13 +254,13 @@ pub enum BasePath {
 }
 
 impl BasePath {
-	/// Create a `BasePath` instance using a temporary directory prefixed with "axlib" and use
+	/// Create a `BasePath` instance using a temporary directory prefixed with "substrate" and use
 	/// it as base path.
 	///
 	/// Note: the temporary directory will be created automatically and deleted when the `BasePath`
 	/// instance is dropped.
 	pub fn new_temp_dir() -> io::Result<BasePath> {
-		Ok(BasePath::Temporary(tempfile::Builder::new().prefix("axlib").tempdir()?))
+		Ok(BasePath::Temporary(tempfile::Builder::new().prefix("substrate").tempdir()?))
 	}
 
 	/// Create a `BasePath` instance based on an existing path on disk.

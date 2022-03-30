@@ -1,18 +1,18 @@
-// Copyright 2021 AXIA Technologies (UK) Ltd.
-// This file is part of Axlib.
+// Copyright 2021 Axia Technologies (UK) Ltd.
+// This file is part of Substrate.
 
-// Axlib is free software: you can redistribute it and/or modify
+// Substrate is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Axlib is distributed in the hope that it will be useful,
+// Substrate is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Axlib.  If not, see <http://www.gnu.org/licenses/>.
+// along with Substrate.  If not, see <http://www.gnu.org/licenses/>.
 
 //! Helper for handling (i.e. answering) grandpa warp sync requests from a remote peer.
 
@@ -149,18 +149,23 @@ impl<TBlock: BlockT> RequestHandler<TBlock> {
 	}
 }
 
-#[derive(Debug, derive_more::Display, derive_more::From)]
+#[derive(Debug, thiserror::Error)]
 enum HandleRequestError {
-	#[display(fmt = "Failed to decode request: {}.", _0)]
-	DecodeProto(prost::DecodeError),
-	#[display(fmt = "Failed to encode response: {}.", _0)]
-	EncodeProto(prost::EncodeError),
-	#[display(fmt = "Failed to decode block hash: {}.", _0)]
-	DecodeScale(codec::Error),
-	Client(sp_blockchain::Error),
-	#[from(ignore)]
-	#[display(fmt = "Invalid request {}.", _0)]
-	InvalidRequest(Box<dyn std::error::Error + Send + Sync>),
-	#[display(fmt = "Failed to send response.")]
+	#[error("Failed to decode request: {0}.")]
+	DecodeProto(#[from] prost::DecodeError),
+
+	#[error("Failed to encode response: {0}.")]
+	EncodeProto(#[from] prost::EncodeError),
+
+	#[error("Failed to decode block hash: {0}.")]
+	DecodeScale(#[from] codec::Error),
+
+	#[error(transparent)]
+	Client(#[from] sp_blockchain::Error),
+
+	#[error("Invalid request {0}.")]
+	InvalidRequest(#[from] Box<dyn std::error::Error + Send + Sync>),
+
+	#[error("Failed to send response.")]
 	SendResponse,
 }

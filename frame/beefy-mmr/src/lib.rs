@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2021-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -72,7 +72,7 @@ where
 pub struct BeefyEcdsaToEthereum;
 impl Convert<beefy_primitives::crypto::AuthorityId, Vec<u8>> for BeefyEcdsaToEthereum {
 	fn convert(a: beefy_primitives::crypto::AuthorityId) -> Vec<u8> {
-		use sp_core::crypto::Public;
+		use sp_core::crypto::ByteArray;
 		let compressed_key = a.as_slice();
 
 		libsecp256k1::PublicKey::parse_slice(
@@ -135,7 +135,7 @@ pub mod pallet {
 		///
 		/// For instance for ECDSA (secp256k1) we want to store uncompressed public keys (65 bytes)
 		/// and later to Ethereum Addresses (160 bits) to simplify using them on Ethereum chain,
-		/// but the rest of the Axlib codebase is storing them compressed (33 bytes) for
+		/// but the rest of the Substrate codebase is storing them compressed (33 bytes) for
 		/// efficiency reasons.
 		type BeefyAuthorityToMerkleLeaf: Convert<<Self as pallet_beefy::Config>::BeefyId, Vec<u8>>;
 
@@ -149,7 +149,7 @@ pub mod pallet {
 
 	/// Details of next BEEFY authority set.
 	///
-	/// This storage entry is used as cache for calls to [`update_beefy_next_authority_set`].
+	/// This storage entry is used as cache for calls to `update_beefy_next_authority_set`.
 	#[pallet::storage]
 	#[pallet::getter(fn beefy_next_authorities)]
 	pub type BeefyNextAuthorities<T: Config> =

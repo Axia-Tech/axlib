@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2018-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2018-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
 
 // This program is free software: you can redistribute it and/or modify
@@ -39,7 +39,7 @@
 use log::{trace, warn};
 use std::sync::Arc;
 
-use axia_scale_codec::{Decode, Encode};
+use parity_scale_codec::{Decode, Encode};
 use sc_client_api::backend::Backend;
 use sp_blockchain::{Backend as BlockchainBackend, HeaderBackend};
 use sp_finality_grandpa::GRANDPA_ENGINE_ID;
@@ -132,17 +132,18 @@ pub struct FinalityProof<Header: HeaderT> {
 }
 
 /// Errors occurring when trying to prove finality
-#[derive(Debug, derive_more::Display, derive_more::From)]
+#[derive(Debug, thiserror::Error)]
 pub enum FinalityProofError {
 	/// The requested block has not yet been finalized.
-	#[display(fmt = "Block not yet finalized")]
+	#[error("Block not yet finalized")]
 	BlockNotYetFinalized,
 	/// The requested block is not covered by authority set changes. Likely this means the block is
 	/// in the latest authority set, and the subscription API is more appropriate.
-	#[display(fmt = "Block not covered by authority set changes")]
+	#[error("Block not covered by authority set changes")]
 	BlockNotInAuthoritySetChanges,
 	/// Errors originating from the client.
-	Client(sp_blockchain::Error),
+	#[error(transparent)]
+	Client(#[from] sp_blockchain::Error),
 }
 
 fn prove_finality<Block, B>(
@@ -243,10 +244,10 @@ pub(crate) mod tests {
 	use sc_block_builder::BlockBuilderProvider;
 	use sc_client_api::{apply_aux, LockImportRun};
 	use sp_consensus::BlockOrigin;
-	use sp_core::crypto::Public;
-	use sp_finality_grandpa::{AuthorityId, GRANDPA_ENGINE_ID as ID};
+	use sp_core::crypto::UncheckedFrom;
+	use sp_finality_grandpa::GRANDPA_ENGINE_ID as ID;
 	use sp_keyring::Ed25519Keyring;
-	use axlib_test_runtime_client::{
+	use substrate_test_runtime_client::{
 		runtime::{Block, Header, H256},
 		Backend as TestBackend, ClientBlockImportExt, ClientExt, DefaultTestClientBuilderExt,
 		TestClient, TestClientBuilder, TestClientBuilderExt,
@@ -350,7 +351,7 @@ pub(crate) mod tests {
 		// When we can't decode proof from Vec<u8>
 		check_finality_proof::<Block>(
 			1,
-			vec![(AuthorityId::from_slice(&[3u8; 32]), 1u64)],
+			vec![(UncheckedFrom::unchecked_from([3u8; 32]), 1u64)],
 			vec![42],
 		)
 		.unwrap_err();
@@ -361,7 +362,7 @@ pub(crate) mod tests {
 		// When decoded proof has zero length
 		check_finality_proof::<Block>(
 			1,
-			vec![(AuthorityId::from_slice(&[3u8; 32]), 1u64)],
+			vec![(UncheckedFrom::unchecked_from([3u8; 32]), 1u64)],
 			Vec::<GrandpaJustification<Block>>::new().encode(),
 		)
 		.unwrap_err();
@@ -387,7 +388,7 @@ pub(crate) mod tests {
 
 		check_finality_proof::<Block>(
 			1,
-			vec![(AuthorityId::from_slice(&[3u8; 32]), 1u64)],
+			vec![(UncheckedFrom::unchecked_from([3u8; 32]), 1u64)],
 			finality_proof.encode(),
 		)
 		.unwrap_err();

@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2017-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,7 +15,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-//! Axlib client possible errors.
+//! Substrate client possible errors.
 
 use codec::Error as CodecError;
 use sp_api::ApiError;
@@ -42,7 +42,7 @@ pub enum ApplyExtrinsicFailed {
 	Application(#[source] Box<dyn 'static + std::error::Error + Send + Sync>),
 }
 
-/// Axlib Client error
+/// Substrate Client error
 #[derive(Debug, thiserror::Error)]
 #[allow(missing_docs)]
 #[non_exhaustive]
@@ -69,7 +69,7 @@ pub enum Error {
 	ExtrinsicRootInvalid { received: String, expected: String },
 
 	// `inner` cannot be made member, since it lacks `std::error::Error` trait bounds.
-	#[error("Execution failed: {0:?}")]
+	#[error("Execution failed: {0}")]
 	Execution(Box<dyn sp_state_machine::Error>),
 
 	#[error("Blockchain")]

@@ -1,11 +1,11 @@
 [package]
 name = "sp-api-proc-macro"
 version = "4.0.0-dev"
-authors = ["AXIA Technologies <admin@axiacoin.network>"]
-edition = "2018"
+authors = ["Axia Technologies <admin@axia.io>"]
+edition = "2021"
 license = "Apache-2.0"
-homepage = ""
-repository = "https://github.com/axia-tech/axia-core/"
+homepage = "https://substrate.io"
+repository = "https://github.com/axia-tech/substrate/"
 description = "Macros for declaring and implementing runtime apis."
 documentation = "https://docs.rs/sp-api-proc-macro"
 
@@ -17,10 +17,10 @@ proc-macro = true
 
 [dependencies]
 quote = "1.0.10"
-syn = { version = "1.0.80", features = ["full", "fold", "extra-traits", "visit"] }
-proc-macro2 = "1.0.29"
+syn = { version = "1.0.82", features = ["full", "fold", "extra-traits", "visit"] }
+proc-macro2 = "1.0.36"
 blake2-rfc = { version = "0.2.18", default-features = false }
-proc-macro-crate = "1.0.0"
+proc-macro-crate = "1.1.0"
 
 # Required for the doc tests
 [features]

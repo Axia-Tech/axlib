@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2020-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2020-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,19 +29,19 @@ use sp_core::{
 use std::sync::Arc;
 
 /// CryptoStore error
-#[derive(Debug, derive_more::Display)]
+#[derive(Debug, thiserror::Error)]
 pub enum Error {
 	/// Public key type is not supported
-	#[display(fmt = "Key not supported: {:?}", _0)]
+	#[error("Key not supported: {0:?}")]
 	KeyNotSupported(KeyTypeId),
 	/// Validation error
-	#[display(fmt = "Validation error: {}", _0)]
+	#[error("Validation error: {0}")]
 	ValidationError(String),
 	/// Keystore unavailable
-	#[display(fmt = "Keystore unavailable")]
+	#[error("Keystore unavailable")]
 	Unavailable,
 	/// Programming errors
-	#[display(fmt = "An unknown keystore error occurred: {}", _0)]
+	#[error("An unknown keystore error occurred: {0}")]
 	Other(String),
 }
 
@@ -211,7 +211,7 @@ pub trait CryptoStore: Send + Sync {
 
 /// Sync version of the CryptoStore
 ///
-/// Some parts of Axlib still rely on a sync version of the `CryptoStore`.
+/// Some parts of Substrate still rely on a sync version of the `CryptoStore`.
 /// To make the transition easier this auto trait wraps any async `CryptoStore` and
 /// exposes a `sync` interface using `block_on`. Usage of this is deprecated and it
 /// will be removed as soon as the internal usage has transitioned successfully.

@@ -4,14 +4,14 @@ FROM docker.io/library/ubuntu:20.04
 ARG VCS_REF
 ARG BUILD_DATE
 
-LABEL io.axia.image.authors="devops-team@axiacoin.network" \
-	io.axia.image.vendor="AXIA Technologies" \
+LABEL io.axia.image.authors="devops-team@axia.io" \
+	io.axia.image.vendor="Axia Technologies" \
 	io.axia.image.title="axia/subkey" \
-	io.axia.image.description="Subkey: key generating utility for Axlib." \
-	io.axia.image.source="https://github.com/axia-tech/axlib/blob/${VCS_REF}/.maintain/docker/subkey.Dockerfile" \
+	io.axia.image.description="Subkey: key generating utility for Substrate." \
+	io.axia.image.source="https://github.com/axiatech/substrate/blob/${VCS_REF}/.maintain/docker/subkey.Dockerfile" \
 	io.axia.image.revision="${VCS_REF}" \
 	io.axia.image.created="${BUILD_DATE}" \
-	io.axia.image.documentation="https://github.com/axia-tech/axlib/tree/${VCS_REF}/subkey"
+	io.axia.image.documentation="https://github.com/axiatech/substrate/tree/${VCS_REF}/subkey"
 
 # show backtraces
 ENV RUST_BACKTRACE 1

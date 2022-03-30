@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2019-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
 
 // This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@ use std::fmt::Debug;
 
 use finality_grandpa::round::State as RoundState;
 use log::{info, warn};
-use axia_scale_codec::{Decode, Encode};
+use parity_scale_codec::{Decode, Encode};
 
 use fork_tree::ForkTree;
 use sc_client_api::backend::AuxStore;
@@ -100,7 +100,7 @@ where
 				// previously we only supported at most one pending change per fork
 				&|_, _| Ok(false),
 			) {
-				warn!(target: "afg", "Error migrating pending authority set change: {:?}.", err);
+				warn!(target: "afg", "Error migrating pending authority set change: {}", err);
 				warn!(target: "afg", "Node is in a potentially inconsistent state.");
 			}
 		}
@@ -498,15 +498,19 @@ pub(crate) fn load_authorities<B: AuxStore, H: Decode, N: Decode + Clone + Ord>(
 #[cfg(test)]
 mod test {
 	use super::*;
-	use sp_core::H256;
+	use sp_core::{crypto::UncheckedFrom, H256};
 	use sp_finality_grandpa::AuthorityId;
-	use axlib_test_runtime_client;
+	use substrate_test_runtime_client;
+
+	fn dummy_id() -> AuthorityId {
+		AuthorityId::unchecked_from([1; 32])
+	}
 
 	#[test]
 	fn load_decode_from_v0_migrates_data_format() {
-		let client = axlib_test_runtime_client::new();
+		let client = substrate_test_runtime_client::new();
 
-		let authorities = vec![(AuthorityId::default(), 100)];
+		let authorities = vec![(dummy_id(), 100)];
 		let set_id = 3;
 		let round_number: RoundNumber = 42;
 		let round_state = RoundState::<H256, u64> {
@@ -539,7 +543,7 @@ mod test {
 		assert_eq!(load_decode::<_, u32>(&client, VERSION_KEY).unwrap(), None);
 
 		// should perform the migration
-		load_persistent::<axlib_test_runtime_client::runtime::Block, _, _>(
+		load_persistent::<substrate_test_runtime_client::runtime::Block, _, _>(
 			&client,
 			H256::random(),
 			0,
@@ -550,7 +554,7 @@ mod test {
 		assert_eq!(load_decode::<_, u32>(&client, VERSION_KEY).unwrap(), Some(3));
 
 		let PersistentData { authority_set, set_state, .. } =
-			load_persistent::<axlib_test_runtime_client::runtime::Block, _, _>(
+			load_persistent::<substrate_test_runtime_client::runtime::Block, _, _>(
 				&client,
 				H256::random(),
 				0,
@@ -593,9 +597,9 @@ mod test {
 
 	#[test]
 	fn load_decode_from_v1_migrates_data_format() {
-		let client = axlib_test_runtime_client::new();
+		let client = substrate_test_runtime_client::new();
 
-		let authorities = vec![(AuthorityId::default(), 100)];
+		let authorities = vec![(dummy_id(), 100)];
 		let set_id = 3;
 		let round_number: RoundNumber = 42;
 		let round_state = RoundState::<H256, u64> {
@@ -632,7 +636,7 @@ mod test {
 		assert_eq!(load_decode::<_, u32>(&client, VERSION_KEY).unwrap(), Some(1));
 
 		// should perform the migration
-		load_persistent::<axlib_test_runtime_client::runtime::Block, _, _>(
+		load_persistent::<substrate_test_runtime_client::runtime::Block, _, _>(
 			&client,
 			H256::random(),
 			0,
@@ -643,7 +647,7 @@ mod test {
 		assert_eq!(load_decode::<_, u32>(&client, VERSION_KEY).unwrap(), Some(3));
 
 		let PersistentData { authority_set, set_state, .. } =
-			load_persistent::<axlib_test_runtime_client::runtime::Block, _, _>(
+			load_persistent::<substrate_test_runtime_client::runtime::Block, _, _>(
 				&client,
 				H256::random(),
 				0,
@@ -686,9 +690,9 @@ mod test {
 
 	#[test]
 	fn load_decode_from_v2_migrates_data_format() {
-		let client = axlib_test_runtime_client::new();
+		let client = substrate_test_runtime_client::new();
 
-		let authorities = vec![(AuthorityId::default(), 100)];
+		let authorities = vec![(dummy_id(), 100)];
 		let set_id = 3;
 
 		{
@@ -700,7 +704,7 @@ mod test {
 			};
 
 			let genesis_state = (H256::random(), 32);
-			let voter_set_state: VoterSetState<axlib_test_runtime_client::runtime::Block> =
+			let voter_set_state: VoterSetState<substrate_test_runtime_client::runtime::Block> =
 				VoterSetState::live(
 					set_id,
 					&authority_set.clone().into(), // Note the conversion!
@@ -722,7 +726,7 @@ mod test {
 		assert_eq!(load_decode::<_, u32>(&client, VERSION_KEY).unwrap(), Some(2));
 
 		// should perform the migration
-		load_persistent::<axlib_test_runtime_client::runtime::Block, _, _>(
+		load_persistent::<substrate_test_runtime_client::runtime::Block, _, _>(
 			&client,
 			H256::random(),
 			0,
@@ -733,7 +737,7 @@ mod test {
 		assert_eq!(load_decode::<_, u32>(&client, VERSION_KEY).unwrap(), Some(3));
 
 		let PersistentData { authority_set, .. } = load_persistent::<
-			axlib_test_runtime_client::runtime::Block,
+			substrate_test_runtime_client::runtime::Block,
 			_,
 			_,
 		>(&client, H256::random(), 0, || unreachable!())
@@ -754,11 +758,11 @@ mod test {
 
 	#[test]
 	fn write_read_concluded_rounds() {
-		let client = axlib_test_runtime_client::new();
+		let client = substrate_test_runtime_client::new();
 		let hash = H256::random();
 		let round_state = RoundState::genesis((hash, 0));
 
-		let completed_round = CompletedRound::<axlib_test_runtime_client::runtime::Block> {
+		let completed_round = CompletedRound::<substrate_test_runtime_client::runtime::Block> {
 			number: 42,
 			state: round_state.clone(),
 			base: round_state.prevote_ghost.unwrap(),
@@ -772,7 +776,7 @@ mod test {
 		round_number.using_encoded(|n| key.extend(n));
 
 		assert_eq!(
-			load_decode::<_, CompletedRound::<axlib_test_runtime_client::runtime::Block>>(
+			load_decode::<_, CompletedRound::<substrate_test_runtime_client::runtime::Block>>(
 				&client, &key
 			)
 			.unwrap(),

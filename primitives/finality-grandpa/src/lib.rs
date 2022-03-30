@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2018-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2018-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -389,7 +389,6 @@ where
 {
 	use sp_application_crypto::AppKey;
 	use sp_core::crypto::Public;
-	use sp_std::convert::TryInto;
 
 	let encoded = localized_payload(round, set_id, &message);
 	let signature = SyncCryptoStore::sign_with(

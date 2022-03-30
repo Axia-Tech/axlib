@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2018-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2018-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
 
 // This program is free software: you can redistribute it and/or modify
@@ -21,30 +21,30 @@
 use crate::{
 	error, utils, with_crypto_scheme, CryptoSchemeFlag, NetworkSchemeFlag, OutputTypeFlag,
 };
+use clap::Parser;
 use rand::{rngs::OsRng, RngCore};
 use sp_core::crypto::{unwrap_or_default_ss58_version, Ss58AddressFormat, Ss58Codec};
 use sp_runtime::traits::IdentifyAccount;
-use structopt::StructOpt;
 use utils::print_from_uri;
 
 /// The `vanity` command
-#[derive(Debug, StructOpt, Clone)]
-#[structopt(name = "vanity", about = "Generate a seed that provides a vanity address")]
+#[derive(Debug, Clone, Parser)]
+#[clap(name = "vanity", about = "Generate a seed that provides a vanity address")]
 pub struct VanityCmd {
 	/// Desired pattern
-	#[structopt(long, parse(try_from_str = assert_non_empty_string))]
+	#[clap(long, parse(try_from_str = assert_non_empty_string))]
 	pattern: String,
 
 	#[allow(missing_docs)]
-	#[structopt(flatten)]
+	#[clap(flatten)]
 	network_scheme: NetworkSchemeFlag,
 
 	#[allow(missing_docs)]
-	#[structopt(flatten)]
+	#[clap(flatten)]
 	output_scheme: OutputTypeFlag,
 
 	#[allow(missing_docs)]
-	#[structopt(flatten)]
+	#[clap(flatten)]
 	crypto_scheme: CryptoSchemeFlag,
 }
 
@@ -166,13 +166,12 @@ mod tests {
 		crypto::{default_ss58_version, Ss58AddressFormatRegistry, Ss58Codec},
 		sr25519, Pair,
 	};
-	use structopt::StructOpt;
 	#[cfg(feature = "bench")]
 	use test::Bencher;
 
 	#[test]
 	fn vanity() {
-		let vanity = VanityCmd::from_iter(&["vanity", "--pattern", "j"]);
+		let vanity = VanityCmd::parse_from(&["vanity", "--pattern", "j"]);
 		assert!(vanity.run().is_ok());
 	}
 
@@ -186,17 +185,17 @@ mod tests {
 			.contains("ab"));
 	}
 
-	// #[test]
-	// fn generate_key_respects_network_override() {
-	// 	let seed =
-	// 		generate_key::<sr25519::Pair>("ab", Ss58AddressFormatRegistry::AXIAAccount.into())
-	// 			.unwrap();
-	// 	assert!(sr25519::Pair::from_seed_slice(&hex::decode(&seed[2..]).unwrap())
-	// 		.unwrap()
-	// 		.public()
-	// 		.to_ss58check_with_version(Ss58AddressFormatRegistry::AXIAAccount.into())
-	// 		.contains("ab"));
-	// }
+	#[test]
+	fn generate_key_respects_network_override() {
+		let seed =
+			generate_key::<sr25519::Pair>("ab", Ss58AddressFormatRegistry::AxiaAccount.into())
+				.unwrap();
+		assert!(sr25519::Pair::from_seed_slice(&hex::decode(&seed[2..]).unwrap())
+			.unwrap()
+			.public()
+			.to_ss58check_with_version(Ss58AddressFormatRegistry::AxiaAccount.into())
+			.contains("ab"));
+	}
 
 	#[test]
 	fn test_score_1_char_100() {
@@ -206,7 +205,7 @@ mod tests {
 
 	#[test]
 	fn test_score_100() {
-		let score = calculate_score("AXIA", "5AXIAwHY5k9GpdTgpqs9xjuNvtv8EcwCFpEeyEf3KHim");
+		let score = calculate_score("Axia", "5AxiawHY5k9GpdTgpqs9xjuNvtv8EcwCFpEeyEf3KHim");
 		assert_eq!(score, 430);
 	}
 
@@ -214,7 +213,7 @@ mod tests {
 	fn test_score_50_2() {
 		// 50% for the position + 50% for the size
 		assert_eq!(
-			calculate_score("AXIA", "5PolkXXXXwHY5k9GpdTgpqs9xjuNvtv8EcwCFpEeyEf3KHim"),
+			calculate_score("Axia", "5PolkXXXXwHY5k9GpdTgpqs9xjuNvtv8EcwCFpEeyEf3KHim"),
 			238
 		);
 	}
@@ -222,7 +221,7 @@ mod tests {
 	#[test]
 	fn test_score_0() {
 		assert_eq!(
-			calculate_score("AXIA", "5GUWv4bLCchGUHJrzULXnh4JgXsMpTKRnjuXTY7Qo1Kh9uYK"),
+			calculate_score("Axia", "5GUWv4bLCchGUHJrzULXnh4JgXsMpTKRnjuXTY7Qo1Kh9uYK"),
 			0
 		);
 	}

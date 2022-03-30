@@ -1,4 +1,4 @@
-use structopt::StructOpt;
+use clap::Parser;
 
 use std::{
 	collections::HashMap,
@@ -22,17 +22,17 @@ use tar;
 
 use flate2::{write::GzEncoder, Compression};
 
-const AXLIB_GIT_URL: &str = "https://github.com/axiatech/axlib.git";
+const AXLIB_GIT_URL: &str = "https://github.com/axiatech/substrate.git";
 
 type CargoToml = HashMap<String, toml::Value>;
 
-#[derive(StructOpt)]
+#[derive(Parser)]
 struct Options {
 	/// The path to the `node-template` source.
-	#[structopt(parse(from_os_str))]
+	#[clap(parse(from_os_str))]
 	node_template: PathBuf,
 	/// The path where to output the generated `tar.gz` file.
-	#[structopt(parse(from_os_str))]
+	#[clap(parse(from_os_str))]
 	output: PathBuf,
 }
 
@@ -86,7 +86,7 @@ fn parse_cargo_toml(file: &Path) -> CargoToml {
 	toml::from_str(&content).expect("Cargo.toml is a valid toml file")
 }
 
-/// Replaces all axlib path dependencies with a git dependency.
+/// Replaces all substrate path dependencies with a git dependency.
 fn replace_path_dependencies_with_git(
 	cargo_toml_path: &Path,
 	commit_id: &str,
@@ -209,7 +209,7 @@ fn build_and_test(path: &Path, cargo_tomls: &[PathBuf]) {
 }
 
 fn main() {
-	let options = Options::from_args();
+	let options = Options::parse();
 
 	let build_dir = tempfile::tempdir().expect("Creates temp build dir");
 
@@ -261,8 +261,7 @@ fn main() {
 
 	// adding root rustfmt to node template build path
 	let node_template_rustfmt_toml_path = node_template_path.join("rustfmt.toml");
-	let root_rustfmt_toml =
-		&options.node_template.join("../../rustfmt.toml");
+	let root_rustfmt_toml = &options.node_template.join("../../rustfmt.toml");
 	if root_rustfmt_toml.exists() {
 		fs::copy(&root_rustfmt_toml, &node_template_rustfmt_toml_path)
 			.expect("Copying rustfmt.toml.");
@@ -275,6 +274,6 @@ fn main() {
 		Compression::default(),
 	);
 	let mut tar = tar::Builder::new(output);
-	tar.append_dir_all("axlib-node-template", node_template_path)
-		.expect("Writes axlib-node-template archive");
+	tar.append_dir_all("substrate-node-template", node_template_path)
+		.expect("Writes substrate-node-template archive");
 }

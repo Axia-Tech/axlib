@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2017-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,9 +15,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-//! Axlib blockchain trait
-
-use std::sync::Arc;
+//! Substrate blockchain trait
 
 use log::warn;
 use parking_lot::RwLock;
@@ -96,8 +94,6 @@ pub trait Backend<Block: BlockT>:
 	fn justifications(&self, id: BlockId<Block>) -> Result<Option<Justifications>>;
 	/// Get last finalized block hash.
 	fn last_finalized(&self) -> Result<Block::Hash>;
-	/// Returns data cache reference, if it is enabled on this backend.
-	fn cache(&self) -> Option<Arc<dyn Cache<Block>>>;
 
 	/// Returns hashes of all blocks that are leaves of the block tree.
 	/// in other words, that have no children, are chain heads.
@@ -117,7 +113,7 @@ pub trait Backend<Block: BlockT>:
 	/// the search is limited to block `numbers <= max_block_number`.
 	/// in other words as if there were no blocks greater `max_block_number`.
 	/// Returns `Ok(None)` if `target_hash` is not found in search space.
-	/// TODO: document time complexity of this, see [#1444](https://github.com/axia-tech/axlib/issues/1444)
+	/// TODO: document time complexity of this, see [#1444](https://github.com/axiatech/substrate/issues/1444)
 	fn best_containing(
 		&self,
 		target_hash: Block::Hash,
@@ -235,33 +231,6 @@ pub trait Backend<Block: BlockT>:
 	}
 
 	fn block_indexed_body(&self, id: BlockId<Block>) -> Result<Option<Vec<Vec<u8>>>>;
-}
-
-/// Provides access to the optional cache.
-pub trait ProvideCache<Block: BlockT> {
-	/// Returns data cache reference, if it is enabled on this backend.
-	fn cache(&self) -> Option<Arc<dyn Cache<Block>>>;
-}
-
-/// Blockchain optional data cache.
-pub trait Cache<Block: BlockT>: Send + Sync {
-	/// Initialize genesis value for the given cache.
-	///
-	/// The operation should be performed once before anything else is inserted in the cache.
-	/// Otherwise cache may end up in inconsistent state.
-	fn initialize(&self, key: &well_known_cache_keys::Id, value_at_genesis: Vec<u8>) -> Result<()>;
-	/// Returns cached value by the given key.
-	///
-	/// Returned tuple is the range where value has been active and the value itself.
-	/// Fails if read from cache storage fails or if the value for block is discarded
-	/// (i.e. if block is earlier that best finalized, but it is not in canonical chain).
-	fn get_at(
-		&self,
-		key: &well_known_cache_keys::Id,
-		block: &BlockId<Block>,
-	) -> Result<
-		Option<((NumberFor<Block>, Block::Hash), Option<(NumberFor<Block>, Block::Hash)>, Vec<u8>)>,
-	>;
 }
 
 /// Blockchain info

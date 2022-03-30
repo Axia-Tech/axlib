@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2017-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
 
 // This program is free software: you can redistribute it and/or modify
@@ -49,7 +49,7 @@ mod test;
 use codec::Codec;
 use log::trace;
 use noncanonical::NonCanonicalOverlay;
-use axia_util_mem::{malloc_size, MallocSizeOf};
+use parity_util_mem::{malloc_size, MallocSizeOf};
 use parking_lot::RwLock;
 use pruning::RefWindow;
 use sc_client_api::{MemorySize, StateDbMemoryInfo};
@@ -130,6 +130,8 @@ pub enum Error<E: fmt::Debug> {
 	InvalidPruningMode(String),
 	/// Too many unfinalized sibling blocks inserted.
 	TooManySiblingBlocks,
+	/// Trying to insert existing block.
+	BlockAlreadyExists,
 }
 
 /// Pinning error type.
@@ -154,6 +156,7 @@ impl<E: fmt::Debug> fmt::Debug for Error<E> {
 			Error::InvalidParent => write!(f, "Trying to insert block with unknown parent"),
 			Error::InvalidPruningMode(e) => write!(f, "Expected pruning mode: {}", e),
 			Error::TooManySiblingBlocks => write!(f, "Too many sibling blocks inserted"),
+			Error::BlockAlreadyExists => write!(f, "Block already exists"),
 		}
 	}
 }

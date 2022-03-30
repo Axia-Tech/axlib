@@ -1,6 +1,6 @@
 # .gitlab-ci.yml
 #
-# axlib
+# substrate
 #
 # pipelines can be triggered manually in the web
 
@@ -39,14 +39,9 @@ variables:                         &default-vars
   DOCKER_OS:                       "debian:stretch"
   ARCH:                            "x86_64"
   CI_IMAGE:                        "axiatech/ci-linux:production"
-  # FIXME set to release
-  CARGO_UNLEASH_INSTALL_PARAMS:    "--version 1.0.0-alpha.12"
-  CARGO_UNLEASH_PKG_DEF:           "--skip node node-* pallet-template pallet-example pallet-example-* subkey chain-spec-builder"
-  VAULT_SERVER_URL:                "https://vault.axia-mgmt-vault.axiacoin.network"
-  VAULT_AUTH_PATH:                 "gitlab-axiacoin.network-jwt"
+  VAULT_SERVER_URL:                "https://vault.axia-mgmt-vault.axia.io"
+  VAULT_AUTH_PATH:                 "gitlab-axia-io-jwt"
   VAULT_AUTH_ROLE:                 "cicd_gitlab_axia_${CI_PROJECT_NAME}"
-  SIMNET_FEATURES_PATH:            "simnet_tests/tests"
-  PIPELINE_SCRIPTS_TAG:            "v0.1"
 
 default:
   cache:                           {}
@@ -165,7 +160,7 @@ default:
       git fetch origin +master:master;
       git fetch origin +$CI_COMMIT_REF_NAME:$CI_COMMIT_REF_NAME;
       git checkout master;
-      git config user.email "ci@gitlab.axiacoin.network";
+      git config user.email "ci@gitlab.axia.io";
       git merge $CI_COMMIT_REF_NAME --verbose --no-edit;
     fi
 
@@ -176,6 +171,21 @@ default:
     | tee artifacts/benches/$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA/::node::import::native::sr25519::transfer_keep_alive::axiadb::small.json'
   - 'cargo run --release -p node-bench -- ::trie::read::small --json
     | tee artifacts/benches/$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA/::trie::read::small.json'
+  - sccache -s
+
+.build-linux-substrate-script:     &build-linux-substrate-script
+  - WASM_BUILD_NO_COLOR=1 time cargo build --release --verbose
+  - mv ./target/release/substrate ./artifacts/substrate/.
+  - echo -n "Substrate version = "
+  - if [ "${CI_COMMIT_TAG}" ]; then
+      echo "${CI_COMMIT_TAG}" | tee ./artifacts/substrate/VERSION;
+    else
+      ./artifacts/substrate/substrate --version |
+        sed -n -E 's/^substrate ([0-9.]+.*-[0-9a-f]{7,13})-.*$/\1/p' |
+          tee ./artifacts/substrate/VERSION;
+    fi
+  - sha256sum ./artifacts/substrate/substrate | tee ./artifacts/substrate/substrate.sha256
+  - cp -r .maintain/docker/substrate.Dockerfile ./artifacts/substrate/
   - sccache -s
 
 #### Vault secrets
@@ -190,23 +200,14 @@ default:
     GITHUB_PR_TOKEN:
       vault:                       cicd/gitlab/axia/GITHUB_PR_TOKEN@kv
       file:                        false
+    GITHUB_TOKEN:
+      vault:                       cicd/gitlab/axia/GITHUB_TOKEN@kv
+      file:                        false
     AWS_ACCESS_KEY_ID:
       vault:                       cicd/gitlab/$CI_PROJECT_PATH/AWS_ACCESS_KEY_ID@kv
       file:                        false
     AWS_SECRET_ACCESS_KEY:
       vault:                       cicd/gitlab/$CI_PROJECT_PATH/AWS_SECRET_ACCESS_KEY@kv
-      file:                        false
-    AWX_TOKEN:
-      vault:                       cicd/gitlab/$CI_PROJECT_PATH/AWX_TOKEN@kv
-      file:                        false
-    CRATES_TOKEN:
-      vault:                       cicd/gitlab/$CI_PROJECT_PATH/CRATES_TOKEN@kv
-      file:                        false
-    DOCKER_CHAOS_TOKEN:
-      vault:                       cicd/gitlab/$CI_PROJECT_PATH/DOCKER_CHAOS_TOKEN@kv
-      file:                        false
-    DOCKER_CHAOS_USER:
-      vault:                       cicd/gitlab/$CI_PROJECT_PATH/DOCKER_CHAOS_USER@kv
       file:                        false
     GITHUB_EMAIL:
       vault:                       cicd/gitlab/$CI_PROJECT_PATH/GITHUB_EMAIL@kv
@@ -214,8 +215,8 @@ default:
     GITHUB_RELEASE_TOKEN:
       vault:                       cicd/gitlab/$CI_PROJECT_PATH/GITHUB_RELEASE_TOKEN@kv
       file:                        false
-    GITHUB_TOKEN:
-      vault:                       cicd/gitlab/$CI_PROJECT_PATH/GITHUB_TOKEN@kv
+    GITHUB_SSH_PRIV_KEY:
+      vault:                       cicd/gitlab/$CI_PROJECT_PATH/GITHUB_SSH_PRIV_KEY@kv
       file:                        false
     GITHUB_USER:
       vault:                       cicd/gitlab/$CI_PROJECT_PATH/GITHUB_USER@kv
@@ -226,22 +227,13 @@ default:
     MATRIX_ROOM_ID:
       vault:                       cicd/gitlab/$CI_PROJECT_PATH/MATRIX_ROOM_ID@kv
       file:                        false
-    PIPELINE_TOKEN:
-      vault:                       cicd/gitlab/$CI_PROJECT_PATH/PIPELINE_TOKEN@kv
-      file:                        false
-    VALIDATOR_KEYS:
-      vault:                       cicd/gitlab/$CI_PROJECT_PATH/VALIDATOR_KEYS@kv
-      file:                        false
-    VALIDATOR_KEYS_CHAOS:
-      vault:                       cicd/gitlab/$CI_PROJECT_PATH/VALIDATOR_KEYS_CHAOS@kv
-      file:                        false
+
 
 #### stage:                       .pre
 
 skip-if-draft:
   image:                           axiatech/tools:latest
   <<:                              *kubernetes-env
-  <<:                              *vault-secrets
   stage:                           .pre
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^[0-9]+$/                         # PRs
@@ -257,12 +249,11 @@ check-runtime:
   stage:                           check
   image:                           axiatech/tools:latest
   <<:                              *kubernetes-env
-  <<:                              *vault-secrets
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^[0-9]+$/                         # PRs
   variables:
     <<:                            *default-vars
-    GITLAB_API:                    "https://gitlab.axiacoin.network/api/v4"
+    GITLAB_API:                    "https://gitlab.axia.io/api/v4"
     GITHUB_API_PROJECT:            "axia%2Finfrastructure%2Fgithub-api"
   script:
     - ./.maintain/gitlab/check_runtime.sh
@@ -272,7 +263,6 @@ check-signed-tag:
   stage:                           check
   image:                           axiatech/tools:latest
   <<:                              *kubernetes-env
-  <<:                              *vault-secrets
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^ci-release-.*$/
     - if: $CI_COMMIT_REF_NAME =~ /^v[0-9]+\.[0-9]+.*$/              # i.e. v1.0, v2.1rc1
@@ -336,7 +326,7 @@ cargo-clippy:
   <<:                              *docker-env
   <<:                              *test-refs
   script:
-    - SKIP_WASM_BUILD=1 env -u RUSTFLAGS cargo +nightly clippy
+    - SKIP_WASM_BUILD=1 env -u RUSTFLAGS cargo +nightly clippy --all-targets
 
 cargo-check-benches:
   stage:                           test
@@ -349,11 +339,13 @@ cargo-check-benches:
     - *rust-info-script
   script:
     - *cargo-check-benches-script
+  tags:
+    - linux-docker-benches
 
 node-bench-regression-guard:
   # it's not belong to `build` semantically, but dag jobs can't depend on each other
   # within the single stage - https://gitlab.com/gitlab-org/gitlab/-/issues/30632
-  # more: https://github.com/axia-tech/axlib/pull/8519#discussion_r608012402
+  # more: https://github.com/axiatech/substrate/pull/8519#discussion_r608012402
   stage:                           build
   <<:                              *docker-env
   <<:                              *test-refs-no-trigger-prs-only
@@ -370,6 +362,9 @@ node-bench-regression-guard:
     CI_IMAGE:                      "axiatech/node-bench-regression-guard:latest"
   before_script: [""]
   script:
+    - echo "------- IMPORTANT -------"
+    - echo "node-bench-regression-guard depends on the results of a cargo-check-benches job"
+    - echo "In case of this job failure, check your pipeline's cargo-check-benches"
     - 'node-bench-regression-guard --reference artifacts/benches/master-*
        --compare-with artifacts/benches/$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA'
 
@@ -432,24 +427,9 @@ test-linux-stable:                 &test-linux
   script:
     # this job runs all tests in former runtime-benchmarks, frame-staking and wasmtime tests
     - time cargo test --workspace --locked --release --verbose --features runtime-benchmarks --manifest-path bin/node/cli/Cargo.toml
-    - time cargo test -p frame-support-test --features=conditional-storage --manifest-path frame/support/test/Cargo.toml --test pallet # does not reuse cache 1 min 44 sec
-    - AXLIB_TEST_TIMEOUT=1 time cargo test -p axlib-test-utils --release --verbose --locked -- --ignored timeout
+    - time cargo test -p frame-support-test --features=conditional-storage,no-metadata-docs --manifest-path frame/support/test/Cargo.toml --test pallet # does not reuse cache 1 min 44 sec
+    - substrate_TEST_TIMEOUT=1 time cargo test -p substrate-test-utils --release --verbose --locked -- --ignored timeout
     - sccache -s
-
-#unleash-check:
-  #stage:                           test
-  #<<:                              *docker-env
-  #<<:                              *test-refs-no-trigger
-  #script:
-    #- cargo install cargo-unleash ${CARGO_UNLEASH_INSTALL_PARAMS}
-    #- cargo unleash de-dev-deps
-    # Reuse build artifacts when running checks (cuts down check time by 3x)
-    # TODO: Implement this optimization in cargo-unleash rather than here
-    #- mkdir -p target/unleash
-    #- export CARGO_TARGET_DIR=target/unleash
-    #- cargo unleash check ${CARGO_UNLEASH_PKG_DEF}
-  # FIXME: this job must not fail, or unleash-to-crates-io will publish broken stuff
-  #allow_failure:                   true
 
 test-frame-examples-compile-to-wasm:
   # into one job
@@ -463,9 +443,9 @@ test-frame-examples-compile-to-wasm:
     RUSTFLAGS:                     "-Cdebug-assertions=y"
     RUST_BACKTRACE: 1
   script:
-    - cd frame/example-offchain-worker/
+    - cd frame/examples/offchain-worker/
     - cargo +nightly build --target=wasm32-unknown-unknown --no-default-features
-    - cd ../example
+    - cd ../basic
     - cargo +nightly build --target=wasm32-unknown-unknown --no-default-features
     - sccache -s
 
@@ -539,11 +519,12 @@ cargo-check-macos:
 
 #### stage:                        build
 
+# PIPELINE_SCRIPTS_TAG can be found in the project variables
+
 .check-dependent-project:          &check-dependent-project
   stage:                           build
   <<:                              *docker-env
-  <<:                              *test-refs-no-trigger
-  <<:                              *vault-secrets
+  <<:                              *test-refs-no-trigger-prs-only
   script:
     - git clone
         --depth=1
@@ -551,11 +532,11 @@ cargo-check-macos:
         https://github.com/axiatech/pipeline-scripts
     - ./pipeline-scripts/check_dependent_project.sh
         axiatech
-        axlib
-        --axlib
+        substrate
+        --substrate
         "$DEPENDENT_REPO"
         "$GITHUB_PR_TOKEN"
-    - cd "$DEPENDENT_REPO" && git rev-parse --abbrev-ref HEAD
+        "$CARGO_UPDATE_CRATES"
 
 # Individual jobs are set up for each dependent project so that they can be ran in parallel.
 # Arguably we could generate a job for each companion in the PR's description using Gitlab's
@@ -565,13 +546,16 @@ check-dependent-axia:
   <<: *check-dependent-project
   variables:
     DEPENDENT_REPO: axia
+    CARGO_UPDATE_CRATES: "sp-io"
 
 check-dependent-cumulus:
   <<: *check-dependent-project
   variables:
     DEPENDENT_REPO: cumulus
+    CARGO_UPDATE_CRATES: "sp-io axia-runtime-common"
 
-build-linux-axlib:             &build-binary
+
+build-linux-substrate:
   stage:                           build
   <<:                              *collect-artifacts
   <<:                              *docker-env
@@ -580,29 +564,11 @@ build-linux-axlib:             &build-binary
     - job:                         test-linux-stable
       artifacts:                   false
   before_script:
-    - mkdir -p ./artifacts/axlib/
+    - mkdir -p ./artifacts/substrate/
   script:
-    - WASM_BUILD_NO_COLOR=1 time cargo build --release --verbose
-    - mv ./target/release/axlib ./artifacts/axlib/.
-    - echo -n "Axlib version = "
-    - if [ "${CI_COMMIT_TAG}" ]; then
-        echo "${CI_COMMIT_TAG}" | tee ./artifacts/axlib/VERSION;
-      else
-        ./artifacts/axlib/axlib --version |
-          sed -n -E 's/^axlib ([0-9.]+.*-[0-9a-f]{7,13})-.*$/\1/p' |
-            tee ./artifacts/axlib/VERSION;
-      fi
-    - sha256sum ./artifacts/axlib/axlib | tee ./artifacts/axlib/axlib.sha256
+    - *build-linux-substrate-script
     - printf '\n# building node-template\n\n'
-    - ./.maintain/node-template-release.sh ./artifacts/axlib/axlib-node-template.tar.gz
-    - cp -r .maintain/docker/axlib.Dockerfile ./artifacts/axlib/
-    - sccache -s
-
-#Build binary for simnet quick tests.
-build-linux-axlib-simnet:
-  <<:                              *build-binary
-  <<:                              *collect-artifacts-short
-  <<:                              *test-refs-no-trigger-prs-only
+    - ./.maintain/node-template-release.sh ./artifacts/substrate/substrate-node-template.tar.gz
 
 build-linux-subkey:                &build-subkey
   stage:                           build
@@ -632,6 +598,18 @@ build-macos-subkey:
   tags:
     - osx
 
+check-rustdoc:
+  stage:                           test
+  <<:                              *docker-env
+  <<:                              *test-refs
+  variables:
+    <<:                            *default-vars
+    SKIP_WASM_BUILD:               1
+    RUSTDOCFLAGS:                  "-Dwarnings"
+  script:
+    - time cargo +nightly doc --workspace --all-features --verbose --no-deps
+    - sccache -s
+
 build-rustdoc:
   stage:                           build
   <<:                              *docker-env
@@ -647,9 +625,7 @@ build-rustdoc:
     paths:
     - ./crate-docs/
   script:
-    # FIXME: it fails with `RUSTDOCFLAGS="-Dwarnings"`
-    - RUSTDOCFLAGS="--html-in-header $(pwd)/.maintain/rustdoc-header.html"
-        time cargo +nightly doc --no-deps --workspace --all-features --verbose
+    - time cargo +nightly doc --workspace --all-features --verbose
     - rm -f ./target/doc/.lock
     - mv ./target/doc ./crate-docs
     # FIXME: remove me after CI image gets nonroot
@@ -691,46 +667,21 @@ build-rustdoc:
     - buildah push --format=v2s2 "$IMAGE_NAME:latest"
   after_script:
     - buildah logout --all
-    # pass artifacts to the trigger-simnet job
-    - echo "AXLIB_IMAGE_NAME=${IMAGE_NAME}" | tee -a ./artifacts/$PRODUCT/build.env
+    - echo "substrate_IMAGE_NAME=${IMAGE_NAME}" | tee -a ./artifacts/$PRODUCT/build.env
     - IMAGE_TAG="$(cat ./artifacts/$PRODUCT/VERSION)"
-    - echo "AXLIB_IMAGE_TAG=${IMAGE_TAG}"   | tee -a ./artifacts/$PRODUCT/build.env
+    - echo "substrate_IMAGE_TAG=${IMAGE_TAG}"   | tee -a ./artifacts/$PRODUCT/build.env
     - cat ./artifacts/$PRODUCT/build.env
 
-publish-docker-axlib:
+publish-docker-substrate:
   stage:                           publish
   <<:                              *build-push-docker-image
   <<:                              *build-refs
   needs:
-    - job:                         build-linux-axlib
+    - job:                         build-linux-substrate
       artifacts:                   true
   variables:
     <<:                            *docker-build-vars
-    PRODUCT:                       axlib
-  artifacts:
-    reports:
-      # this artifact is used in trigger-simnet job
-      # https://docs.gitlab.com/ee/ci/multi_project_pipelines.html#with-variable-inheritance
-      dotenv: ./artifacts/axlib/build.env
-
-#publish artifact for quick simnet tests
-publish-docker-axlib-simnet:
-  stage:                           publish
-  <<:                              *build-push-docker-image
-  <<:                              *test-refs-no-trigger-prs-only
-  needs:
-    - job:                         build-linux-axlib-simnet
-      artifacts:                   true
-  variables:
-    <<:                            *default-vars
-    GIT_STRATEGY:                  none
-    DOCKERFILE:                    $PRODUCT.Dockerfile
-    PRODUCT:                       axlib
-    IMAGE_NAME:                    docker.io/axiapr/$PRODUCT
-  artifacts:
-    reports:
-      # this artifact is used in simnet-tests-quick job
-      dotenv: ./artifacts/axlib/build.env
+    PRODUCT:                       substrate
 
 publish-docker-subkey:
   stage:                           publish
@@ -748,19 +699,19 @@ publish-s3-release:
   <<:                              *kubernetes-env
   <<:                              *vault-secrets
   needs:
-    - job:                         build-linux-axlib
+    - job:                         build-linux-substrate
       artifacts:                   true
     - job:                         build-linux-subkey
       artifacts:                   true
   image:                           axiatech/awscli:latest
   variables:
     GIT_STRATEGY:                  none
-    BUCKET:                        "releases.axiacoin.network"
-    PREFIX:                        "axlib/${ARCH}-${DOCKER_OS}"
+    BUCKET:                        "releases.axia.io"
+    PREFIX:                        "substrate/${ARCH}-${DOCKER_OS}"
   script:
-    - aws s3 sync ./artifacts/ s3://${BUCKET}/${PREFIX}/$(cat ./artifacts/axlib/VERSION)/
+    - aws s3 sync ./artifacts/ s3://${BUCKET}/${PREFIX}/$(cat ./artifacts/substrate/VERSION)/
     - echo "update objects in latest path"
-    - aws s3 sync s3://${BUCKET}/${PREFIX}/$(cat ./artifacts/axlib/VERSION)/ s3://${BUCKET}/${PREFIX}/latest/
+    - aws s3 sync s3://${BUCKET}/${PREFIX}/$(cat ./artifacts/substrate/VERSION)/ s3://${BUCKET}/${PREFIX}/latest/
   after_script:
     - aws s3 ls s3://${BUCKET}/${PREFIX}/latest/
         --recursive --human-readable --summarize
@@ -772,13 +723,7 @@ publish-rustdoc:
   image:                           node:16
   variables:
     GIT_DEPTH:                     100
-    # --- Following variables are for rustdocs deployment ---
-    # Space separated values of branches and tags to generate rustdocs
-    RUSTDOCS_DEPLOY_REFS:          "master monthly-2021-09+1 monthly-2021-08 v3.0.0"
-    # Location of the docs index template
-    INDEX_TPL:                     ".maintain/docs-index-tpl.ejs"
-    # Where the `/latest` symbolic link links to. One of the $RUSTDOCS_DEPLOY_REFS value.
-    LATEST:                        "monthly-2021-09+1"
+    RUSTDOCS_DEPLOY_REFS:          "master"
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
       when: never
@@ -797,42 +742,29 @@ publish-rustdoc:
     # Putting spaces at the front and back to ensure we are not matching just any substring, but the
     # whole space-separated value.
     - '[[ " ${RUSTDOCS_DEPLOY_REFS} " =~ " ${CI_COMMIT_REF_NAME} " ]] || exit 0'
-    - rm -rf /tmp/*
+    # setup ssh
+    - eval $(ssh-agent)
+    - ssh-add - <<< ${GITHUB_SSH_PRIV_KEY}
+    - mkdir ~/.ssh && touch ~/.ssh/known_hosts
+    - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
     # Set git config
-    - rm -rf .git/config
-    - git config user.email "devops-team@axiacoin.network"
+    - git config user.email "devops-team@axia.io"
     - git config user.name "${GITHUB_USER}"
-    - git config remote.origin.url "https://${GITHUB_TOKEN}@github.com/axiatech/${CI_PROJECT_NAME}.git"
+    - git config remote.origin.url "git@github.com:/axiatech/${CI_PROJECT_NAME}.git"
     - git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
     - git fetch origin gh-pages
-    # Install `ejs` and generate index.html based on RUSTDOCS_DEPLOY_REFS
-    - yarn global add ejs
-    - 'ejs ${INDEX_TPL} -i "{\"deploy_refs\":\"${RUSTDOCS_DEPLOY_REFS}\",\"repo_name\":\"${CI_PROJECT_NAME}\",\"latest\":\"${LATEST}\"}" > /tmp/index.html'
     # Save README and docs
     - cp -r ./crate-docs/ /tmp/doc/
     - cp README.md /tmp/doc/
     - git checkout gh-pages
-    # Remove directories no longer necessary, as specified in $RUSTDOCS_DEPLOY_REFS.
-    # Also ensure $RUSTDOCS_DEPLOY_REFS is not just empty spaces.
-    # Even though this block spans multiple lines, they are concatenated to run as a single line
-    #   command, so note for the semi-colons in the inner-most code block.
-    - if [[ ! -z ${RUSTDOCS_DEPLOY_REFS// } ]]; then
-        for FILE in *; do
-          if [[ ! " $RUSTDOCS_DEPLOY_REFS " =~ " $FILE " ]]; then
-            echo "Removing ${FILE}...";
-            rm -rf $FILE;
-          fi
-        done
-      fi
-    # Move the index page & built back
-    - mv -f /tmp/index.html .
+    # Install `index-tpl-crud` and generate index.html based on RUSTDOCS_DEPLOY_REFS
+    - which index-tpl-crud &> /dev/null || yarn global add @substrate/index-tpl-crud
+    - index-tpl-crud upsert ./index.html ${CI_COMMIT_REF_NAME}
     # Ensure the destination dir doesn't exist.
     - rm -rf ${CI_COMMIT_REF_NAME}
     - mv -f /tmp/doc ${CI_COMMIT_REF_NAME}
-    # Add the symlink
-    - '[[ -e "$LATEST" ]] && ln -sf "${LATEST}" latest'
     # Upload files
-    - git add --all --force
+    - git add --all
     # `git commit` has an exit code of > 0 if there is nothing to commit.
     # This causes GitLab to exit immediately and marks this job failed.
     # We don't want to mark the entire job failed if there's nothing to
@@ -854,20 +786,6 @@ publish-draft-release:
     - ./.maintain/gitlab/publish_draft_release.sh
   allow_failure:                   true
 
-unleash-to-crates-io:
-  stage:                           publish
-  <<:                              *docker-env
-  <<:                              *vault-secrets
-  rules:
-    - if: $CI_COMMIT_REF_NAME =~ /^ci-release-.*$/
-    # FIXME: wait until https://github.com/axiatech/cargo-unleash/issues/50 is fixed, also
-    # remove allow_failure: true on the check job
-    # - if: $CI_COMMIT_REF_NAME =~ /^v[0-9]+\.[0-9]+.*$/              # i.e. v1.0, v2.1rc1
-  script:
-    - cargo install cargo-unleash ${CARGO_UNLEASH_INSTALL_PARAMS}
-    - cargo unleash em-dragons --no-check --owner github:axiatech:core-devs ${CARGO_UNLEASH_PKG_DEF}
-  allow_failure:                   true
-
 #### stage:                        deploy
 
 deploy-prometheus-alerting-rules:
@@ -879,8 +797,8 @@ deploy-prometheus-alerting-rules:
   trigger:
     project:  axia/infrastructure/cloud-infra
   variables:
-    AXLIB_CI_COMMIT_NAME:       "${CI_COMMIT_REF_NAME}"
-    AXLIB_CI_COMMIT_REF:        "${CI_COMMIT_SHORT_SHA}"
+    substrate_CI_COMMIT_NAME:       "${CI_COMMIT_REF_NAME}"
+    substrate_CI_COMMIT_REF:        "${CI_COMMIT_SHORT_SHA}"
     UPSTREAM_TRIGGER_PROJECT:       "${CI_PROJECT_PATH}"
   rules:
     - if: $CI_PIPELINE_SOURCE == "pipeline"
@@ -889,64 +807,3 @@ deploy-prometheus-alerting-rules:
       changes:
         - .gitlab-ci.yml
         - .maintain/monitoring/**/*
-
-# Runs "quick" and "long" tests on nightly schedule and on commit / merge to master
-# A "quick" test is a smoke test where basic check-expect tests run by
-# checking values from metrics exposed by the app.
-# A "long" test is the load testing where we send 50K transactions into the
-# network and check if all completed successfully
-simnet-tests:
-  stage:                           deploy
-  image:                           docker.io/axiatech/simnet:${SIMNET_REF}
-  <<:                              *kubernetes-env
-  <<:                              *vault-secrets
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "pipeline"
-      when: never
-    - if: $CI_PIPELINE_SOURCE == "web" && $CI_COMMIT_REF_NAME == "master"
-    - if: $CI_COMMIT_REF_NAME == "master"
-  needs:
-    - job:                         publish-docker-axlib
-  # variables:
-  # `build.env` brings here `${AXLIB_IMAGE_NAME}` and `${AXLIB_IMAGE_TAG}`
-  # (`$VERSION` here, # i.e. `2643-0.8.29-5f689e0a-6b24dc54`).
-  # ${SIMNET_REF} is a gitlab variable
-  before_script:
-    - echo "Simnet Tests Config
-      docker.io/axiatech/simnet:${SIMNET_REF}
-      ${AXLIB_IMAGE_NAME} ${AXLIB_IMAGE_TAG}"
-  script:
-    - /home/nonroot/simnet/gurke/scripts/run-test-environment-manager.sh
-        --github-remote-dir="https://github.com/axia-tech/axlib/tree/master/simnet_tests"
-        --config="simnet_tests/configs/default_local_testnet.toml"
-        --image="${AXLIB_IMAGE_NAME}:${AXLIB_IMAGE_TAG}"
-  retry: 2
-  tags:
-    - axlib-simnet
-
-#run quick simnet-tests for each PR
-simnet-tests-quick:
-  stage:                           deploy
-  image:                           docker.io/axiatech/simnet:${SIMNET_REF}
-  <<:                              *kubernetes-env
-  <<:                              *vault-secrets
-  <<:                              *test-refs-no-trigger-prs-only
-  variables:
-    SIMNET_FEATURES:               "${SIMNET_FEATURES_PATH}/quick"
-  needs:
-    - job:                         publish-docker-axlib-simnet
-  before_script:
-    - echo "Simnet Tests Config
-      docker.io/axiatech/simnet:${SIMNET_REF}
-      ${AXLIB_IMAGE_NAME} ${AXLIB_IMAGE_TAG}"
-  script:
-    - echo "Image=${AXLIB_IMAGE_NAME}:${AXLIB_IMAGE_TAG}"
-    - echo "Features=${SIMNET_FEATURES}"
-    - /home/nonroot/simnet/gurke/scripts/run-test-environment-manager.sh
-        --github-remote-dir="https://github.com/axia-tech/axlib/tree/master/simnet_tests"
-        --config="simnet_tests/configs/default_local_testnet.toml"
-        --image="${AXLIB_IMAGE_NAME}:${AXLIB_IMAGE_TAG}"
-        --features="${SIMNET_FEATURES}"
-  tags:
-    - axlib-simnet
-

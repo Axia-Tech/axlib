@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2019-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
 
 // This program is free software: you can redistribute it and/or modify
@@ -39,7 +39,7 @@ use std::{
 	task::{Context, Poll},
 };
 
-/// Wraps around an implementation of the `Network` crate and provides gossiping capabilities on
+/// Wraps around an implementation of the [`Network`] trait and provides gossiping capabilities on
 /// top of it.
 pub struct GossipEngine<B: BlockT> {
 	state_machine: ConsensusGossip<B>,
@@ -56,7 +56,7 @@ pub struct GossipEngine<B: BlockT> {
 }
 
 /// A gossip engine receives messages from the network via the `network_event_stream` and forwards
-/// them to upper layers via the `message sinks`. In the scenario where messages have been received
+/// them to upper layers via the `message_sinks`. In the scenario where messages have been received
 /// from the network but a subscribed message sink is not yet ready to receive the messages, the
 /// messages are buffered. To model this process a gossip engine can be in two states.
 enum ForwardingState<B: BlockT> {
@@ -306,7 +306,7 @@ mod tests {
 		convert::TryInto,
 		sync::{Arc, Mutex},
 	};
-	use axlib_test_runtime_client::runtime::Block;
+	use substrate_test_runtime_client::runtime::Block;
 
 	#[derive(Clone, Default)]
 	struct TestNetwork {
@@ -360,7 +360,7 @@ mod tests {
 	/// Regression test for the case where the `GossipEngine.network_event_stream` closes. One
 	/// should not ignore a `Poll::Ready(None)` as `poll_next_unpin` will panic on subsequent calls.
 	///
-	/// See https://github.com/axia-tech/axlib/issues/5000 for details.
+	/// See https://github.com/axiatech/substrate/issues/5000 for details.
 	#[test]
 	fn returns_when_network_event_stream_closes() {
 		let network = TestNetwork::default();

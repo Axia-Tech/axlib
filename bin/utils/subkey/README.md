@@ -1,6 +1,6 @@
 # Subkey
 
-Subkey is a commandline utility included with Axlib. It allows generating and restoring keys for Axlib based chains such as AXIA, Axiatest and a growing number of allychains and Axlib based projects.
+Subkey is a commandline utility included with Substrate. It allows generating and restoring keys for Substrate based chains such as Axia, AxiaTest and a growing number of allychains and Substrate based projects.
 
 `subkey` provides a few sub-commands to generate keys, check keys, sign messages, verify messages, etc...
 
@@ -20,15 +20,15 @@ The following guide explains *some* of the `subkey` commands. For the full list 
 
 ### Install with Cargo
 
-You will need to have the Axlib build dependencies to install Subkey. Use the following two commands to install the dependencies and Subkey, respectively:
+You will need to have the Substrate build dependencies to install Subkey. Use the following two commands to install the dependencies and Subkey, respectively:
 
 Command:
 
 ```bash
-# Use the `--fast` flag to get the dependencies without needing to install the Axlib and Subkey binary
-curl https://getaxlib.io -sSf | bash -s -- --fast
+# Use the `--fast` flag to get the dependencies without needing to install the Substrate and Subkey binary
+curl https://getsubstrate.io -sSf | bash -s -- --fast
 # Install only `subkey`, at a specific version of the subkey crate
-cargo install --force subkey --git https://github.com/axiatech/axlib --version <SET VERSION> --locked
+cargo install --force subkey --git https://github.com/axiatech/substrate --version <SET VERSION> --locked
 ```
 
 ### Run in a container
@@ -59,7 +59,7 @@ Secret phrase `hotel forest jar hover kite book view eight stuff angle legend de
 ---
 ☠️ DO NT RE-USE ANY OF THE SEEDS AND SECRETS FROM THIS PAGE ☠️.
 
-You can read more about security and risks in [SECURITY.md](./SECURITY.md) and in the [AXIA Wiki](https://wiki.axia.network/docs/learn-account-generation).
+You can read more about security and risks in [SECURITY.md](./SECURITY.md) and in the [Axia Wiki](https://wiki.axia.network/docs/learn-account-generation).
 
 ---
 
@@ -67,14 +67,14 @@ The output above shows a **secret phrase** (also called **mnemonic phrase**) and
 
 The output above also show the **public key** and the **Account ID**. Those are the independant from the network where you will use the key.
 
-The **SS58 address** (or **Public Address**) of a new account is a reprensentation of the public keys of an account for a given network (for instance Axiatest or AXIA).
+The **SS58 address** (or **Public Address**) of a new account is a reprensentation of the public keys of an account for a given network (for instance AxiaTest or Axia).
 
-You can read more about the SS58 format in the [axlib wiki](https://github.com/axia-tech/axlib/wiki/External-Address-Format-(SS58)) and see the list of reserved prefixes in the [AXIA wiki](https://wiki.axia.network/docs/build-ss58-registry).
+You can read more about the SS58 format in the [Substrate Docs](https://docs.substrate.io/v3/advanced/ss58/) and see the list of reserved prefixes in the [SS58 Registry](https://github.com/axiatech/ss58-registry).
 
 For instance, considering the previous seed `0xa05c75731970cc7868a2fb7cb577353cd5b31f62dccced92c441acd8fee0c92d` the SS58 addresses are:
 
-- AXIA: `16m4J167Mptt8UXL8aGSAi7U2FnPpPxZHPrCgMG9KJzVoFqM`
-- Axiatest: `JLNozAv8QeLSbLFwe2UvWeKKE4yvmDbfGxTuiYkF2BUMx4M`
+- Axia: `16m4J167Mptt8UXL8aGSAi7U2FnPpPxZHPrCgMG9KJzVoFqM`
+- AxiaTest: `JLNozAv8QeLSbLFwe2UvWeKKE4yvmDbfGxTuiYkF2BUMx4M`
 
 ### Json output
 

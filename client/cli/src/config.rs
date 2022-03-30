@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2020-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2020-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
 
 // This program is free software: you can redistribute it and/or modify
@@ -16,11 +16,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-//! Configuration trait for a CLI based on axlib
+//! Configuration trait for a CLI based on substrate
 
 use crate::{
 	arg_enums::Database, error::Result, DatabaseParams, ImportParams, KeystoreParams,
-	NetworkParams, NodeKeyParams, OffchainWorkerParams, PruningParams, SharedParams, AxlibCli,
+	NetworkParams, NodeKeyParams, OffchainWorkerParams, PruningParams, SharedParams, SubstrateCli,
 };
 use log::warn;
 use names::{Generator, Name};
@@ -45,33 +45,33 @@ pub(crate) const DEFAULT_NETWORK_CONFIG_PATH: &'static str = "network";
 /// The recommended open file descriptor limit to be configured for the process.
 const RECOMMENDED_OPEN_FILE_DESCRIPTOR_LIMIT: u64 = 10_000;
 
-/// Default configuration values used by Axlib
+/// Default configuration values used by Substrate
 ///
 /// These values will be used by [`CliConfiguration`] to set
 /// default values for e.g. the listen port or the RPC port.
 pub trait DefaultConfigurationValues {
-	/// The port Axlib should listen on for p2p connections.
+	/// The port Substrate should listen on for p2p connections.
 	///
 	/// By default this is `30333`.
 	fn p2p_listen_port() -> u16 {
 		30333
 	}
 
-	/// The port Axlib should listen on for websocket connections.
+	/// The port Substrate should listen on for websocket connections.
 	///
 	/// By default this is `9944`.
 	fn rpc_ws_listen_port() -> u16 {
 		9944
 	}
 
-	/// The port Axlib should listen on for http connections.
+	/// The port Substrate should listen on for http connections.
 	///
 	/// By default this is `9933`.
 	fn rpc_http_listen_port() -> u16 {
 		9933
 	}
 
-	/// The port Axlib should listen on for prometheus connections.
+	/// The port Substrate should listen on for prometheus connections.
 	///
 	/// By default this is `9615`.
 	fn prometheus_listen_port() -> u16 {
@@ -229,7 +229,7 @@ pub trait CliConfiguration<DCV: DefaultConfigurationValues = ()>: Sized {
 		let axiadb_path = base_path.join("axiadb").join(role_dir);
 		Ok(match database {
 			Database::RocksDb => DatabaseSource::RocksDb { path: rocksdb_path, cache_size },
-			Database::AXIADb => DatabaseSource::AXIADb { path: axiadb_path },
+			Database::AxiaDb => DatabaseSource::AxiaDb { path: axiadb_path },
 			Database::Auto => DatabaseSource::Auto { axiadb_path, rocksdb_path, cache_size },
 		})
 	}
@@ -368,7 +368,11 @@ pub trait CliConfiguration<DCV: DefaultConfigurationValues = ()>: Sized {
 	/// Get the prometheus configuration (`None` if disabled)
 	///
 	/// By default this is `None`.
-	fn prometheus_config(&self, _default_listen_port: u16) -> Result<Option<PrometheusConfig>> {
+	fn prometheus_config(
+		&self,
+		_default_listen_port: u16,
+		_chain_spec: &Box<dyn ChainSpec>,
+	) -> Result<Option<PrometheusConfig>> {
 		Ok(None)
 	}
 
@@ -452,6 +456,13 @@ pub trait CliConfiguration<DCV: DefaultConfigurationValues = ()>: Sized {
 		Ok(Default::default())
 	}
 
+	/// Get maximum different runtimes in cache
+	///
+	/// By default this is `2`.
+	fn runtime_cache_size(&self) -> Result<u8> {
+		Ok(2)
+	}
+
 	/// Activate or not the automatic announcing of blocks after import
 	///
 	/// By default this is `false`.
@@ -460,7 +471,7 @@ pub trait CliConfiguration<DCV: DefaultConfigurationValues = ()>: Sized {
 	}
 
 	/// Create a Configuration object from the current object
-	fn create_configuration<C: AxlibCli>(
+	fn create_configuration<C: SubstrateCli>(
 		&self,
 		cli: &C,
 		tokio_handle: tokio::runtime::Handle,
@@ -474,7 +485,7 @@ pub trait CliConfiguration<DCV: DefaultConfigurationValues = ()>: Sized {
 		let config_dir = base_path.config_dir(chain_spec.id());
 		let net_config_dir = config_dir.join(DEFAULT_NETWORK_CONFIG_PATH);
 		let client_id = C::client_id();
-		let database_cache_size = self.database_cache_size()?.unwrap_or(128);
+		let database_cache_size = self.database_cache_size()?.unwrap_or(1024);
 		let database = self.database()?.unwrap_or(Database::RocksDb);
 		let node_key = self.node_key(&net_config_dir)?;
 		let role = self.role(is_dev)?;
@@ -482,6 +493,7 @@ pub trait CliConfiguration<DCV: DefaultConfigurationValues = ()>: Sized {
 		let is_validator = role.is_authority();
 		let (keystore_remote, keystore) = self.keystore_config(&config_dir)?;
 		let telemetry_endpoints = self.telemetry_endpoints(&chain_spec)?;
+		let runtime_cache_size = self.runtime_cache_size()?;
 
 		let unsafe_pruning = self.import_params().map(|p| p.unsafe_pruning).unwrap_or(false);
 
@@ -519,7 +531,8 @@ pub trait CliConfiguration<DCV: DefaultConfigurationValues = ()>: Sized {
 			rpc_cors: self.rpc_cors(is_dev)?,
 			rpc_max_payload: self.rpc_max_payload()?,
 			ws_max_out_buffer_capacity: self.ws_max_out_buffer_capacity()?,
-			prometheus_config: self.prometheus_config(DCV::prometheus_listen_port())?,
+			prometheus_config: self
+				.prometheus_config(DCV::prometheus_listen_port(), &chain_spec)?,
 			telemetry_endpoints,
 			default_heap_pages: self.default_heap_pages()?,
 			offchain_worker: self.offchain_worker(&role)?,
@@ -534,6 +547,7 @@ pub trait CliConfiguration<DCV: DefaultConfigurationValues = ()>: Sized {
 			role,
 			base_path: Some(base_path),
 			informant_output_format: Default::default(),
+			runtime_cache_size,
 		})
 	}
 
@@ -547,6 +561,11 @@ pub trait CliConfiguration<DCV: DefaultConfigurationValues = ()>: Sized {
 		Ok(self.shared_params().log_filters().join(","))
 	}
 
+	/// Should the detailed log output be enabled.
+	fn detailed_log_output(&self) -> Result<bool> {
+		Ok(self.shared_params().detailed_log_output())
+	}
+
 	/// Is log reloading enabled?
 	fn enable_log_reloading(&self) -> Result<bool> {
 		Ok(self.shared_params().enable_log_reloading())
@@ -557,18 +576,50 @@ pub trait CliConfiguration<DCV: DefaultConfigurationValues = ()>: Sized {
 		Ok(self.shared_params().disable_log_color())
 	}
 
-	/// Initialize axlib. This must be done only once per process.
+	/// Initialize substrate. This must be done only once per process.
 	///
 	/// This method:
 	///
 	/// 1. Sets the panic handler
+	/// 2. Optionally customize logger/profiling
 	/// 2. Initializes the logger
 	/// 3. Raises the FD limit
-	fn init<C: AxlibCli>(&self) -> Result<()> {
-		sp_panic_handler::set(&C::support_url(), &C::impl_version());
+	///
+	/// The `logger_hook` closure is executed before the logger is constructed
+	/// and initialized. It is useful for setting up a custom profiler.
+	///
+	/// Example:
+	/// ```
+	/// use sc_tracing::{SpanDatum, TraceEvent};
+	/// struct TestProfiler;
+	///
+	/// impl sc_tracing::TraceHandler for TestProfiler {
+	///  	fn handle_span(&self, sd: &SpanDatum) {}
+	/// 		fn handle_event(&self, _event: &TraceEvent) {}
+	/// };
+	///
+	/// fn logger_hook() -> impl FnOnce(&mut sc_cli::LoggerBuilder, &sc_service::Configuration) -> () {
+	/// 	|logger_builder, config| {
+	/// 			logger_builder.with_custom_profiling(Box::new(TestProfiler{}));
+	/// 	}
+	/// }
+	/// ```
+	fn init<F>(
+		&self,
+		support_url: &String,
+		impl_version: &String,
+		logger_hook: F,
+		config: &Configuration,
+	) -> Result<()>
+	where
+		F: FnOnce(&mut LoggerBuilder, &Configuration),
+	{
+		sp_panic_handler::set(support_url, impl_version);
 
 		let mut logger = LoggerBuilder::new(self.log_filters()?);
-		logger.with_log_reloading(self.enable_log_reloading()?);
+		logger
+			.with_log_reloading(self.enable_log_reloading()?)
+			.with_detailed_output(self.detailed_log_output()?);
 
 		if let Some(tracing_targets) = self.tracing_targets()? {
 			let tracing_receiver = self.tracing_receiver()?;
@@ -578,6 +629,9 @@ pub trait CliConfiguration<DCV: DefaultConfigurationValues = ()>: Sized {
 		if self.disable_log_color()? {
 			logger.with_colors(false);
 		}
+
+		// Call hook for custom profiling setup.
+		logger_hook(&mut logger, &config);
 
 		logger.init()?;
 

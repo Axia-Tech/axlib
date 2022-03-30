@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2017-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
 
 // This program is free software: you can redistribute it and/or modify
@@ -43,10 +43,10 @@ use std::{
 };
 
 /// Number of blocks we will add to the queue before waiting for the queue to catch up.
-const MAX_PENDING_BLOCKS: u64 = 1_024;
+const MAX_PENDING_BLOCKS: u64 = 10_000;
 
 /// Number of milliseconds to wait until next poll.
-const DELAY_TIME: u64 = 2_000;
+const DELAY_TIME: u64 = 200;
 
 /// Number of milliseconds that must have passed between two updates.
 const TIME_BETWEEN_UPDATES: u64 = 3_000;
@@ -58,7 +58,7 @@ pub fn build_spec(spec: &dyn ChainSpec, raw: bool) -> error::Result<String> {
 	spec.as_json(raw).map_err(Into::into)
 }
 
-/// Helper enum that wraps either a binary decoder (from axia-scale-codec), or a JSON decoder
+/// Helper enum that wraps either a binary decoder (from parity-scale-codec), or a JSON decoder
 /// (from serde_json). Implements the Iterator Trait, calling `next()` will decode the next
 /// SignedBlock and return it.
 enum BlockIter<R, B>
@@ -322,7 +322,7 @@ where
 
 			for result in results {
 				if let (Err(err), hash) = result {
-					warn!("There was an error importing block with hash {:?}: {:?}", hash, err);
+					warn!("There was an error importing block with hash {:?}: {}", hash, err);
 					self.has_error = true;
 					break
 				}

@@ -1,17 +1,17 @@
 [package]
 name = "node-rpc"
 version = "3.0.0-dev"
-authors = ["AXIA Technologies <admin@axiacoin.network>"]
-edition = "2018"
+authors = ["Axia Technologies <admin@axia.io>"]
+edition = "2021"
 license = "Apache-2.0"
-homepage = ""
-repository = "https://github.com/axia-tech/axia-core/"
+homepage = "https://substrate.io"
+repository = "https://github.com/axia-tech/substrate/"
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]
 
 [dependencies]
-jsonrpc-core = { git = "https://github.com/axia-tech/jsonrpc", branch = "master", version = "18.0.0" }
+jsonrpc-core = "18.0.0"
 node-primitives = { version = "2.0.0", path = "../primitives" }
 pallet-contracts-rpc = { version = "4.0.0-dev", path = "../../../frame/contracts/rpc/" }
 pallet-mmr-rpc = { version = "3.0.0", path = "../../../frame/merkle-mountain-range/rpc/" }
@@ -29,9 +29,9 @@ sc-sync-state-rpc = { version = "0.10.0-dev", path = "../../../client/sync-state
 sp-api = { version = "4.0.0-dev", path = "../../../primitives/api" }
 sp-block-builder = { version = "4.0.0-dev", path = "../../../primitives/block-builder" }
 sp-blockchain = { version = "4.0.0-dev", path = "../../../primitives/blockchain" }
-sp-keystore = { version = "0.10.0-dev", path = "../../../primitives/keystore" }
+sp-keystore = { version = "0.11.0", path = "../../../primitives/keystore" }
 sp-consensus = { version = "0.10.0-dev", path = "../../../primitives/consensus/common" }
 sp-consensus-babe = { version = "0.10.0-dev", path = "../../../primitives/consensus/babe" }
-sp-runtime = { version = "4.0.0-dev", path = "../../../primitives/runtime" }
+sp-runtime = { version = "5.0.0", path = "../../../primitives/runtime" }
 sc-transaction-pool-api = { version = "4.0.0-dev", path = "../../../client/transaction-pool/api" }
-axlib-frame-rpc-system = { version = "4.0.0-dev", path = "../../../utils/frame/rpc/system" }
+substrate-frame-rpc-system = { version = "4.0.0-dev", path = "../../../utils/frame/rpc/system" }

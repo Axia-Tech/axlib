@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2019-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
 
 // This program is free software: you can redistribute it and/or modify
@@ -96,7 +96,7 @@ pub struct ExecutionExtensions<Block: traits::Block> {
 	strategies: ExecutionStrategies,
 	keystore: Option<SyncCryptoStorePtr>,
 	offchain_db: Option<Box<dyn DbExternalitiesFactory>>,
-	// FIXME: these two are only RwLock because of https://github.com/axia-tech/axlib/issues/4587
+	// FIXME: these two are only RwLock because of https://github.com/axiatech/substrate/issues/4587
 	//        remove when fixed.
 	// To break retain cycle between `Client` and `TransactionPool` we require this
 	// extension to be a `Weak` reference.
@@ -161,13 +161,13 @@ impl<Block: traits::Block> ExecutionExtensions<Block> {
 
 		let mut extensions = self.extensions_factory.read().extensions_for(capabilities);
 
-		if capabilities.has(offchain::Capability::Keystore) {
+		if capabilities.contains(offchain::Capabilities::KEYSTORE) {
 			if let Some(ref keystore) = self.keystore {
 				extensions.register(KeystoreExt(keystore.clone()));
 			}
 		}
 
-		if capabilities.has(offchain::Capability::TransactionPool) {
+		if capabilities.contains(offchain::Capabilities::TRANSACTION_POOL) {
 			if let Some(pool) = self.transaction_pool.read().as_ref().and_then(|x| x.upgrade()) {
 				extensions
 					.register(TransactionPoolExt(
@@ -176,8 +176,8 @@ impl<Block: traits::Block> ExecutionExtensions<Block> {
 			}
 		}
 
-		if capabilities.has(offchain::Capability::OffchainDbRead) ||
-			capabilities.has(offchain::Capability::OffchainDbWrite)
+		if capabilities.contains(offchain::Capabilities::OFFCHAIN_DB_READ) ||
+			capabilities.contains(offchain::Capabilities::OFFCHAIN_DB_WRITE)
 		{
 			if let Some(offchain_db) = self.offchain_db.as_ref() {
 				extensions.register(OffchainDbExt::new(offchain::LimitedExternalities::new(
@@ -210,7 +210,7 @@ impl<Block: traits::Block> ExecutionExtensions<Block> {
 			ExecutionContext::BlockConstruction => self.strategies.block_construction.get_manager(),
 			ExecutionContext::Syncing => self.strategies.syncing.get_manager(),
 			ExecutionContext::Importing => self.strategies.importing.get_manager(),
-			ExecutionContext::OffchainCall(Some((_, capabilities))) if capabilities.has_all() =>
+			ExecutionContext::OffchainCall(Some((_, capabilities))) if capabilities.is_all() =>
 				self.strategies.offchain_worker.get_manager(),
 			ExecutionContext::OffchainCall(_) => self.strategies.other.get_manager(),
 		};

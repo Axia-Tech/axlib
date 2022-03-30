@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2017-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,7 +30,7 @@ use crate::{
 };
 use serde::{de::Error as DeError, Deserialize, Deserializer, Serialize, Serializer};
 use sp_core::{
-	crypto::{key_types, CryptoType, Dummy, Public},
+	crypto::{key_types, ByteArray, CryptoType, Dummy},
 	U256,
 };
 pub use sp_core::{sr25519, H256};
@@ -77,10 +77,10 @@ impl From<UintAuthorityId> for u64 {
 }
 
 impl UintAuthorityId {
-	/// Convert this authority id into a public key.
-	pub fn to_public_key<T: Public>(&self) -> T {
+	/// Convert this authority ID into a public key.
+	pub fn to_public_key<T: ByteArray>(&self) -> T {
 		let bytes: [u8; 32] = U256::from(self.0).into();
-		T::from_slice(&bytes)
+		T::from_slice(&bytes).unwrap()
 	}
 }
 
@@ -182,10 +182,10 @@ impl traits::Verify for TestSignature {
 }
 
 /// Digest item
-pub type DigestItem = generic::DigestItem<H256>;
+pub type DigestItem = generic::DigestItem;
 
 /// Header Digest
-pub type Digest = generic::Digest<H256>;
+pub type Digest = generic::Digest;
 
 /// Block Header
 pub type Header = generic::Header<u64, BlakeTwo256>;
@@ -204,12 +204,12 @@ impl Header {
 }
 
 /// An opaque extrinsic wrapper type.
-#[derive(PartialEq, Eq, Clone, Debug, Encode, Decode, axia_util_mem::MallocSizeOf)]
+#[derive(PartialEq, Eq, Clone, Debug, Encode, Decode, parity_util_mem::MallocSizeOf)]
 pub struct ExtrinsicWrapper<Xt>(Xt);
 
 impl<Xt> traits::Extrinsic for ExtrinsicWrapper<Xt>
 where
-	Xt: axia_util_mem::MallocSizeOf,
+	Xt: parity_util_mem::MallocSizeOf,
 {
 	type Call = ();
 	type SignaturePayload = ();
@@ -243,7 +243,7 @@ impl<Xt> Deref for ExtrinsicWrapper<Xt> {
 }
 
 /// Testing block
-#[derive(PartialEq, Eq, Clone, Serialize, Debug, Encode, Decode, axia_util_mem::MallocSizeOf)]
+#[derive(PartialEq, Eq, Clone, Serialize, Debug, Encode, Decode, parity_util_mem::MallocSizeOf)]
 pub struct Block<Xt> {
 	/// Block header
 	pub header: Header,
@@ -307,7 +307,7 @@ impl<Call, Extra> TestXt<Call, Extra> {
 }
 
 // Non-opaque extrinsics always 0.
-axia_util_mem::malloc_size_of_is_0!(any: TestXt<Call, Extra>);
+parity_util_mem::malloc_size_of_is_0!(any: TestXt<Call, Extra>);
 
 impl<Call, Extra> Serialize for TestXt<Call, Extra>
 where

@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2020-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2020-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,16 +17,14 @@
 
 //! Key related CLI utilities
 
-use crate::{Error, AxlibCli};
-use structopt::StructOpt;
-
 use super::{
 	generate::GenerateCmd, generate_node_key::GenerateNodeKeyCmd, insert_key::InsertKeyCmd,
 	inspect_key::InspectKeyCmd, inspect_node_key::InspectNodeKeyCmd,
 };
+use crate::{Error, SubstrateCli};
 
 /// Key utilities for the cli.
-#[derive(Debug, StructOpt)]
+#[derive(Debug, clap::Subcommand)]
 pub enum KeySubcommand {
 	/// Generate a random node libp2p key, save it to file or print it to stdout
 	/// and print its peer ID to stderr.
@@ -47,7 +45,7 @@ pub enum KeySubcommand {
 
 impl KeySubcommand {
 	/// run the key subcommands
-	pub fn run<C: AxlibCli>(&self, cli: &C) -> Result<(), Error> {
+	pub fn run<C: SubstrateCli>(&self, cli: &C) -> Result<(), Error> {
 		match self {
 			KeySubcommand::GenerateNodeKey(cmd) => cmd.run(),
 			KeySubcommand::Generate(cmd) => cmd.run(),

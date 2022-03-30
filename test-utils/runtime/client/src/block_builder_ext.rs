@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2018-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2018-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,7 +19,6 @@
 
 use sc_client_api::backend;
 use sp_api::{ApiExt, ProvideRuntimeApi};
-use sp_core::ChangesTrieConfiguration;
 
 use sc_block_builder::BlockBuilderApi;
 
@@ -28,7 +27,7 @@ pub trait BlockBuilderExt {
 	/// Add transfer extrinsic to the block.
 	fn push_transfer(
 		&mut self,
-		transfer: axlib_test_runtime::Transfer,
+		transfer: substrate_test_runtime::Transfer,
 	) -> Result<(), sp_blockchain::Error>;
 	/// Add storage change extrinsic to the block.
 	fn push_storage_change(
@@ -36,27 +35,22 @@ pub trait BlockBuilderExt {
 		key: Vec<u8>,
 		value: Option<Vec<u8>>,
 	) -> Result<(), sp_blockchain::Error>;
-	/// Add changes trie configuration update extrinsic to the block.
-	fn push_changes_trie_configuration_update(
-		&mut self,
-		new_config: Option<ChangesTrieConfiguration>,
-	) -> Result<(), sp_blockchain::Error>;
 }
 
 impl<'a, A, B> BlockBuilderExt
-	for sc_block_builder::BlockBuilder<'a, axlib_test_runtime::Block, A, B>
+	for sc_block_builder::BlockBuilder<'a, substrate_test_runtime::Block, A, B>
 where
-	A: ProvideRuntimeApi<axlib_test_runtime::Block> + 'a,
-	A::Api: BlockBuilderApi<axlib_test_runtime::Block>
+	A: ProvideRuntimeApi<substrate_test_runtime::Block> + 'a,
+	A::Api: BlockBuilderApi<substrate_test_runtime::Block>
 		+ ApiExt<
-			axlib_test_runtime::Block,
-			StateBackend = backend::StateBackendFor<B, axlib_test_runtime::Block>,
+			substrate_test_runtime::Block,
+			StateBackend = backend::StateBackendFor<B, substrate_test_runtime::Block>,
 		>,
-	B: backend::Backend<axlib_test_runtime::Block>,
+	B: backend::Backend<substrate_test_runtime::Block>,
 {
 	fn push_transfer(
 		&mut self,
-		transfer: axlib_test_runtime::Transfer,
+		transfer: substrate_test_runtime::Transfer,
 	) -> Result<(), sp_blockchain::Error> {
 		self.push(transfer.into_signed_tx())
 	}
@@ -66,13 +60,6 @@ where
 		key: Vec<u8>,
 		value: Option<Vec<u8>>,
 	) -> Result<(), sp_blockchain::Error> {
-		self.push(axlib_test_runtime::Extrinsic::StorageChange(key, value))
-	}
-
-	fn push_changes_trie_configuration_update(
-		&mut self,
-		new_config: Option<ChangesTrieConfiguration>,
-	) -> Result<(), sp_blockchain::Error> {
-		self.push(axlib_test_runtime::Extrinsic::ChangesTrieConfigUpdate(new_config))
+		self.push(substrate_test_runtime::Extrinsic::StorageChange(key, value))
 	}
 }

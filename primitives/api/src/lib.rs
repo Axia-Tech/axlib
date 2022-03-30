@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2019-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,9 +15,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-//! Axlib runtime api
+//! Substrate runtime api
 //!
-//! The Axlib runtime api is the interface between the node and the runtime. There isn't a fixed
+//! The Substrate runtime api is the interface between the node and the runtime. There isn't a fixed
 //! set of runtime apis, instead it is up to the user to declare and implement these runtime apis.
 //! The declaration of a runtime api is normally done outside of a runtime, while the implementation
 //! of it has to be done in the runtime. We provide the [`decl_runtime_apis!`] macro for declaring
@@ -25,7 +25,7 @@
 //! information on how to use them and what kind of attributes we support.
 //!
 //! It is required that each runtime implements at least the [`Core`] runtime api. This runtime api
-//! provides all the core functions that Axlib expects from a runtime.
+//! provides all the core functions that Substrate expects from a runtime.
 //!
 //! # Versioning
 //!
@@ -43,7 +43,7 @@
 //!
 //! # Logging
 //!
-//! Axlib supports logging from the runtime in native and in wasm. For that purpose it provides
+//! Substrate supports logging from the runtime in native and in wasm. For that purpose it provides
 //! the [`RuntimeLogger`](sp_runtime::runtime_logger::RuntimeLogger). This runtime logger is
 //! automatically enabled for each call into the runtime through the runtime api. As logging
 //! introduces extra code that isn't actually required for the logic of your runtime and also
@@ -77,13 +77,15 @@ pub use codec::{self, Decode, DecodeLimit, Encode};
 pub use hash_db::Hasher;
 #[doc(hidden)]
 #[cfg(not(feature = "std"))]
-pub use sp_core::to_axlib_wasm_fn_return_value;
+pub use sp_core::to_substrate_wasm_fn_return_value;
 #[doc(hidden)]
 #[cfg(feature = "std")]
 pub use sp_core::NativeOrEncoded;
 use sp_core::OpaqueMetadata;
 #[doc(hidden)]
 pub use sp_core::{offchain, ExecutionContext};
+#[cfg(feature = "std")]
+pub use sp_runtime::StateVersion;
 #[doc(hidden)]
 pub use sp_runtime::{
 	generic::BlockId,
@@ -97,7 +99,7 @@ pub use sp_runtime::{
 #[doc(hidden)]
 #[cfg(feature = "std")]
 pub use sp_state_machine::{
-	Backend as StateBackend, ChangesTrieState, InMemoryBackend, OverlayedChanges, StorageProof,
+	Backend as StateBackend, InMemoryBackend, OverlayedChanges, StorageProof,
 };
 #[cfg(feature = "std")]
 use sp_std::result;
@@ -269,6 +271,7 @@ pub use sp_api_proc_macro::decl_runtime_apis;
 ///     // Here we are exposing the runtime api versions.
 ///     apis: RUNTIME_API_VERSIONS,
 ///     transaction_version: 1,
+///     state_version: 1,
 /// };
 ///
 /// # fn main() {}
@@ -394,14 +397,12 @@ pub type ProofRecorder<B> = sp_state_machine::ProofRecorder<<B as BlockT>::Hash>
 pub type StorageTransactionCache<Block, Backend> = sp_state_machine::StorageTransactionCache<
 	<Backend as StateBackend<HashFor<Block>>>::Transaction,
 	HashFor<Block>,
-	NumberFor<Block>,
 >;
 
 #[cfg(feature = "std")]
 pub type StorageChanges<SBackend, Block> = sp_state_machine::StorageChanges<
 	<SBackend as StateBackend<HashFor<Block>>>::Transaction,
 	HashFor<Block>,
-	NumberFor<Block>,
 >;
 
 /// Extract the state backend type for a type that implements `ProvideRuntimeApi`.
@@ -514,7 +515,6 @@ pub trait ApiExt<Block: BlockT> {
 	fn into_storage_changes(
 		&self,
 		backend: &Self::StateBackend,
-		changes_trie_state: Option<&ChangesTrieState<HashFor<Block>, NumberFor<Block>>>,
 		parent_hash: Block::Hash,
 	) -> Result<StorageChanges<Self::StateBackend, Block>, String>
 	where
@@ -644,8 +644,6 @@ pub const fn serialize_runtime_api_info(id: [u8; 8], version: u32) -> [u8; RUNTI
 
 /// Deserialize the runtime API info serialized by [`serialize_runtime_api_info`].
 pub fn deserialize_runtime_api_info(bytes: [u8; RUNTIME_API_INFO_SIZE]) -> ([u8; 8], u32) {
-	use sp_std::convert::TryInto;
-
 	let id: [u8; 8] = bytes[0..8]
 		.try_into()
 		.expect("the source slice size is equal to the dest array length; qed");
@@ -659,53 +657,13 @@ pub fn deserialize_runtime_api_info(bytes: [u8; RUNTIME_API_INFO_SIZE]) -> ([u8;
 	(id, version)
 }
 
-#[derive(codec::Encode, codec::Decode)]
-pub struct OldRuntimeVersion {
-	pub spec_name: RuntimeString,
-	pub impl_name: RuntimeString,
-	pub authoring_version: u32,
-	pub spec_version: u32,
-	pub impl_version: u32,
-	pub apis: ApisVec,
-}
-
-impl From<OldRuntimeVersion> for RuntimeVersion {
-	fn from(x: OldRuntimeVersion) -> Self {
-		Self {
-			spec_name: x.spec_name,
-			impl_name: x.impl_name,
-			authoring_version: x.authoring_version,
-			spec_version: x.spec_version,
-			impl_version: x.impl_version,
-			apis: x.apis,
-			transaction_version: 1,
-		}
-	}
-}
-
-impl From<RuntimeVersion> for OldRuntimeVersion {
-	fn from(x: RuntimeVersion) -> Self {
-		Self {
-			spec_name: x.spec_name,
-			impl_name: x.impl_name,
-			authoring_version: x.authoring_version,
-			spec_version: x.spec_version,
-			impl_version: x.impl_version,
-			apis: x.apis,
-		}
-	}
-}
-
 decl_runtime_apis! {
-	/// The `Core` runtime api that every Axlib runtime needs to implement.
+	/// The `Core` runtime api that every Substrate runtime needs to implement.
 	#[core_trait]
-	#[api_version(3)]
+	#[api_version(4)]
 	pub trait Core {
 		/// Returns the version of the runtime.
 		fn version() -> RuntimeVersion;
-		/// Returns the version of the runtime.
-		#[changed_in(3)]
-		fn version() -> OldRuntimeVersion;
 		/// Execute the given block.
 		fn execute_block(block: Block);
 		/// Initialize a block with the given header.

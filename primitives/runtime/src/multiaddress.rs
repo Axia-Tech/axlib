@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2017-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -60,11 +60,5 @@ where
 impl<AccountId, AccountIndex> From<AccountId> for MultiAddress<AccountId, AccountIndex> {
 	fn from(a: AccountId) -> Self {
 		Self::Id(a)
-	}
-}
-
-impl<AccountId: Default, AccountIndex> Default for MultiAddress<AccountId, AccountIndex> {
-	fn default() -> Self {
-		Self::Id(Default::default())
 	}
 }

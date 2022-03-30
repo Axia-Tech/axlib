@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2017-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
 
 // This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,7 @@ use futures::executor;
 use sc_transaction_pool::{BasicPool, FullChainApi};
 use sp_core::{
 	blake2_256,
-	crypto::{CryptoTypePublicPair, Pair, Public},
+	crypto::{ByteArray, CryptoTypePublicPair, Pair},
 	ed25519,
 	hexdisplay::HexDisplay,
 	sr25519,
@@ -33,15 +33,19 @@ use sp_core::{
 };
 use sp_keystore::testing::KeyStore;
 use std::{mem, sync::Arc};
-use axlib_test_runtime_client::{
+use substrate_test_runtime_client::{
 	self,
 	runtime::{Block, Extrinsic, SessionKeys, Transfer},
 	AccountKeyring, Backend, Client, DefaultTestClientBuilderExt, TestClientBuilderExt,
 };
 
 fn uxt(sender: AccountKeyring, nonce: u64) -> Extrinsic {
-	let tx =
-		Transfer { amount: Default::default(), nonce, from: sender.into(), to: Default::default() };
+	let tx = Transfer {
+		amount: Default::default(),
+		nonce,
+		from: sender.into(),
+		to: AccountKeyring::Bob.into(),
+	};
 	tx.into_signed_tx()
 }
 
@@ -56,7 +60,7 @@ struct TestSetup {
 impl Default for TestSetup {
 	fn default() -> Self {
 		let keystore = Arc::new(KeyStore::new());
-		let client_builder = axlib_test_runtime_client::TestClientBuilder::new();
+		let client_builder = substrate_test_runtime_client::TestClientBuilder::new();
 		let client = Arc::new(client_builder.set_keystore(keystore.clone()).build());
 
 		let spawner = sp_core::testing::TaskExecutor::new();
@@ -133,7 +137,7 @@ fn should_watch_extrinsic() {
 			amount: 5,
 			nonce: 0,
 			from: AccountKeyring::Alice.into(),
-			to: Default::default(),
+			to: AccountKeyring::Bob.into(),
 		};
 		tx.into_signed_tx()
 	};

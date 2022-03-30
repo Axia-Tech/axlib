@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2017-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
 
 // This program is free software: you can redistribute it and/or modify
@@ -16,9 +16,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-//! Axlib Client and associated logic.
+//! Substrate Client and associated logic.
 //!
-//! The [`Client`] is one of the most important components of Axlib. It mainly comprises two
+//! The [`Client`] is one of the most important components of Substrate. It mainly comprises two
 //! parts:
 //!
 //! - A database containing the blocks and chain state, generally referred to as
@@ -37,9 +37,8 @@
 //! The latter typically requires passing one of:
 //!
 //! - A [`LocalCallExecutor`] running the runtime locally.
-//! - A [`RemoteCallExecutor`](sc_client_api::light::RemoteCallRequest) that will ask a
-//! third-party to perform the executions.
-//! - A [`RemoteOrLocalCallExecutor`](sc_client_api::light::LocalOrRemote), combination of the two.
+//! - A `RemoteCallExecutor` that will ask a third-party to perform the executions.
+//! - A `RemoteOrLocalCallExecutor` combination of the two.
 //!
 //! Additionally, the fourth generic parameter of the `Client` is a marker type representing
 //! the ways in which the runtime can interface with the outside. Any code that builds a `Client`
@@ -49,7 +48,6 @@ mod block_rules;
 mod call_executor;
 mod client;
 pub mod genesis;
-pub mod light;
 mod wasm_override;
 mod wasm_substitutes;
 

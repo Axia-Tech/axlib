@@ -1,11 +1,11 @@
 [package]
 name = "sc-basic-authorship"
 version = "0.10.0-dev"
-authors = ["AXIA Technologies <admin@axiacoin.network>"]
-edition = "2018"
+authors = ["Axia Technologies <admin@axia.io>"]
+edition = "2021"
 license = "GPL-3.0-or-later WITH Classpath-exception-2.0"
-homepage = ""
-repository = "https://github.com/axia-tech/axia-core/"
+homepage = "https://substrate.io"
+repository = "https://github.com/axia-tech/substrate/"
 description = "Basic implementation of block-authoring logic."
 readme = "README.md"
 
@@ -13,14 +13,14 @@ readme = "README.md"
 targets = ["x86_64-unknown-linux-gnu"]
 
 [dependencies]
-codec = { git = "https://github.com/axia-tech/axia-scale-codec", package = "axia-scale-codec", branch = "v2.3.1" }
+codec = { package = "parity-scale-codec", version = "2.0.0" }
 futures = "0.3.9"
 futures-timer = "3.0.1"
 log = "0.4.8"
-prometheus-endpoint = { package = "axlib-prometheus-endpoint", path = "../../utils/prometheus", version = "0.9.0"}
+prometheus-endpoint = { package = "substrate-prometheus-endpoint", path = "../../utils/prometheus", version = "0.10.0-dev"}
 sp-api = { version = "4.0.0-dev", path = "../../primitives/api" }
-sp-runtime = { version = "4.0.0-dev", path = "../../primitives/runtime" }
-sp-core = { version = "4.0.0-dev", path = "../../primitives/core" }
+sp-runtime = { version = "5.0.0", path = "../../primitives/runtime" }
+sp-core = { version = "5.0.0", path = "../../primitives/core" }
 sp-blockchain = { version = "4.0.0-dev", path = "../../primitives/blockchain" }
 sc-client-api = { version = "4.0.0-dev", path = "../api" }
 sp-consensus = { version = "0.10.0-dev", path = "../../primitives/consensus/common" }
@@ -28,9 +28,9 @@ sp-inherents = { version = "4.0.0-dev", path = "../../primitives/inherents" }
 sc-telemetry = { version = "4.0.0-dev", path = "../telemetry" }
 sc-transaction-pool-api = { version = "4.0.0-dev", path = "../../client/transaction-pool/api" }
 sc-block-builder = { version = "0.10.0-dev", path = "../block-builder" }
-sc-proposer-metrics = { version = "0.9.0", path = "../proposer-metrics" }
+sc-proposer-metrics = { version = "0.10.0-dev", path = "../proposer-metrics" }
 
 [dev-dependencies]
 sc-transaction-pool = { version = "4.0.0-dev", path = "../transaction-pool" }
-axlib-test-runtime-client = { version = "2.0.0", path = "../../test-utils/runtime/client" }
-parking_lot = "0.11.1"
+substrate-test-runtime-client = { version = "2.0.0", path = "../../test-utils/runtime/client" }
+parking_lot = "0.11.2"

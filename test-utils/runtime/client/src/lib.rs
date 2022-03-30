@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2018-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2018-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,23 +24,19 @@ pub mod trait_tests;
 mod block_builder_ext;
 
 pub use sc_consensus::LongestChain;
-use std::{collections::HashMap, sync::Arc};
-pub use axlib_test_client::*;
-pub use axlib_test_runtime as runtime;
+use std::sync::Arc;
+pub use substrate_test_client::*;
+pub use substrate_test_runtime as runtime;
 
 pub use self::block_builder_ext::BlockBuilderExt;
 
-use sc_client_api::light::{
-	Fetcher, RemoteBodyRequest, RemoteCallRequest, RemoteChangesRequest, RemoteHeaderRequest,
-	RemoteReadChildRequest, RemoteReadRequest,
-};
 use sp_core::{
 	sr25519,
 	storage::{ChildInfo, Storage, StorageChild},
-	ChangesTrieConfiguration, Pair,
+	Pair,
 };
-use sp_runtime::traits::{Block as BlockT, Hash as HashT, HashFor, Header as HeaderT, NumberFor};
-use axlib_test_runtime::genesismap::{additional_storage_with_genesis, GenesisConfig};
+use sp_runtime::traits::{Block as BlockT, Hash as HashT, Header as HeaderT};
+use substrate_test_runtime::genesismap::{additional_storage_with_genesis, GenesisConfig};
 
 /// A prelude to import in tests.
 pub mod prelude {
@@ -51,8 +47,8 @@ pub mod prelude {
 	};
 	// Client structs
 	pub use super::{
-		Backend, ExecutorDispatch, LightBackend, LightExecutor, LocalExecutorDispatch,
-		NativeElseWasmExecutor, TestClient, TestClientBuilder, WasmExecutionMethod,
+		Backend, ExecutorDispatch, LocalExecutorDispatch, NativeElseWasmExecutor, TestClient,
+		TestClientBuilder, WasmExecutionMethod,
 	};
 	// Keyring
 	pub use super::{AccountKeyring, Sr25519Keyring};
@@ -66,44 +62,27 @@ impl sc_executor::NativeExecutionDispatch for LocalExecutorDispatch {
 	type ExtendHostFunctions = ();
 
 	fn dispatch(method: &str, data: &[u8]) -> Option<Vec<u8>> {
-		axlib_test_runtime::api::dispatch(method, data)
+		substrate_test_runtime::api::dispatch(method, data)
 	}
 
 	fn native_version() -> sc_executor::NativeVersion {
-		axlib_test_runtime::native_version()
+		substrate_test_runtime::native_version()
 	}
 }
 
 /// Test client database backend.
-pub type Backend = axlib_test_client::Backend<axlib_test_runtime::Block>;
+pub type Backend = substrate_test_client::Backend<substrate_test_runtime::Block>;
 
 /// Test client executor.
 pub type ExecutorDispatch = client::LocalCallExecutor<
-	axlib_test_runtime::Block,
+	substrate_test_runtime::Block,
 	Backend,
 	NativeElseWasmExecutor<LocalExecutorDispatch>,
->;
-
-/// Test client light database backend.
-pub type LightBackend = axlib_test_client::LightBackend<axlib_test_runtime::Block>;
-
-/// Test client light executor.
-pub type LightExecutor = sc_light::GenesisCallExecutor<
-	LightBackend,
-	client::LocalCallExecutor<
-		axlib_test_runtime::Block,
-		sc_light::Backend<
-			sc_client_db::light::LightStorage<axlib_test_runtime::Block>,
-			HashFor<axlib_test_runtime::Block>,
-		>,
-		NativeElseWasmExecutor<LocalExecutorDispatch>,
-	>,
 >;
 
 /// Parameters of test-client builder with test-runtime.
 #[derive(Default)]
 pub struct GenesisParameters {
-	changes_trie_config: Option<ChangesTrieConfiguration>,
 	heap_pages_override: Option<u64>,
 	extra_storage: Storage,
 	wasm_code: Option<Vec<u8>>,
@@ -112,7 +91,6 @@ pub struct GenesisParameters {
 impl GenesisParameters {
 	fn genesis_config(&self) -> GenesisConfig {
 		GenesisConfig::new(
-			self.changes_trie_config.clone(),
 			vec![
 				sr25519::Public::from(Sr25519Keyring::Alice).into(),
 				sr25519::Public::from(Sr25519Keyring::Bob).into(),
@@ -137,9 +115,14 @@ impl GenesisParameters {
 	pub fn set_wasm_code(&mut self, code: Vec<u8>) {
 		self.wasm_code = Some(code);
 	}
+
+	/// Access extra genesis storage.
+	pub fn extra_storage(&mut self) -> &mut Storage {
+		&mut self.extra_storage
+	}
 }
 
-impl axlib_test_client::GenesisInit for GenesisParameters {
+impl substrate_test_client::GenesisInit for GenesisParameters {
 	fn genesis_storage(&self) -> Storage {
 		use codec::Encode;
 
@@ -155,6 +138,7 @@ impl axlib_test_client::GenesisInit for GenesisParameters {
 			let state_root =
 				<<<runtime::Block as BlockT>::Header as HeaderT>::Hashing as HashT>::trie_root(
 					child_content.data.clone().into_iter().collect(),
+					sp_runtime::StateVersion::V1,
 				);
 			let prefixed_storage_key = child_content.child_info.prefixed_storage_key();
 			(prefixed_storage_key.into_inner(), state_root.encode())
@@ -162,6 +146,7 @@ impl axlib_test_client::GenesisInit for GenesisParameters {
 		let state_root =
 			<<<runtime::Block as BlockT>::Header as HeaderT>::Hashing as HashT>::trie_root(
 				storage.top.clone().into_iter().chain(child_roots).collect(),
+				sp_runtime::StateVersion::V1,
 			);
 		let block: runtime::Block = client::genesis::construct_genesis_block(state_root);
 		storage.top.extend(additional_storage_with_genesis(&block));
@@ -171,8 +156,8 @@ impl axlib_test_client::GenesisInit for GenesisParameters {
 }
 
 /// A `TestClient` with `test-runtime` builder.
-pub type TestClientBuilder<E, B> = axlib_test_client::TestClientBuilder<
-	axlib_test_runtime::Block,
+pub type TestClientBuilder<E, B> = substrate_test_client::TestClientBuilder<
+	substrate_test_runtime::Block,
 	E,
 	B,
 	GenesisParameters,
@@ -182,12 +167,12 @@ pub type TestClientBuilder<E, B> = axlib_test_client::TestClientBuilder<
 pub type Client<B> = client::Client<
 	B,
 	client::LocalCallExecutor<
-		axlib_test_runtime::Block,
+		substrate_test_runtime::Block,
 		B,
 		sc_executor::NativeElseWasmExecutor<LocalExecutorDispatch>,
 	>,
-	axlib_test_runtime::Block,
-	axlib_test_runtime::RuntimeApi,
+	substrate_test_runtime::Block,
+	substrate_test_runtime::RuntimeApi,
 >;
 
 /// A test client with default backend.
@@ -209,12 +194,6 @@ impl DefaultTestClientBuilderExt for TestClientBuilder<ExecutorDispatch, Backend
 pub trait TestClientBuilderExt<B>: Sized {
 	/// Returns a mutable reference to the genesis parameters.
 	fn genesis_init_mut(&mut self) -> &mut GenesisParameters;
-
-	/// Set changes trie configuration for genesis.
-	fn changes_trie_config(mut self, config: Option<ChangesTrieConfiguration>) -> Self {
-		self.genesis_init_mut().changes_trie_config = config;
-		self
-	}
 
 	/// Override the default value for Wasm heap pages.
 	fn set_heap_pages(mut self, heap_pages: u64) -> Self {
@@ -270,7 +249,7 @@ pub trait TestClientBuilderExt<B>: Sized {
 	/// Build the test client and longest chain selector.
 	fn build_with_longest_chain(
 		self,
-	) -> (Client<B>, sc_consensus::LongestChain<B, axlib_test_runtime::Block>);
+	) -> (Client<B>, sc_consensus::LongestChain<B, substrate_test_runtime::Block>);
 
 	/// Build the test client and the backend.
 	fn build_with_backend(self) -> (Client<B>, Arc<B>);
@@ -279,13 +258,13 @@ pub trait TestClientBuilderExt<B>: Sized {
 impl<B> TestClientBuilderExt<B>
 	for TestClientBuilder<
 		client::LocalCallExecutor<
-			axlib_test_runtime::Block,
+			substrate_test_runtime::Block,
 			B,
 			sc_executor::NativeElseWasmExecutor<LocalExecutorDispatch>,
 		>,
 		B,
 	> where
-	B: sc_client_api::backend::Backend<axlib_test_runtime::Block> + 'static,
+	B: sc_client_api::backend::Backend<substrate_test_runtime::Block> + 'static,
 {
 	fn genesis_init_mut(&mut self) -> &mut GenesisParameters {
 		Self::genesis_init_mut(self)
@@ -293,7 +272,7 @@ impl<B> TestClientBuilderExt<B>
 
 	fn build_with_longest_chain(
 		self,
-	) -> (Client<B>, sc_consensus::LongestChain<B, axlib_test_runtime::Block>) {
+	) -> (Client<B>, sc_consensus::LongestChain<B, substrate_test_runtime::Block>) {
 		self.build_with_native_executor(None)
 	}
 
@@ -303,143 +282,17 @@ impl<B> TestClientBuilderExt<B>
 	}
 }
 
-/// Type of optional fetch callback.
-type MaybeFetcherCallback<Req, Resp> =
-	Option<Box<dyn Fn(Req) -> Result<Resp, sp_blockchain::Error> + Send + Sync>>;
-
-/// Type of fetcher future result.
-type FetcherFutureResult<Resp> = futures::future::Ready<Result<Resp, sp_blockchain::Error>>;
-
-/// Implementation of light client fetcher used in tests.
-#[derive(Default)]
-pub struct LightFetcher {
-	call: MaybeFetcherCallback<RemoteCallRequest<axlib_test_runtime::Header>, Vec<u8>>,
-	body: MaybeFetcherCallback<
-		RemoteBodyRequest<axlib_test_runtime::Header>,
-		Vec<axlib_test_runtime::Extrinsic>,
-	>,
-}
-
-impl LightFetcher {
-	/// Sets remote call callback.
-	pub fn with_remote_call(
-		self,
-		call: MaybeFetcherCallback<RemoteCallRequest<axlib_test_runtime::Header>, Vec<u8>>,
-	) -> Self {
-		LightFetcher { call, body: self.body }
-	}
-
-	/// Sets remote body callback.
-	pub fn with_remote_body(
-		self,
-		body: MaybeFetcherCallback<
-			RemoteBodyRequest<axlib_test_runtime::Header>,
-			Vec<axlib_test_runtime::Extrinsic>,
-		>,
-	) -> Self {
-		LightFetcher { call: self.call, body }
-	}
-}
-
-impl Fetcher<axlib_test_runtime::Block> for LightFetcher {
-	type RemoteHeaderResult = FetcherFutureResult<axlib_test_runtime::Header>;
-	type RemoteReadResult = FetcherFutureResult<HashMap<Vec<u8>, Option<Vec<u8>>>>;
-	type RemoteCallResult = FetcherFutureResult<Vec<u8>>;
-	type RemoteChangesResult =
-		FetcherFutureResult<Vec<(NumberFor<axlib_test_runtime::Block>, u32)>>;
-	type RemoteBodyResult = FetcherFutureResult<Vec<axlib_test_runtime::Extrinsic>>;
-
-	fn remote_header(
-		&self,
-		_: RemoteHeaderRequest<axlib_test_runtime::Header>,
-	) -> Self::RemoteHeaderResult {
-		unimplemented!()
-	}
-
-	fn remote_read(
-		&self,
-		_: RemoteReadRequest<axlib_test_runtime::Header>,
-	) -> Self::RemoteReadResult {
-		unimplemented!()
-	}
-
-	fn remote_read_child(
-		&self,
-		_: RemoteReadChildRequest<axlib_test_runtime::Header>,
-	) -> Self::RemoteReadResult {
-		unimplemented!()
-	}
-
-	fn remote_call(
-		&self,
-		req: RemoteCallRequest<axlib_test_runtime::Header>,
-	) -> Self::RemoteCallResult {
-		match self.call {
-			Some(ref call) => futures::future::ready(call(req)),
-			None => unimplemented!(),
-		}
-	}
-
-	fn remote_changes(
-		&self,
-		_: RemoteChangesRequest<axlib_test_runtime::Header>,
-	) -> Self::RemoteChangesResult {
-		unimplemented!()
-	}
-
-	fn remote_body(
-		&self,
-		req: RemoteBodyRequest<axlib_test_runtime::Header>,
-	) -> Self::RemoteBodyResult {
-		match self.body {
-			Some(ref body) => futures::future::ready(body(req)),
-			None => unimplemented!(),
-		}
-	}
-}
-
 /// Creates new client instance used for tests.
 pub fn new() -> Client<Backend> {
 	TestClientBuilder::new().build()
 }
 
-/// Creates new light client instance used for tests.
-pub fn new_light() -> (
-	client::Client<
-		LightBackend,
-		LightExecutor,
-		axlib_test_runtime::Block,
-		axlib_test_runtime::RuntimeApi,
-	>,
-	Arc<LightBackend>,
-) {
-	let storage = sc_client_db::light::LightStorage::new_test();
-	let blockchain = Arc::new(sc_light::Blockchain::new(storage));
-	let backend = Arc::new(LightBackend::new(blockchain));
-	let executor = new_native_executor();
-	let local_call_executor = client::LocalCallExecutor::new(
-		backend.clone(),
-		executor,
-		Box::new(sp_core::testing::TaskExecutor::new()),
-		Default::default(),
-	)
-	.expect("Creates LocalCallExecutor");
-	let call_executor = LightExecutor::new(backend.clone(), local_call_executor);
-
-	(
-		TestClientBuilder::with_backend(backend.clone())
-			.build_with_executor(call_executor)
-			.0,
-		backend,
-	)
-}
-
-/// Creates new light client fetcher used for tests.
-pub fn new_light_fetcher() -> LightFetcher {
-	LightFetcher::default()
-}
-
 /// Create a new native executor.
 pub fn new_native_executor() -> sc_executor::NativeElseWasmExecutor<LocalExecutorDispatch> {
-	sc_executor::NativeElseWasmExecutor::new(sc_executor::WasmExecutionMethod::Interpreted, None, 8)
+	sc_executor::NativeElseWasmExecutor::new(
+		sc_executor::WasmExecutionMethod::Interpreted,
+		None,
+		8,
+		2,
+	)
 }

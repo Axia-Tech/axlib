@@ -1,11 +1,11 @@
 [package]
 name = "sp-finality-grandpa"
 version = "4.0.0-dev"
-authors = ["AXIA Technologies <admin@axiacoin.network>"]
-edition = "2018"
+authors = ["Axia Technologies <admin@axia.io>"]
+edition = "2021"
 license = "Apache-2.0"
-homepage = ""
-repository = "https://github.com/axia-tech/axia-core/"
+homepage = "https://substrate.io"
+repository = "https://github.com/axia-tech/substrate/"
 description = "Primitives for GRANDPA integration, suitable for WASM compilation."
 documentation = "https://docs.rs/sp-finality-grandpa"
 readme = "README.md"
@@ -15,17 +15,17 @@ targets = ["x86_64-unknown-linux-gnu"]
 
 
 [dependencies]
-codec = { git = "https://github.com/axia-tech/axia-scale-codec", package = "axia-scale-codec", branch = "v2.3.1", default-features = false, features = ["derive"] }
-scale-info = { git = "https://github.com/axia-tech/scale-info", branch = "v1.0.0", default-features = false, features = ["derive"] }
-grandpa = { git = "https://github.com/axia-tech/finality-grandpa", package = "finality-grandpa", branch = "v0.14.4", default-features = false, features = ["derive-codec"] }
+codec = { package = "parity-scale-codec", version = "2.0.0", default-features = false, features = ["derive"] }
+scale-info = { version = "1.0", default-features = false, features = ["derive"] }
+grandpa = { package = "finality-grandpa", version = "0.14.1", default-features = false, features = ["derive-codec"] }
 log = { version = "0.4.8", optional = true }
-serde = { version = "1.0.126", optional = true, features = ["derive"] }
+serde = { version = "1.0.136", optional = true, features = ["derive"] }
 sp-api = { version = "4.0.0-dev", default-features = false, path = "../api" }
-sp-application-crypto = { version = "4.0.0-dev", default-features = false, path = "../application-crypto" }
-sp-core = { version = "4.0.0-dev", default-features = false, path = "../core" }
-sp-keystore = { version = "0.10.0-dev", default-features = false, path = "../keystore", optional = true }
-sp-runtime = { version = "4.0.0-dev", default-features = false, path = "../runtime" }
-sp-std = { version = "4.0.0-dev", default-features = false, path = "../std" }
+sp-application-crypto = { version = "5.0.0", default-features = false, path = "../application-crypto" }
+sp-core = { version = "5.0.0", default-features = false, path = "../core" }
+sp-keystore = { version = "0.11.0", default-features = false, path = "../keystore", optional = true }
+sp-runtime = { version = "5.0.0", default-features = false, path = "../runtime" }
+sp-std = { version = "4.0.0", default-features = false, path = "../std" }
 
 [features]
 default = ["std"]

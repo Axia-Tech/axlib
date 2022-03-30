@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2019-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
 
 // This program is free software: you can redistribute it and/or modify
@@ -19,7 +19,7 @@
 //! BABE testsuite
 
 // FIXME #2532: need to allow deprecated until refactor is done
-// https://github.com/axia-tech/axlib/issues/2532
+// https://github.com/axiatech/substrate/issues/2532
 #![allow(deprecated)]
 use super::*;
 use authorship::claim_slot;
@@ -43,21 +43,21 @@ use sp_consensus_babe::{
 use sp_core::crypto::Pair;
 use sp_keystore::{vrf::make_transcript as transcript_from_data, SyncCryptoStore};
 use sp_runtime::{
-	generic::DigestItem,
-	traits::{Block as BlockT, DigestFor},
+	generic::{Digest, DigestItem},
+	traits::Block as BlockT,
 };
 use sp_timestamp::InherentDataProvider as TimestampInherentDataProvider;
 use std::{cell::RefCell, task::Poll, time::Duration};
 
-type Item = DigestItem<Hash>;
+type Item = DigestItem;
 
 type Error = sp_blockchain::Error;
 
-type TestClient = axlib_test_runtime_client::client::Client<
-	axlib_test_runtime_client::Backend,
-	axlib_test_runtime_client::ExecutorDispatch,
+type TestClient = substrate_test_runtime_client::client::Client<
+	substrate_test_runtime_client::Backend,
+	substrate_test_runtime_client::ExecutorDispatch,
 	TestBlock,
-	axlib_test_runtime_client::runtime::RuntimeApi,
+	substrate_test_runtime_client::runtime::RuntimeApi,
 >;
 
 #[derive(Copy, Clone, PartialEq)]
@@ -108,12 +108,12 @@ impl Environment<TestBlock> for DummyFactory {
 impl DummyProposer {
 	fn propose_with(
 		&mut self,
-		pre_digests: DigestFor<TestBlock>,
+		pre_digests: Digest,
 	) -> future::Ready<
 		Result<
 			Proposal<
 				TestBlock,
-				sc_client_api::TransactionFor<axlib_test_runtime_client::Backend, TestBlock>,
+				sc_client_api::TransactionFor<substrate_test_runtime_client::Backend, TestBlock>,
 				(),
 			>,
 			Error,
@@ -173,7 +173,7 @@ impl DummyProposer {
 impl Proposer<TestBlock> for DummyProposer {
 	type Error = Error;
 	type Transaction =
-		sc_client_api::TransactionFor<axlib_test_runtime_client::Backend, TestBlock>;
+		sc_client_api::TransactionFor<substrate_test_runtime_client::Backend, TestBlock>;
 	type Proposal = future::Ready<Result<Proposal<TestBlock, Self::Transaction, ()>, Error>>;
 	type ProofRecording = DisableProofRecording;
 	type Proof = ();
@@ -181,7 +181,7 @@ impl Proposer<TestBlock> for DummyProposer {
 	fn propose(
 		mut self,
 		_: InherentData,
-		pre_digests: DigestFor<TestBlock>,
+		pre_digests: Digest,
 		_: Duration,
 		_: Option<usize>,
 	) -> Self::Proposal {
@@ -230,7 +230,7 @@ pub struct BabeTestNet {
 type TestHeader = <TestBlock as BlockT>::Header;
 
 type TestSelectChain =
-	axlib_test_runtime_client::LongestChain<axlib_test_runtime_client::Backend, TestBlock>;
+	substrate_test_runtime_client::LongestChain<substrate_test_runtime_client::Backend, TestBlock>;
 
 pub struct TestVerifier {
 	inner: BabeVerifier<
@@ -270,7 +270,7 @@ pub struct PeerData {
 		Option<
 			BoxBlockImport<
 				TestBlock,
-				TransactionFor<axlib_test_runtime_client::Backend, TestBlock>,
+				TransactionFor<substrate_test_runtime_client::Backend, TestBlock>,
 			>,
 		>,
 	>,
@@ -295,9 +295,9 @@ impl TestNetFactory for BabeTestNet {
 		Option<BoxJustificationImport<Block>>,
 		Option<PeerData>,
 	) {
-		let client = client.as_full().expect("only full clients are tested");
+		let client = client.as_client();
 
-		let config = Config::get_or_compute(&*client).expect("config available");
+		let config = Config::get(&*client).expect("config available");
 		let (block_import, link) = crate::block_import(config, client.clone(), client.clone())
 			.expect("can initialize block-import");
 
@@ -318,9 +318,9 @@ impl TestNetFactory for BabeTestNet {
 		_cfg: &ProtocolConfig,
 		maybe_link: &Option<PeerData>,
 	) -> Self::Verifier {
-		use axlib_test_runtime_client::DefaultTestClientBuilderExt;
+		use substrate_test_runtime_client::DefaultTestClientBuilderExt;
 
-		let client = client.as_full().expect("only full clients are used in test");
+		let client = client.as_client();
 		trace!(target: "babe", "Creating a verifier");
 
 		// ensure block import and verifier are linked correctly.
@@ -395,7 +395,7 @@ fn run_one_test(mutator: impl Fn(&mut TestHeader, Stage) + Send + Sync + 'static
 	for (peer_id, seed) in peers {
 		let mut net = net.lock();
 		let peer = net.peer(*peer_id);
-		let client = peer.client().as_full().expect("Only full clients are used in tests").clone();
+		let client = peer.client().as_client();
 		let select_chain = peer.select_chain().expect("Full client has select_chain");
 
 		let keystore_path = tempfile::tempdir().expect("Creates keystore path");
@@ -679,7 +679,7 @@ fn importing_block_one_sets_genesis_epoch() {
 
 	let peer = net.peer(0);
 	let data = peer.data.as_ref().expect("babe link set up during initialization");
-	let client = peer.client().as_full().expect("Only full clients are used in tests").clone();
+	let client = peer.client().as_client();
 
 	let mut proposer_factory = DummyFactory {
 		client: client.clone(),
@@ -721,7 +721,7 @@ fn importing_epoch_change_block_prunes_tree() {
 	let peer = net.peer(0);
 	let data = peer.data.as_ref().expect("babe link set up during initialization");
 
-	let client = peer.client().as_full().expect("Only full clients are used in tests").clone();
+	let client = peer.client().as_client();
 	let mut block_import = data.block_import.lock().take().expect("import set up during init");
 	let epoch_changes = data.link.epoch_changes.clone();
 
@@ -836,7 +836,7 @@ fn verify_slots_are_strictly_increasing() {
 	let peer = net.peer(0);
 	let data = peer.data.as_ref().expect("babe link set up during initialization");
 
-	let client = peer.client().as_full().expect("Only full clients are used in tests").clone();
+	let client = peer.client().as_client();
 	let mut block_import = data.block_import.lock().take().expect("import set up during init");
 
 	let mut proposer_factory = DummyFactory {

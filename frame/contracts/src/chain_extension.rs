@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2020 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2020-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -170,7 +170,7 @@ where
 	///
 	/// # Note
 	///
-	/// Weight is synonymous with gas in axlib.
+	/// Weight is synonymous with gas in substrate.
 	pub fn charge_weight(&mut self, amount: Weight) -> Result<ChargedAmount> {
 		self.inner.runtime.charge_gas(RuntimeCosts::ChainExtension(amount))
 	}
@@ -329,7 +329,7 @@ where
 	///
 	/// If the contract supplied buffer is smaller than the passed `buffer` an `Err` is returned.
 	/// If `allow_skip` is set to true the contract is allowed to skip the copying of the buffer
-	/// by supplying the guard value of `u32::MAX` as `out_ptr`. The
+	/// by supplying the guard value of `pallet-contracts::SENTINEL` as `out_ptr`. The
 	/// `weight_per_byte` is only charged when the write actually happens and is not skipped or
 	/// failed due to a too small output buffer.
 	pub fn write(

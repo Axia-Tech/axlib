@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2019-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -93,7 +93,7 @@ macro_rules! wasm_export_functions {
 				$( $fn_impl )*
 			}
 
-			$crate::to_axlib_wasm_fn_return_value(&())
+			$crate::to_substrate_wasm_fn_return_value(&())
 		}
 	};
 	(@IMPL
@@ -121,7 +121,7 @@ macro_rules! wasm_export_functions {
 				$( $fn_impl )*
 			};
 
-			$crate::to_axlib_wasm_fn_return_value(&output)
+			$crate::to_substrate_wasm_fn_return_value(&output)
 		}
 	};
 }
@@ -152,10 +152,20 @@ impl Default for TaskExecutor {
 
 #[cfg(feature = "std")]
 impl crate::traits::SpawnNamed for TaskExecutor {
-	fn spawn_blocking(&self, _: &'static str, future: futures::future::BoxFuture<'static, ()>) {
+	fn spawn_blocking(
+		&self,
+		_name: &'static str,
+		_group: Option<&'static str>,
+		future: futures::future::BoxFuture<'static, ()>,
+	) {
 		self.0.spawn_ok(future);
 	}
-	fn spawn(&self, _: &'static str, future: futures::future::BoxFuture<'static, ()>) {
+	fn spawn(
+		&self,
+		_name: &'static str,
+		_group: Option<&'static str>,
+		future: futures::future::BoxFuture<'static, ()>,
+	) {
 		self.0.spawn_ok(future);
 	}
 }
@@ -165,11 +175,17 @@ impl crate::traits::SpawnEssentialNamed for TaskExecutor {
 	fn spawn_essential_blocking(
 		&self,
 		_: &'static str,
+		_: Option<&'static str>,
 		future: futures::future::BoxFuture<'static, ()>,
 	) {
 		self.0.spawn_ok(future);
 	}
-	fn spawn_essential(&self, _: &'static str, future: futures::future::BoxFuture<'static, ()>) {
+	fn spawn_essential(
+		&self,
+		_: &'static str,
+		_: Option<&'static str>,
+		future: futures::future::BoxFuture<'static, ()>,
+	) {
 		self.0.spawn_ok(future);
 	}
 }

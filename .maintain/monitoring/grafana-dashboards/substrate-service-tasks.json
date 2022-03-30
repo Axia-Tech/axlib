@@ -4,7 +4,7 @@
       "name": "VAR_METRIC_NAMESPACE",
       "type": "constant",
       "label": "Prefix of the metrics",
-      "value": "axia",
+      "value": "substrate",
       "description": ""
     }
   ],
@@ -1058,7 +1058,7 @@
     ]
   },
   "timezone": "utc",
-  "title": "Axlib Service Tasks",
+  "title": "Substrate Service Tasks",
   "uid": "3LA6XNqZz",
   "version": 69
 }

@@ -1,10 +1,11 @@
 [package]
 name = "beefy-merkle-tree"
 version = "4.0.0-dev"
-authors = ["AXIA Technologies <admin@axiacoin.network>"]
-edition = "2018"
+authors = ["Axia Technologies <admin@axia.io>"]
+edition = "2021"
 license = "Apache-2.0"
-description = "A no-std/Axlib compatible library to construct binary merkle tree."
+repository = "https://github.com/axiatech/substrate"
+description = "A no-std/Substrate compatible library to construct binary merkle tree."
 
 [dependencies]
 hex = { version = "0.4", optional = true, default-features = false }
@@ -17,7 +18,7 @@ hex = "0.4"
 hex-literal = "0.3"
 
 [features]
-debug = ["hex", "log"]
+debug = ["hex", "hex/std", "log"]
 default = ["std", "debug", "keccak"]
 keccak = ["tiny-keccak"]
 std = []

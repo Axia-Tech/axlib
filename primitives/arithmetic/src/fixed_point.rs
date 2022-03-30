@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2019-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,7 +15,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-//! Decimal Fixed Point implementations for Axlib runtime.
+//! Decimal Fixed Point implementations for Substrate runtime.
 
 use crate::{
 	helpers_128bit::multiply_by_rational,
@@ -369,6 +369,7 @@ macro_rules! implement_fixed {
 			Default,
 			Copy,
 			Clone,
+			codec::MaxEncodedLen,
 			PartialEq,
 			Eq,
 			PartialOrd,
@@ -665,6 +666,15 @@ macro_rules! implement_fixed {
 			#[test]
 			fn macro_preconditions() {
 				assert!($name::DIV > 0);
+			}
+
+			#[test]
+			fn has_max_encoded_len() {
+				struct AsMaxEncodedLen<T: codec::MaxEncodedLen> {
+					_data: T,
+				}
+
+				let _ = AsMaxEncodedLen { _data: $name::min_value() };
 			}
 
 			#[test]

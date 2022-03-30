@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2019-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,15 +15,33 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-//! Some configurable implementations as associated type for the axlib runtime.
+//! Some configurable implementations as associated type for the substrate runtime.
 
-use crate::{Authorship, Balances, NegativeImbalance};
-use frame_support::traits::{Currency, OnUnbalanced};
+use crate::{AccountId, Assets, Authorship, Balances, NegativeImbalance, Runtime};
+use frame_support::traits::{
+	fungibles::{Balanced, CreditOf},
+	Currency, OnUnbalanced,
+};
+use pallet_asset_tx_payment::HandleCredit;
 
 pub struct Author;
 impl OnUnbalanced<NegativeImbalance> for Author {
 	fn on_nonzero_unbalanced(amount: NegativeImbalance) {
-		Balances::resolve_creating(&Authorship::author(), amount);
+		if let Some(author) = Authorship::author() {
+			Balances::resolve_creating(&author, amount);
+		}
+	}
+}
+
+/// A `HandleCredit` implementation that naively transfers the fees to the block author.
+/// Will drop and burn the assets in case the transfer fails.
+pub struct CreditToBlockAuthor;
+impl HandleCredit<AccountId, Assets> for CreditToBlockAuthor {
+	fn handle_credit(credit: CreditOf<AccountId, Assets>) {
+		if let Some(author) = pallet_authorship::Pallet::<Runtime>::author() {
+			// Drop the result which will trigger the `OnDrop` of the imbalance in case of error.
+			let _ = Assets::resolve(&author, credit);
+		}
 	}
 }
 
@@ -150,7 +168,7 @@ mod multiplier_tests {
 
 	#[test]
 	fn time_to_reach_zero() {
-		// blocks per 24h in axlib-node: 28,800 (k)
+		// blocks per 24h in substrate-node: 28,800 (k)
 		// s* = 0.1875
 		// The bound from the research in an empty chain is:
 		// v <~ (p / k(0 - s*))
@@ -198,7 +216,7 @@ mod multiplier_tests {
 		// almost full. The entire quota of normal transactions is taken.
 		let block_weight = BlockWeights::get().get(DispatchClass::Normal).max_total.unwrap() - 100;
 
-		// Default axlib weight.
+		// Default substrate weight.
 		let tx_weight = frame_support::weights::constants::ExtrinsicBaseWeight::get();
 
 		run_with_system_weight(block_weight, || {

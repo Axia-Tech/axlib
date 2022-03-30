@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2019-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,9 +35,9 @@ use sp_std::{
 };
 
 /// an aggregator trait for a generic type of a voter/target identifier. This usually maps to
-/// axlib's account id.
-pub trait IdentifierT: Clone + Eq + Default + Ord + Debug + codec::Codec {}
-impl<T: Clone + Eq + Default + Ord + Debug + codec::Codec> IdentifierT for T {}
+/// substrate's account id.
+pub trait IdentifierT: Clone + Eq + Ord + Debug + codec::Codec {}
+impl<T: Clone + Eq + Ord + Debug + codec::Codec> IdentifierT for T {}
 
 /// Aggregator trait for a PerThing that can be multiplied by u128 (ExtendedBalance).
 pub trait PerThing128: PerThing + Mul<ExtendedBalance, Output = ExtendedBalance> {}

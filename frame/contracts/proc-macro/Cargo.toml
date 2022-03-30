@@ -1,11 +1,11 @@
 [package]
 name = "pallet-contracts-proc-macro"
 version = "4.0.0-dev"
-authors = ["AXIA Technologies <admin@axiacoin.network>"]
-edition = "2018"
+authors = ["Axia Technologies <admin@axia.io>"]
+edition = "2021"
 license = "Apache-2.0"
-homepage = ""
-repository = "https://github.com/axia-tech/axia-core/"
+homepage = "https://substrate.io"
+repository = "https://github.com/axia-tech/substrate/"
 description = "Procedural macros used in pallet_contracts"
 
 [package.metadata.docs.rs]

@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2021-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
 
 // This program is free software: you can redistribute it and/or modify
@@ -17,11 +17,11 @@
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 use codec::{Decode as _, Encode as _};
-use sc_executor_common::{runtime_blob::RuntimeBlob, wasm_runtime::WasmModule};
+use sc_executor_common::{error::Error, runtime_blob::RuntimeBlob, wasm_runtime::WasmModule};
 use sc_runtime_test::wasm_binary_unwrap;
 use std::sync::Arc;
 
-type HostFunctions = sp_io::AxlibHostFunctions;
+type HostFunctions = sp_io::SubstrateHostFunctions;
 
 struct RuntimeBuilder {
 	code: Option<&'static str>,
@@ -78,7 +78,7 @@ impl RuntimeBuilder {
 				.expect("failed to create a runtime blob out of test runtime")
 		};
 
-		let rt = crate::create_runtime(
+		let rt = crate::create_runtime::<HostFunctions>(
 			blob,
 			crate::Config {
 				heap_pages: self.heap_pages,
@@ -97,10 +97,6 @@ impl RuntimeBuilder {
 					canonicalize_nans: self.canonicalize_nans,
 					parallel_compilation: true,
 				},
-			},
-			{
-				use sp_wasm_interface::HostFunctions as _;
-				HostFunctions::host_functions()
 			},
 		)
 		.expect("cannot create runtime");
@@ -162,11 +158,13 @@ fn test_stack_depth_reaching() {
 	};
 	let mut instance = runtime.new_instance().expect("failed to instantiate a runtime");
 
-	let err = instance.call_export("test-many-locals", &[]).unwrap_err();
-
-	assert!(
-		format!("{:?}", err).starts_with("Other(\"Wasm execution trapped: wasm trap: unreachable")
-	);
+	match instance.call_export("test-many-locals", &[]).unwrap_err() {
+		Error::AbortedDueToTrap(error) => {
+			let expected = "wasm trap: wasm `unreachable` instruction executed";
+			assert_eq!(error.message, expected);
+		},
+		error => panic!("unexpected error: {:?}", error),
+	}
 }
 
 #[test]
@@ -198,7 +196,7 @@ fn test_max_memory_pages() {
 			;; However, due to a bug in wasmtime (I think wasmi is also affected) it is only possible
 			;; to allocate 65536 - 1 pages.
 			;;
-			;; Then, during creation of the Axlib Runtime instance, 1024 (heap_pages) pages are
+			;; Then, during creation of the Substrate Runtime instance, 1024 (heap_pages) pages are
 			;; mounted.
 			;;
 			;; Thus 65535 = 64511 + 1024
@@ -309,4 +307,37 @@ fn test_max_memory_pages() {
 		"#,
 	)
 	.unwrap();
+}
+
+// This test takes quite a while to execute in a debug build (over 6 minutes on a TR 3970x)
+// so it's ignored by default unless it was compiled with `--release`.
+#[cfg_attr(build_type = "debug", ignore)]
+#[test]
+fn test_instances_without_reuse_are_not_leaked() {
+	let runtime = crate::create_runtime::<HostFunctions>(
+		RuntimeBlob::uncompress_if_needed(wasm_binary_unwrap()).unwrap(),
+		crate::Config {
+			heap_pages: 2048,
+			max_memory_size: None,
+			allow_missing_func_imports: true,
+			cache_path: None,
+			semantics: crate::Semantics {
+				fast_instance_reuse: false,
+				deterministic_stack_limit: None,
+				canonicalize_nans: false,
+				parallel_compilation: true,
+			},
+		},
+	)
+	.unwrap();
+
+	// As long as the `wasmtime`'s `Store` lives the instances spawned through it
+	// will live indefinitely. Currently it has a maximum limit of 10k instances,
+	// so let's spawn 10k + 1 of them to make sure our code doesn't keep the `Store`
+	// alive longer than it is necessary. (And since we disabled instance reuse
+	// a new instance will be spawned on each call.)
+	let mut instance = runtime.new_instance().unwrap();
+	for _ in 0..10001 {
+		instance.call_export("test_empty_return", &[0]).unwrap();
+	}
 }

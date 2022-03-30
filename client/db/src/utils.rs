@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2017-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
 
 // This program is free software: you can redistribute it and/or modify
@@ -36,7 +36,7 @@ use sp_trie::DBValue;
 /// Otherwise RocksDb will fail to open database && check its type.
 #[cfg(any(
 	feature = "with-kvdb-rocksdb",
-	feature = "with-axia-db",
+	feature = "with-parity-db",
 	feature = "test-helpers",
 	test
 ))]
@@ -56,10 +56,6 @@ pub mod meta_keys {
 	pub const FINALIZED_STATE: &[u8; 6] = b"fstate";
 	/// Block gap.
 	pub const BLOCK_GAP: &[u8; 3] = b"gap";
-	/// Meta information prefix for list-based caches.
-	pub const CACHE_META_PREFIX: &[u8; 5] = b"cache";
-	/// Meta information for changes tries key.
-	pub const CHANGES_TRIES_META: &[u8; 5] = b"ctrie";
 	/// Genesis block hash.
 	pub const GENESIS_HASH: &[u8; 3] = b"gen";
 	/// Leaves prefix list key.
@@ -95,8 +91,6 @@ pub type NumberIndexKey = [u8; 4];
 pub enum DatabaseType {
 	/// Full node database.
 	Full,
-	/// Light node database.
-	Light,
 }
 
 /// Convert block number into short lookup key (LE representation) for
@@ -124,19 +118,6 @@ where
 	Ok(lookup_key)
 }
 
-/// Convert block lookup key into block number.
-/// all block lookup keys start with the block number.
-pub fn lookup_key_to_number<N>(key: &[u8]) -> sp_blockchain::Result<N>
-where
-	N: From<u32>,
-{
-	if key.len() < 4 {
-		return Err(sp_blockchain::Error::Backend("Invalid block key".into()))
-	}
-	Ok((key[0] as u32) << 24 | (key[1] as u32) << 16 | (key[2] as u32) << 8 | (key[3] as u32))
-		.map(Into::into)
-}
-
 /// Delete number to hash mapping in DB transaction.
 pub fn remove_number_to_key_mapping<N: TryInto<u32>>(
 	transaction: &mut Transaction<DbHash>,
@@ -144,18 +125,6 @@ pub fn remove_number_to_key_mapping<N: TryInto<u32>>(
 	number: N,
 ) -> sp_blockchain::Result<()> {
 	transaction.remove(key_lookup_col, number_index_key(number)?.as_ref());
-	Ok(())
-}
-
-/// Remove key mappings.
-pub fn remove_key_mappings<N: TryInto<u32>, H: AsRef<[u8]>>(
-	transaction: &mut Transaction<DbHash>,
-	key_lookup_col: u32,
-	number: N,
-	hash: H,
-) -> sp_blockchain::Result<()> {
-	remove_number_to_key_mapping(transaction, key_lookup_col, number)?;
-	transaction.remove(key_lookup_col, hash.as_ref());
 	Ok(())
 }
 
@@ -232,7 +201,7 @@ fn open_database_at<Block: BlockT>(
 	db_type: DatabaseType,
 ) -> sp_blockchain::Result<Arc<dyn Database<DbHash>>> {
 	let db: Arc<dyn Database<DbHash>> = match &source {
-		DatabaseSource::AXIADb { path } => open_axia_db::<Block>(&path, db_type, true)?,
+		DatabaseSource::AxiaDb { path } => open_parity_db::<Block>(&path, db_type, true)?,
 		DatabaseSource::RocksDb { path, cache_size } =>
 			open_kvdb_rocksdb::<Block>(&path, db_type, true, *cache_size)?,
 		DatabaseSource::Custom(db) => db.clone(),
@@ -241,7 +210,7 @@ fn open_database_at<Block: BlockT>(
 			match open_kvdb_rocksdb::<Block>(&rocksdb_path, db_type, false, *cache_size) {
 				Ok(db) => db,
 				Err(OpenDbError::NotEnabled(_)) | Err(OpenDbError::DoesNotExist) =>
-					open_axia_db::<Block>(&axiadb_path, db_type, true)?,
+					open_parity_db::<Block>(&axiadb_path, db_type, true)?,
 				Err(_) => return Err(backend_err("cannot open rocksdb. corrupted database")),
 			}
 		},
@@ -280,9 +249,9 @@ impl From<OpenDbError> for sp_blockchain::Error {
 	}
 }
 
-#[cfg(feature = "with-axia-db")]
-impl From<axia_db::Error> for OpenDbError {
-	fn from(err: axia_db::Error) -> Self {
+#[cfg(feature = "with-parity-db")]
+impl From<parity_db::Error> for OpenDbError {
+	fn from(err: parity_db::Error) -> Self {
 		if err.to_string().contains("use open_or_create") {
 			OpenDbError::DoesNotExist
 		} else {
@@ -301,19 +270,19 @@ impl From<io::Error> for OpenDbError {
 	}
 }
 
-#[cfg(feature = "with-axia-db")]
-fn open_axia_db<Block: BlockT>(path: &Path, db_type: DatabaseType, create: bool) -> OpenDbResult {
-	let db = crate::axia_db::open(path, db_type, create)?;
+#[cfg(feature = "with-parity-db")]
+fn open_parity_db<Block: BlockT>(path: &Path, db_type: DatabaseType, create: bool) -> OpenDbResult {
+	let db = crate::parity_db::open(path, db_type, create)?;
 	Ok(db)
 }
 
-#[cfg(not(feature = "with-axia-db"))]
-fn open_axia_db<Block: BlockT>(
+#[cfg(not(feature = "with-parity-db"))]
+fn open_parity_db<Block: BlockT>(
 	_path: &Path,
 	_db_type: DatabaseType,
 	_create: bool,
 ) -> OpenDbResult {
-	Err(OpenDbError::NotEnabled("with-axia-db"))
+	Err(OpenDbError::NotEnabled("with-parity-db"))
 }
 
 #[cfg(any(feature = "with-kvdb-rocksdb", test))]
@@ -355,18 +324,6 @@ fn open_kvdb_rocksdb<Block: BlockT>(
 				state_col_budget,
 				NUM_COLUMNS,
 				other_col_budget,
-			);
-		},
-		DatabaseType::Light => {
-			let col_budget = cache_size / (NUM_COLUMNS as usize);
-			for i in 0..NUM_COLUMNS {
-				memory_budget.insert(i, col_budget);
-			}
-			log::trace!(
-				target: "db",
-				"Open RocksDB light database at {:?}, column cache: {} MiB",
-				path,
-				col_budget,
 			);
 		},
 	}
@@ -424,8 +381,7 @@ fn maybe_migrate_to_type_subdir<Block: BlockT>(
 		// See if there's a file identifying a rocksdb or axiadb folder in the parent dir and
 		// the target path ends in a role specific directory
 		if (basedir.join("db_version").exists() || basedir.join("metadata").exists()) &&
-			(p.ends_with(DatabaseType::Full.as_str()) ||
-				p.ends_with(DatabaseType::Light.as_str()))
+			(p.ends_with(DatabaseType::Full.as_str()))
 		{
 			// Try to open the database to check if the current `DatabaseType` matches the type of
 			// database stored in the target directory and close the database on success.
@@ -499,18 +455,6 @@ pub fn read_header<Block: BlockT>(
 		},
 		None => Ok(None),
 	}
-}
-
-/// Required header from the database.
-pub fn require_header<Block: BlockT>(
-	db: &dyn Database<DbHash>,
-	col_index: u32,
-	col: u32,
-	id: BlockId<Block>,
-) -> sp_blockchain::Result<Block::Header> {
-	read_header(db, col_index, col, id).and_then(|header| {
-		header.ok_or_else(|| sp_blockchain::Error::UnknownBlock(format!("Require header: {}", id)))
-	})
 }
 
 /// Read meta from the database.
@@ -598,7 +542,6 @@ impl DatabaseType {
 	pub fn as_str(&self) -> &'static str {
 		match *self {
 			DatabaseType::Full => "full",
-			DatabaseType::Light => "light",
 		}
 	}
 }
@@ -670,26 +613,15 @@ mod tests {
 		}
 
 		check_dir_for_db_type(
-			DatabaseType::Light,
-			DatabaseSource::RocksDb { path: PathBuf::new(), cache_size: 128 },
-			"db_version",
-		);
-		check_dir_for_db_type(
 			DatabaseType::Full,
 			DatabaseSource::RocksDb { path: PathBuf::new(), cache_size: 128 },
 			"db_version",
 		);
 
-		#[cfg(feature = "with-axia-db")]
-		check_dir_for_db_type(
-			DatabaseType::Light,
-			DatabaseSource::AXIADb { path: PathBuf::new() },
-			"metadata",
-		);
-		#[cfg(feature = "with-axia-db")]
+		#[cfg(feature = "with-parity-db")]
 		check_dir_for_db_type(
 			DatabaseType::Full,
-			DatabaseSource::AXIADb { path: PathBuf::new() },
+			DatabaseSource::AxiaDb { path: PathBuf::new() },
 			"metadata",
 		);
 
@@ -709,16 +641,8 @@ mod tests {
 				assert!(!old_db_path.join("light/db_version").exists());
 				assert!(!old_db_path.join("full/db_version").exists());
 			}
-			let source = DatabaseSource::RocksDb {
-				path: old_db_path.join(DatabaseType::Light.as_str()),
-				cache_size: 128,
-			};
-			let settings = db_settings(source);
-			let db_res = open_database::<Block>(&settings, DatabaseType::Light);
-			assert!(db_res.is_err(), "Opening a light database in full role should fail");
 			// assert nothing was changed
 			assert!(old_db_path.join("db_version").exists());
-			assert!(!old_db_path.join("light/db_version").exists());
 			assert!(!old_db_path.join("full/db_version").exists());
 		}
 	}
@@ -735,7 +659,6 @@ mod tests {
 	#[test]
 	fn database_type_as_str_works() {
 		assert_eq!(DatabaseType::Full.as_str(), "full");
-		assert_eq!(DatabaseType::Light.as_str(), "light");
 	}
 
 	#[test]
@@ -770,7 +693,7 @@ mod tests {
 		}
 	}
 
-	#[cfg(feature = "with-axia-db")]
+	#[cfg(feature = "with-parity-db")]
 	#[cfg(any(feature = "with-kvdb-rocksdb", test))]
 	#[test]
 	fn test_open_database_auto_new() {
@@ -806,13 +729,13 @@ mod tests {
 
 		// it should reopen existing auto (pairtydb) database
 		{
-			settings.source = DatabaseSource::AXIADb { path: axiadb_path };
+			settings.source = DatabaseSource::AxiaDb { path: axiadb_path };
 			let db_res = open_database::<Block>(&settings, DatabaseType::Full);
 			assert!(db_res.is_ok(), "Existing axia database should be reopened");
 		}
 	}
 
-	#[cfg(feature = "with-axia-db")]
+	#[cfg(feature = "with-parity-db")]
 	#[cfg(any(feature = "with-kvdb-rocksdb", test))]
 	#[test]
 	fn test_open_database_rocksdb_new() {
@@ -843,7 +766,7 @@ mod tests {
 
 		// it should fail to open existing auto (rocksdb) database
 		{
-			settings.source = DatabaseSource::AXIADb { path: axiadb_path };
+			settings.source = DatabaseSource::AxiaDb { path: axiadb_path };
 			let db_res = open_database::<Block>(&settings, DatabaseType::Full);
 			assert!(db_res.is_ok(), "New axiadb database should be created");
 		}
@@ -856,7 +779,7 @@ mod tests {
 		}
 	}
 
-	#[cfg(feature = "with-axia-db")]
+	#[cfg(feature = "with-parity-db")]
 	#[cfg(any(feature = "with-kvdb-rocksdb", test))]
 	#[test]
 	fn test_open_database_axiadb_new() {
@@ -865,7 +788,7 @@ mod tests {
 		let axiadb_path = db_path.join("axiadb");
 		let rocksdb_path = db_path.join("rocksdb_path");
 
-		let source = DatabaseSource::AXIADb { path: axiadb_path.clone() };
+		let source = DatabaseSource::AxiaDb { path: axiadb_path.clone() };
 		let mut settings = db_settings(source);
 
 		// it should create new axiadb database

@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2021-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
 
 // This program is free software: you can redistribute it and/or modify
@@ -81,7 +81,7 @@ mod tests {
 	#[test]
 	fn valid_endpoints() {
 		let endp = vec![
-			("wss://telemetry.axia.io/submit/".into(), 3),
+			("ws://localhost:8001/submit/".into(), 3),
 			("/ip4/80.123.90.4/tcp/5432".into(), 4),
 		];
 		let telem =

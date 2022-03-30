@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2019-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +23,7 @@ use sp_runtime::{
 use sp_state_machine::{
 	create_proof_check_backend, execution_proof_check_on_trie_backend, ExecutionStrategy,
 };
-use axlib_test_runtime_client::{
+use substrate_test_runtime_client::{
 	prelude::*,
 	runtime::{Block, DecodeFails, Header, TestAPI, Transfer},
 	DefaultTestClientBuilderExt, TestClientBuilder,
@@ -59,7 +59,7 @@ fn calling_native_runtime_function_with_non_decodable_parameter() {
 		.build();
 	let runtime_api = client.runtime_api();
 	let block_id = BlockId::Number(client.chain_info().best_number);
-	runtime_api.fail_convert_parameter(&block_id, DecodeFails::new()).unwrap();
+	runtime_api.fail_convert_parameter(&block_id, DecodeFails::default()).unwrap();
 }
 
 #[test]
@@ -187,7 +187,7 @@ fn record_proof_works() {
 		amount: 1000,
 		nonce: 0,
 		from: AccountKeyring::Alice.into(),
-		to: Default::default(),
+		to: AccountKeyring::Bob.into(),
 	}
 	.into_signed_tx();
 
@@ -210,8 +210,9 @@ fn record_proof_works() {
 		WasmExecutionMethod::Interpreted,
 		None,
 		8,
+		2,
 	);
-	execution_proof_check_on_trie_backend::<_, u64, _, _>(
+	execution_proof_check_on_trie_backend(
 		&backend,
 		&mut overlay,
 		&executor,
@@ -243,7 +244,7 @@ fn disable_logging_works() {
 		let mut builder =
 			TestClientBuilder::new().set_execution_strategy(ExecutionStrategy::AlwaysWasm);
 		builder.genesis_init_mut().set_wasm_code(
-			axlib_test_runtime_client::runtime::wasm_binary_logging_disabled_unwrap().to_vec(),
+			substrate_test_runtime_client::runtime::wasm_binary_logging_disabled_unwrap().to_vec(),
 		);
 
 		let client = builder.build();

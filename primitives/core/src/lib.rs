@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2017-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2017-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,7 +15,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-//! Shareable Axlib types.
+//! Shareable Substrate types.
 
 #![warn(missing_docs)]
 #![cfg_attr(not(feature = "std"), no_std)]
@@ -58,7 +58,6 @@ pub mod hexdisplay;
 
 pub mod u32_trait;
 
-mod changes_trie;
 pub mod ecdsa;
 pub mod ed25519;
 pub mod hash;
@@ -76,9 +75,8 @@ pub use self::{
 	hash::{convert_hash, H160, H256, H512},
 	uint::{U256, U512},
 };
-pub use changes_trie::{ChangesTrieConfiguration, ChangesTrieConfigurationRange};
 #[cfg(feature = "full_crypto")]
-pub use crypto::{DeriveJunction, Pair, Public};
+pub use crypto::{ByteArray, DeriveJunction, Pair, Public};
 
 #[cfg(feature = "std")]
 pub use self::hasher::blake2::Blake2Hasher;
@@ -118,15 +116,13 @@ impl ExecutionContext {
 		use ExecutionContext::*;
 
 		match self {
-			Importing | Syncing | BlockConstruction => offchain::Capabilities::none(),
+			Importing | Syncing | BlockConstruction => offchain::Capabilities::empty(),
 			// Enable keystore, transaction pool and Offchain DB reads by default for offchain
 			// calls.
-			OffchainCall(None) => [
-				offchain::Capability::Keystore,
-				offchain::Capability::OffchainDbRead,
-				offchain::Capability::TransactionPool,
-			][..]
-				.into(),
+			OffchainCall(None) =>
+				offchain::Capabilities::KEYSTORE |
+					offchain::Capabilities::OFFCHAIN_DB_READ |
+					offchain::Capabilities::TRANSACTION_POOL,
 			OffchainCall(Some((_, capabilities))) => *capabilities,
 		}
 	}
@@ -403,12 +399,12 @@ impl From<log::LevelFilter> for LogLevelFilter {
 
 /// Encodes the given value into a buffer and returns the pointer and the length as a single `u64`.
 ///
-/// When Axlib calls into Wasm it expects a fixed signature for functions exported
+/// When Substrate calls into Wasm it expects a fixed signature for functions exported
 /// from the Wasm blob. The return value of this signature is always a `u64`.
 /// This `u64` stores the pointer to the encoded return value and the length of this encoded value.
 /// The low `32bits` are reserved for the pointer, followed by `32bit` for the length.
 #[cfg(not(feature = "std"))]
-pub fn to_axlib_wasm_fn_return_value(value: &impl Encode) -> u64 {
+pub fn to_substrate_wasm_fn_return_value(value: &impl Encode) -> u64 {
 	let encoded = value.encode();
 
 	let ptr = encoded.as_ptr() as u64;

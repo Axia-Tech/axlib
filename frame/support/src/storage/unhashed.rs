@@ -1,6 +1,6 @@
-// This file is part of Axlib.
+// This file is part of Substrate.
 
-// Copyright (C) 2019-2021 AXIA Technologies (UK) Ltd.
+// Copyright (C) 2019-2022 Axia Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +25,11 @@ pub fn get<T: Decode + Sized>(key: &[u8]) -> Option<T> {
 	sp_io::storage::get(key).and_then(|val| {
 		Decode::decode(&mut &val[..]).map(Some).unwrap_or_else(|_| {
 			// TODO #3700: error should be handleable.
-			crate::runtime_print!("ERROR: Corrupted state at {:?}", key);
+			log::error!(
+				target: "runtime::storage",
+				"Corrupted state at {:?}",
+				key,
+			);
 			None
 		})
 	})
@@ -103,7 +107,7 @@ pub fn get_raw(key: &[u8]) -> Option<Vec<u8>> {
 
 /// Put a raw byte slice into storage.
 ///
-/// **WARNING**: If you set the storage of the Axlib Wasm (`well_known_keys::CODE`),
+/// **WARNING**: If you set the storage of the Substrate Wasm (`well_known_keys::CODE`),
 /// you should also call `frame_system::RuntimeUpgraded::put(true)` to trigger the
 /// `on_runtime_upgrade` logic.
 pub fn put_raw(key: &[u8], value: &[u8]) {

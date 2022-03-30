@@ -4,12 +4,12 @@ use crate::{
 	service,
 };
 use node_template_runtime::Block;
-use sc_cli::{ChainSpec, Role, RuntimeVersion, AxlibCli};
+use sc_cli::{ChainSpec, RuntimeVersion, SubstrateCli};
 use sc_service::PartialComponents;
 
-impl AxlibCli for Cli {
+impl SubstrateCli for Cli {
 	fn impl_name() -> String {
-		"Axlib Node".into()
+		"Substrate Node".into()
 	}
 
 	fn impl_version() -> String {
@@ -111,11 +111,7 @@ pub fn run() -> sc_cli::Result<()> {
 		None => {
 			let runner = cli.create_runner(&cli.run)?;
 			runner.run_node_until_exit(|config| async move {
-				match config.role {
-					Role::Light => service::new_light(config),
-					_ => service::new_full(config),
-				}
-				.map_err(sc_cli::Error::Service)
+				service::new_full(config).map_err(sc_cli::Error::Service)
 			})
 		},
 	}
