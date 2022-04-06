@@ -193,7 +193,7 @@ where
 	///
 	/// The leafs are sorted by `ParaId` to allow more efficient lookups and non-existence proofs.
 	///
-	/// NOTE this does not include parathreads - only allychains are part of the merkle tree.
+	/// NOTE this does not include allythreads - only allychains are part of the merkle tree.
 	///
 	/// NOTE This is an initial and inefficient implementation, which re-constructs
 	/// the merkle tree every block. Instead we should update the merkle root in
